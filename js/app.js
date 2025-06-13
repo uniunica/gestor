@@ -1297,6 +1297,429 @@ document.addEventListener("DOMContentLoaded", () => {
   app = new PartnersApp();
 });
 
+// ===== FUNCIONALIDADES DO FORMULÁRIO MODERNO =====
+
+class ModernFormEnhancements {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.setupProgressBar();
+    this.setupFieldValidation();
+    this.setupCEPSearch();
+    this.setupFormAnimations();
+    this.setupAutoSave();
+  }
+
+  // Barra de progresso dinâmica
+  setupProgressBar() {
+    const form = document.getElementById("parceiroForm");
+    const progressBar = document.getElementById("formProgress");
+    const progressText = document.querySelector(".progress-text");
+
+    if (!form || !progressBar) return;
+
+    const updateProgress = () => {
+      const requiredFields = form.querySelectorAll("[required]");
+      const filledFields = Array.from(requiredFields).filter((field) => {
+        if (field.type === "checkbox") return field.checked;
+        return field.value.trim() !== "";
+      });
+
+      const progress = (filledFields.length / requiredFields.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `${Math.round(progress)}% completo`;
+
+      // Mudança de cor baseada no progresso
+      if (progress < 33) {
+        progressBar.style.background =
+          "linear-gradient(90deg, #ef4444 0%, #f87171 100%)";
+      } else if (progress < 66) {
+        progressBar.style.background =
+          "linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%)";
+      } else {
+        progressBar.style.background =
+          "linear-gradient(90deg, #10b981 0%, #34d399 100%)";
+      }
+    };
+
+    // Atualizar progresso em tempo real
+    form.addEventListener("input", updateProgress);
+    form.addEventListener("change", updateProgress);
+
+    // Inicializar
+    updateProgress();
+  }
+
+  // Validação em tempo real melhorada
+  setupFieldValidation() {
+    const inputs = document.querySelectorAll(
+      ".form-input-modern, .form-select-modern"
+    );
+
+    inputs.forEach((input) => {
+      // Validação ao perder foco
+      input.addEventListener("blur", () => this.validateField(input));
+
+      // Limpar erro ao digitar
+      input.addEventListener("input", () => this.clearFieldError(input));
+
+      // Validação em tempo real para campos específicos
+      if (input.name === "cpf" || input.name === "cpfTestemunha") {
+        input.addEventListener("input", () => this.validateCPF(input));
+      }
+
+      if (input.name === "cnpj") {
+        input.addEventListener("input", () => this.validateCNPJ(input));
+      }
+
+      if (input.type === "email") {
+        input.addEventListener("input", () => this.validateEmail(input));
+      }
+    });
+  }
+
+  validateField(field) {
+    const value = field.value.trim();
+    let isValid = true;
+    let message = "";
+
+    // Validações específicas
+    switch (field.name) {
+      case "nome":
+        if (!value) {
+          isValid = false;
+          message = "Nome é obrigatório";
+        } else if (value.length < 3) {
+          isValid = false;
+          message = "Nome deve ter pelo menos 3 caracteres";
+        }
+        break;
+
+      case "cpf":
+      case "cpfTestemunha":
+        if (value && !Utils.validateCPF(value)) {
+          isValid = false;
+          message = "CPF inválido";
+        }
+        break;
+
+      case "cnpj":
+        if (value && !Utils.validateCNPJ(value)) {
+          isValid = false;
+          message = "CNPJ inválido";
+        }
+        break;
+
+      case "email":
+      case "emailTestemunha":
+        if (value && !Utils.validateEmail(value)) {
+          isValid = false;
+          message = "E-mail inválido";
+        }
+        break;
+
+      case "cidade":
+        if (!value) {
+          isValid = false;
+          message = "Cidade é obrigatória";
+        }
+        break;
+
+      case "uf":
+        if (!value) {
+          isValid = false;
+          message = "Estado é obrigatório";
+        }
+        break;
+
+      case "tipoParceria":
+        if (!value) {
+          isValid = false;
+          message = "Tipo de parceria é obrigatório";
+        }
+        break;
+    }
+
+    // Aplicar estilo visual
+    if (isValid) {
+      field.classList.remove("error");
+      field.classList.add("success");
+      this.showFieldSuccess(field);
+    } else {
+      field.classList.remove("success");
+      field.classList.add("error");
+      this.showFieldError(field, message);
+    }
+
+    return isValid;
+  }
+
+  validateCPF(input) {
+    const value = input.value.replace(/\D/g, "");
+    if (value.length === 11) {
+      if (Utils.validateCPF(input.value)) {
+        input.classList.add("success");
+        input.classList.remove("error");
+        this.showFieldSuccess(input);
+      } else {
+        input.classList.add("error");
+        input.classList.remove("success");
+        this.showFieldError(input, "CPF inválido");
+      }
+    }
+  }
+
+  validateCNPJ(input) {
+    const value = input.value.replace(/\D/g, "");
+    if (value.length === 14) {
+      if (Utils.validateCNPJ(input.value)) {
+        input.classList.add("success");
+        input.classList.remove("error");
+        this.showFieldSuccess(input);
+      } else {
+        input.classList.add("error");
+        input.classList.remove("success");
+        this.showFieldError(input, "CNPJ inválido");
+      }
+    }
+  }
+
+  validateEmail(input) {
+    const value = input.value.trim();
+    if (value) {
+      if (Utils.validateEmail(value)) {
+        input.classList.add("success");
+        input.classList.remove("error");
+        this.showFieldSuccess(input);
+      } else {
+        input.classList.add("error");
+        input.classList.remove("success");
+        this.showFieldError(input, "E-mail inválido");
+      }
+    }
+  }
+
+  showFieldError(field, message) {
+    this.clearFieldMessages(field);
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "field-error";
+    errorDiv.textContent = message;
+    field.parentNode.parentNode.appendChild(errorDiv);
+  }
+
+  showFieldSuccess(field) {
+    this.clearFieldMessages(field);
+    const successDiv = document.createElement("div");
+    successDiv.className = "field-success";
+    successDiv.textContent = "Válido";
+    field.parentNode.parentNode.appendChild(successDiv);
+  }
+
+  clearFieldError(field) {
+    field.classList.remove("error", "success");
+    this.clearFieldMessages(field);
+  }
+
+  clearFieldMessages(field) {
+    const parent = field.parentNode.parentNode;
+    const existingError = parent.querySelector(".field-error");
+    const existingSuccess = parent.querySelector(".field-success");
+
+    if (existingError) existingError.remove();
+    if (existingSuccess) existingSuccess.remove();
+  }
+
+  // Busca de CEP melhorada
+  setupCEPSearch() {
+    const cepInput = document.getElementById("cep");
+    const searchBtn = document.getElementById("searchCepBtn");
+
+    if (!cepInput || !searchBtn) return;
+
+    const searchCEP = async () => {
+      const cep = cepInput.value.replace(/\D/g, "");
+
+      if (cep.length !== 8) {
+        toast.warning("CEP deve ter 8 dígitos");
+        return;
+      }
+
+      // Animação de loading
+      searchBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            `;
+      searchBtn.disabled = true;
+
+      try {
+        const data = await Utils.fetchCEP(cep);
+
+        if (data) {
+          // Preencher campos com animação
+          this.animateFieldFill("rua", data.logradouro || "");
+          this.animateFieldFill("bairro", data.bairro || "");
+          this.animateFieldFill("cidade", data.localidade || "");
+          this.animateFieldFill("uf", data.uf || "");
+
+          toast.success("CEP encontrado!");
+        } else {
+          toast.error("CEP não encontrado");
+        }
+      } catch (error) {
+        toast.error("Erro ao buscar CEP");
+      } finally {
+        // Restaurar botão
+        searchBtn.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                `;
+        searchBtn.disabled = false;
+      }
+    };
+
+    searchBtn.addEventListener("click", searchCEP);
+
+    // Busca automática ao completar 8 dígitos
+    cepInput.addEventListener("input", (e) => {
+      const cep = e.target.value.replace(/\D/g, "");
+      if (cep.length === 8) {
+        setTimeout(searchCEP, 500); // Delay para evitar múltiplas requisições
+      }
+    });
+  }
+
+  animateFieldFill(fieldName, value) {
+    const field = document.querySelector(`[name="${fieldName}"]`);
+    if (!field || !value) return;
+
+    // Animação de preenchimento
+    field.style.transform = "scale(1.05)";
+    field.style.borderColor = "#10b981";
+
+    setTimeout(() => {
+      field.value = value;
+      field.style.transform = "scale(1)";
+
+      // Trigger validação
+      field.dispatchEvent(new Event("input"));
+    }, 150);
+  }
+
+  // Animações de seção
+  setupFormAnimations() {
+    const sections = document.querySelectorAll(".form-section");
+
+    // Intersection Observer para animações
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  }
+
+  // Auto-save (salvar rascunho)
+  setupAutoSave() {
+    const form = document.getElementById("parceiroForm");
+    if (!form) return;
+
+    let autoSaveTimeout;
+
+    const saveFormData = () => {
+      const formData = new FormData(form);
+      const data = {};
+
+      for (let [key, value] of formData.entries()) {
+        data[key] = value;
+      }
+
+      localStorage.setItem("formDraft", JSON.stringify(data));
+
+      // Mostrar indicador de salvamento
+      this.showAutoSaveIndicator();
+    };
+
+    const loadFormData = () => {
+      const savedData = localStorage.getItem("formDraft");
+      if (!savedData) return;
+
+      try {
+        const data = JSON.parse(savedData);
+        Object.keys(data).forEach((key) => {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field && data[key]) {
+            field.value = data[key];
+          }
+        });
+
+        toast.info("Rascunho carregado automaticamente");
+      } catch (error) {
+        console.error("Erro ao carregar rascunho:", error);
+      }
+    };
+
+    // Auto-save a cada 30 segundos
+    form.addEventListener("input", () => {
+      clearTimeout(autoSaveTimeout);
+      autoSaveTimeout = setTimeout(saveFormData, 30000);
+    });
+
+    // Carregar dados salvos ao inicializar
+    loadFormData();
+
+    // Limpar rascunho ao submeter
+    form.addEventListener("submit", () => {
+      localStorage.removeItem("formDraft");
+    });
+  }
+
+  showAutoSaveIndicator() {
+    const indicator = document.createElement("div");
+    indicator.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+    indicator.textContent = "💾 Rascunho salvo";
+
+    document.body.appendChild(indicator);
+
+    setTimeout(() => (indicator.style.opacity = "1"), 100);
+    setTimeout(() => {
+      indicator.style.opacity = "0";
+      setTimeout(() => indicator.remove(), 300);
+    }, 2000);
+  }
+}
+
+// Inicializar melhorias do formulário moderno
+document.addEventListener("DOMContentLoaded", () => {
+  new ModernFormEnhancements();
+});
+
 // Adicionar estilos CSS para os detalhes do modal
 const additionalStyles = `
 <style>
