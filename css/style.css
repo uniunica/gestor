@@ -33,9 +33,9 @@
 /* Vendor - Estilos externos e de terceiros */
 @import url('./vendor/print.css');
 
-/* 
+/*
  * Sistema de Design Moderno v1.0
- * 
+ *
  * Organização:
  * - Base: Reset, variáveis e tipografia
  * - Layout: Header, navegação e estruturas principais
@@ -43,7 +43,7 @@
  * - Páginas: Estilos específicos para cada página
  * - Utilitários: Classes auxiliares, animações e responsividade
  * - Vendor: Estilos de impressão e terceiros
- * 
+ *
  * Benefícios da modularização:
  * ✅ Melhor organização e manutenibilidade
  * ✅ Facilita o trabalho em equipe
