@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
-import { Users, Lock, Mail, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+import { Users, Lock, Mail, AlertCircle } from "lucide-react";
 
 export const Login: React.FC = () => {
   const { login, isAuthenticated, loading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (isAuthenticated) {
@@ -16,16 +16,16 @@ export const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     try {
       const success = await login(email, password);
       if (!success) {
-        setError('Email ou senha incorretos');
+        setError("Email ou senha incorretos");
       }
     } catch (err) {
-      setError('Erro ao fazer login. Tente novamente.');
+      setError("Erro ao fazer login. Tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -70,7 +70,10 @@ export const Login: React.FC = () => {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <div className="mt-1 relative">
@@ -92,7 +95,10 @@ export const Login: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Senha
               </label>
               <div className="mt-1 relative">
@@ -122,7 +128,7 @@ export const Login: React.FC = () => {
                 {isSubmitting ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 ) : (
-                  'Entrar'
+                  "Entrar"
                 )}
               </button>
             </div>
@@ -134,13 +140,16 @@ export const Login: React.FC = () => {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Dados de teste</span>
+                <span className="px-2 bg-white text-gray-500">
+                  Dados de teste
+                </span>
               </div>
             </div>
 
             <div className="mt-4 bg-gray-50 rounded-md p-4">
               <p className="text-sm text-gray-600">
-                <strong>Email:</strong> admin@pms.com<br />
+                <strong>Email:</strong> admin@pms.com
+                <br />
                 <strong>Senha:</strong> admin123
               </p>
             </div>

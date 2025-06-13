@@ -1,48 +1,61 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { usePartners } from '../contexts/PartnerContext';
-import { PartnerCard } from '../components/PartnerCard/PartnerCard';
-import { 
-  Search, 
-  Filter, 
-  UserPlus, 
+import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { usePartners } from "../contexts/PartnerContext";
+import { PartnerCard } from "../components/PartnerCard/PartnerCard";
+import {
+  Search,
+  Filter,
+  UserPlus,
   Download,
   RefreshCw,
-  AlertCircle
-} from 'lucide-react';
+  AlertCircle,
+} from "lucide-react";
 
 export const PartnersList: React.FC = () => {
   const navigate = useNavigate();
   const { partners, loading } = usePartners();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [stageFilter, setStageFilter] = useState('');
-  const [cityFilter, setCityFilter] = useState('');
-  const [partnershipTypeFilter, setPartnershipTypeFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [stageFilter, setStageFilter] = useState("");
+  const [cityFilter, setCityFilter] = useState("");
+  const [partnershipTypeFilter, setPartnershipTypeFilter] = useState("");
 
   const filteredPartners = useMemo(() => {
-    return partners.filter(partner => {
-      const matchesSearch = 
-        partner.initialData.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    return partners.filter((partner) => {
+      const matchesSearch =
+        partner.initialData.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         partner.initialData.cpf.includes(searchQuery) ||
         partner.initialData.cnpj.includes(searchQuery) ||
-        partner.initialData.email.toLowerCase().includes(searchQuery.toLowerCase());
-      
+        partner.initialData.email
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+
       const matchesStage = !stageFilter || partner.currentStage === stageFilter;
-      const matchesCity = !cityFilter || partner.initialData.city === cityFilter;
-      const matchesPartnershipType = !partnershipTypeFilter || partner.initialData.partnershipType === partnershipTypeFilter;
-      
-      return matchesSearch && matchesStage && matchesCity && matchesPartnershipType;
+      const matchesCity =
+        !cityFilter || partner.initialData.city === cityFilter;
+      const matchesPartnershipType =
+        !partnershipTypeFilter ||
+        partner.initialData.partnershipType === partnershipTypeFilter;
+
+      return (
+        matchesSearch && matchesStage && matchesCity && matchesPartnershipType
+      );
     });
   }, [partners, searchQuery, stageFilter, cityFilter, partnershipTypeFilter]);
 
-  const uniqueCities = [...new Set(partners.map(p => p.initialData.city))].sort();
-  const uniquePartnershipTypes = [...new Set(partners.map(p => p.initialData.partnershipType))].sort();
+  const uniqueCities = [
+    ...new Set(partners.map((p) => p.initialData.city)),
+  ].sort();
+  const uniquePartnershipTypes = [
+    ...new Set(partners.map((p) => p.initialData.partnershipType)),
+  ].sort();
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setStageFilter('');
-    setCityFilter('');
-    setPartnershipTypeFilter('');
+    setSearchQuery("");
+    setStageFilter("");
+    setCityFilter("");
+    setPartnershipTypeFilter("");
   };
 
   return (
@@ -55,7 +68,7 @@ export const PartnersList: React.FC = () => {
             {filteredPartners.length} de {partners.length} parceiros
           </p>
         </div>
-        
+
         <div className="flex space-x-3">
           <button
             onClick={() => window.location.reload()}
@@ -64,14 +77,14 @@ export const PartnersList: React.FC = () => {
             <RefreshCw className="h-4 w-4 mr-2" />
             Atualizar
           </button>
-          
+
           <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <Download className="h-4 w-4 mr-2" />
             Exportar
           </button>
-          
+
           <button
-            onClick={() => navigate('/partners/new')}
+            onClick={() => navigate("/partners/new")}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <UserPlus className="h-4 w-4 mr-2" />
@@ -129,8 +142,10 @@ export const PartnersList: React.FC = () => {
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Todas</option>
-              {uniqueCities.map(city => (
-                <option key={city} value={city}>{city}</option>
+              {uniqueCities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
               ))}
             </select>
           </div>
@@ -146,15 +161,20 @@ export const PartnersList: React.FC = () => {
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Todos</option>
-              {uniquePartnershipTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
+              {uniquePartnershipTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
               ))}
             </select>
           </div>
         </div>
 
         {/* Clear Filters */}
-        {(searchQuery || stageFilter || cityFilter || partnershipTypeFilter) && (
+        {(searchQuery ||
+          stageFilter ||
+          cityFilter ||
+          partnershipTypeFilter) && (
           <div className="mt-4 pt-4 border-t border-gray-200">
             <button
               onClick={clearFilters}
@@ -185,19 +205,22 @@ export const PartnersList: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
           <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {partners.length === 0 ? 'Nenhum parceiro cadastrado' : 'Nenhum parceiro encontrado'}
+            {partners.length === 0
+              ? "Nenhum parceiro cadastrado"
+              : "Nenhum parceiro encontrado"}
           </h3>
           <p className="text-gray-600 mb-4">
-            {partners.length === 0 
-              ? 'Comece cadastrando seu primeiro parceiro no sistema.'
-              : 'Tente ajustar os filtros para encontrar o que procura.'
-            }
+            {partners.length === 0
+              ? "Comece cadastrando seu primeiro parceiro no sistema."
+              : "Tente ajustar os filtros para encontrar o que procura."}
           </p>
           <button
-            onClick={() => navigate('/partners/new')}
+            onClick={() => navigate("/partners/new")}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
-            {partners.length === 0 ? 'Cadastrar Primeiro Parceiro' : 'Novo Parceiro'}
+            {partners.length === 0
+              ? "Cadastrar Primeiro Parceiro"
+              : "Novo Parceiro"}
           </button>
         </div>
       )}

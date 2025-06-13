@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  UserPlus, 
-  Users, 
-  ClipboardList, 
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Home,
+  UserPlus,
+  Users,
+  ClipboardList,
   GraduationCap,
   BarChart3,
   Settings,
-  X
-} from 'lucide-react';
-import { clsx } from 'clsx';
+  X,
+} from "lucide-react";
+import { clsx } from "clsx";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -18,13 +18,17 @@ interface SidebarProps {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Novo Parceiro', href: '/partners/new', icon: UserPlus },
-  { name: 'Lista de Parceiros', href: '/partners', icon: Users },
-  { name: 'Cadastros Finais', href: '/partners/final-registration', icon: ClipboardList },
-  { name: 'Treinamentos', href: '/partners/training', icon: GraduationCap },
-  { name: 'Relatórios', href: '/reports', icon: BarChart3 },
-  { name: 'Configurações', href: '/settings', icon: Settings },
+  { name: "Dashboard", href: "/", icon: Home },
+  { name: "Novo Parceiro", href: "/partners/new", icon: UserPlus },
+  { name: "Lista de Parceiros", href: "/partners", icon: Users },
+  {
+    name: "Cadastros Finais",
+    href: "/partners/final-registration",
+    icon: ClipboardList,
+  },
+  { name: "Treinamentos", href: "/partners/training", icon: GraduationCap },
+  { name: "Relatórios", href: "/reports", icon: BarChart3 },
+  { name: "Configurações", href: "/settings", icon: Settings },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
@@ -35,7 +39,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile backdrop */}
       {isOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div 
+          <div
             className="fixed inset-0 bg-gray-600 bg-opacity-75"
             onClick={onClose}
           />
@@ -43,10 +47,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       )}
 
       {/* Sidebar */}
-      <div className={clsx(
-        'fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0',
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      )}>
+      <div
+        className={clsx(
+          "fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
         <div className="flex items-center justify-between h-16 px-4 bg-gray-800">
           <span className="text-white font-semibold text-lg">PMS</span>
           <button
@@ -67,10 +73,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     to={item.href}
                     onClick={() => window.innerWidth < 1024 && onClose()}
                     className={clsx(
-                      'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200',
+                      "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200",
                       isActive
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                        ? "bg-blue-600 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white"
                     )}
                   >
                     <item.icon className="h-5 w-5 mr-3" />

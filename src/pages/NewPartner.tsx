@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { InitialDataForm } from '../components/Forms/InitialDataForm';
-import { usePartners } from '../contexts/PartnerContext';
-import { InitialData } from '../types/partner';
-import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { InitialDataForm } from "../components/Forms/InitialDataForm";
+import { usePartners } from "../contexts/PartnerContext";
+import { InitialData } from "../types/partner";
+import { ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
 
 export const NewPartner: React.FC = () => {
   const navigate = useNavigate();
   const { addPartner, loading } = usePartners();
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (data: InitialData) => {
     try {
-      setError('');
+      setError("");
       await addPartner(data);
       setSuccess(true);
-      
+
       // Redirect after success
       setTimeout(() => {
-        navigate('/partners');
+        navigate("/partners");
       }, 2000);
     } catch (err) {
-      setError('Erro ao cadastrar parceiro. Tente novamente.');
-      console.error('Error adding partner:', err);
+      setError("Erro ao cadastrar parceiro. Tente novamente.");
+      console.error("Error adding partner:", err);
     }
   };
 
@@ -51,7 +51,7 @@ export const NewPartner: React.FC = () => {
       {/* Header */}
       <div className="flex items-center">
         <button
-          onClick={() => navigate('/partners')}
+          onClick={() => navigate("/partners")}
           className="mr-4 p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md"
         >
           <ArrowLeft className="h-5 w-5" />
