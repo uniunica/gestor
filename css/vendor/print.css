@@ -1,0 +1,341 @@
+/* ===== ESTILOS DE IMPRESSÃO ===== */
+
+@media print {
+  /* Reset para impressão */
+  * {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ocultar elementos não necessários */
+  .header,
+  .nav-tabs,
+  .search-section,
+  .form-actions,
+  .form-actions-modern,
+  .parceiro-actions,
+  .table-header button,
+  .btn,
+  .modal,
+  .toast-container,
+  .loading-overlay,
+  .quick-actions,
+  .filters,
+  .sidebar,
+  .modal-close,
+  .input-action,
+  .select-icon,
+  .input-icon {
+    display: none !important;
+  }
+
+  /* Ajustar layout para impressão */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #000;
+    background: #fff;
+  }
+
+  .main-content {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .tab-content {
+    display: block !important;
+  }
+
+  /* Formulários para impressão */
+  .form-container-modern {
+    box-shadow: none;
+    border: 2pt solid #000;
+    border-radius: 0;
+    background: #fff;
+    page-break-inside: avoid;
+  }
+
+  .form-header {
+    background: #f5f5f5 !important;
+    color: #000 !important;
+    border-bottom: 2pt solid #000;
+  }
+
+  .form-header-text h2 {
+    color: #000 !important;
+    text-shadow: none;
+  }
+
+  .form-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    background: #fff;
+    border: 1pt solid #ccc;
+    margin-bottom: 12pt;
+    padding: 12pt;
+  }
+
+  .section-header {
+    border-bottom: 1pt solid #000;
+    margin-bottom: 8pt;
+    padding-bottom: 4pt;
+  }
+
+  .section-title h3 {
+    color: #000;
+    font-size: 14pt;
+  }
+
+  .form-input-modern,
+  .form-select-modern {
+    border: 1pt solid #000;
+    background: #fff;
+    color: #000;
+    padding: 4pt;
+  }
+
+  .form-label-modern {
+    color: #000;
+    font-weight: bold;
+  }
+
+  /* Tabelas para impressão */
+  .table-container {
+    box-shadow: none;
+    border: 1pt solid #000;
+  }
+
+  .data-table {
+    font-size: 10pt;
+    border-collapse: collapse;
+  }
+
+  .data-table th,
+  .data-table td {
+    border: 1pt solid #000;
+    padding: 4pt;
+  }
+
+  .data-table th {
+    background: #f0f0f0 !important;
+    font-weight: bold;
+  }
+
+  /* Cards para impressão */
+  .parceiro-card,
+  .stat-card,
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1pt solid #000;
+    box-shadow: none;
+    margin-bottom: 12pt;
+    background: #fff;
+  }
+
+  .parceiro-header {
+    border-bottom: 1pt solid #ccc;
+    padding-bottom: 4pt;
+    margin-bottom: 8pt;
+  }
+
+  .parceiro-name {
+    color: #000;
+  }
+
+  .parceiro-status {
+    border: 1pt solid #000;
+    background: #fff;
+    color: #000;
+  }
+
+  /* Dashboard para impressão */
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12pt;
+  }
+
+  .stat-number {
+    color: #000 !important;
+  }
+
+  /* Títulos e cabeçalhos */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000;
+    page-break-after: avoid;
+  }
+
+  /* Links */
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+  }
+
+  /* Quebras de página */
+  .page-break {
+    page-break-before: always;
+  }
+
+  .no-break {
+    page-break-inside: avoid;
+  }
+
+  /* Cabeçalho e rodapé da página */
+  @page {
+    margin: 2cm;
+    size: A4;
+    
+    @top-center {
+      content: "Sistema de Gerenciamento de Parceiros";
+      font-size: 10pt;
+      font-weight: bold;
+    }
+    
+    @bottom-right {
+      content: "Página " counter(page) " de " counter(pages);
+      font-size: 9pt;
+    }
+    
+    @bottom-left {
+      content: "Impresso em " date();
+      font-size: 9pt;
+    }
+  }
+
+  /* Primeira página */
+  @page :first {
+    @top-center {
+      content: none;
+    }
+  }
+
+  /* Otimizações específicas */
+  .form-grid-modern {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8pt;
+  }
+
+  .parceiro-info {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4pt;
+  }
+
+  .parceiro-info-label {
+    font-weight: bold;
+    font-size: 9pt;
+  }
+
+  .parceiro-info-value {
+    font-size: 10pt;
+  }
+
+  /* Assinaturas */
+  .signature-section {
+    margin-top: 24pt;
+    page-break-inside: avoid;
+  }
+
+  .signature-line {
+    border-top: 1pt solid #000;
+    width: 200pt;
+    margin: 24pt auto 8pt;
+    text-align: center;
+  }
+
+  .signature-label {
+    font-size: 9pt;
+    text-align: center;
+    margin-top: 4pt;
+  }
+
+  /* Watermark (opcional) */
+  .print-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 72pt;
+    color: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Forçar quebra de página em seções específicas */
+  .form-section[data-section="personal"] {
+    page-break-before: auto;
+  }
+
+  .form-section[data-section="business"] {
+    page-break-before: avoid;
+  }
+
+  .form-section[data-section="address"] {
+    page-break-before: avoid;
+  }
+
+  .form-section[data-section="witness"] {
+    page-break-before: auto;
+  }
+
+  /* Ajustes finais */
+  .container {
+    width: 100%;
+  }
+
+  .row {
+    display: block;
+  }
+
+  .col-md-6,
+  .col-lg-4,
+  .col-xl-3 {
+    width: 100%;
+    float: none;
+  }
+}
+
+/* Impressão em modo paisagem */
+@media print and (orientation: landscape) {
+  .data-table {
+    font-size: 9pt;
+  }
+  
+  .form-grid-modern {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .dashboard-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Impressão colorida (se disponível) */
+@media print and (color) {
+  .form-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+  }
+  
+  .section-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+  }
+  
+  .stat-number {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
