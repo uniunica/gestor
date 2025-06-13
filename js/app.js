@@ -376,7 +376,7 @@ class PartnersApp {
                             ${parceiro.status || "Cadastrado"}
                         </span>
                     </div>
-                    
+
                     <div class="parceiro-info">
                         <div class="parceiro-info-item">
                             <span class="parceiro-info-label">CPF</span>
@@ -405,7 +405,7 @@ class PartnersApp {
                             )}</span>
                         </div>
                     </div>
-                    
+
                     <div class="parceiro-actions">
                         <button class="btn btn-primary" onclick="app.editParceiro('${
                           parceiro.id
@@ -790,7 +790,7 @@ class PartnersApp {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="detail-section">
                     <h4>🏢 Dados Empresariais</h4>
                     <div class="detail-grid">
@@ -820,7 +820,7 @@ class PartnersApp {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="detail-section">
                     <h4>📍 Endereço</h4>
                     <div class="detail-grid">
@@ -862,7 +862,7 @@ class PartnersApp {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="detail-section">
                     <h4>👥 Dados da Testemunha</h4>
                     <div class="detail-grid">
@@ -886,7 +886,7 @@ class PartnersApp {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="detail-actions">
                     <button class="btn btn-primary" onclick="app.editParceiro('${
                       parceiro.id
@@ -1006,7 +1006,7 @@ class PartnersApp {
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Salvar</button>
                     <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Cancelar</button>
@@ -1161,7 +1161,7 @@ class PartnersApp {
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Salvar</button>
                     <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Cancelar</button>
@@ -1402,11 +1402,11 @@ const additionalStyles = `
     .detail-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .detail-actions {
         flex-direction: column;
     }
-    
+
     .modal-form .form-grid {
         grid-template-columns: 1fr;
     }
