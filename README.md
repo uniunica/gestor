@@ -15,8 +15,8 @@ Sistema web completo para gerenciamento de parceiros integrado com Google Sheets
 - **Sistema de notificações**
 
 ## 📁 Estrutura do Projeto
-sistema-parceiros/ ├── index.html # Página principal ├── login.html # Página de login ├── css/ │ └── style.css # Estilos principais ├── js/ │ ├── app.js # Aplicação principal │ ├── auth.js # Sistema de autenticação │ ├── sheets-api.js # Integração Google Sheets │ └── utils.js # Utilitários e helpers └── README.md # Documentação
 
+sistema-parceiros/ ├── index.html # Página principal ├── login.html # Página de login ├── css/ │ └── style.css # Estilos principais ├── js/ │ ├── app.js # Aplicação principal │ ├── auth.js # Sistema de autenticação │ ├── sheets-api.js # Integração Google Sheets │ └── utils.js # Utilitários e helpers └── README.md # Documentação
 
 ## ⚙️ Configuração
 

@@ -166,14 +166,17 @@
 @media (prefers-reduced-transparency: reduce) {
   .form-section {
     background: var(--white);
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
   .modal {
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
   .header {
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 }

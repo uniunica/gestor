@@ -290,7 +290,6 @@ body {
   display: flex;
   gap: 0;
   overflow-x: auto;
-  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
@@ -1778,8 +1777,8 @@ body {
   background: var(--primary-gradient);
   border-radius: inherit;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
   -webkit-mask-composite: xor;
+  mask-composite: xor;
 }
 
 /* ===== 20. COMPONENTES ESPECÍFICOS ===== */
@@ -2010,7 +2009,7 @@ body {
   /* Forçar cores para impressão */
   * {
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 

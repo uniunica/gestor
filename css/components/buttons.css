@@ -16,6 +16,7 @@
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  -webkit-user-select: none;
   user-select: none;
 }
 

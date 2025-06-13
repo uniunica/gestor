@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;

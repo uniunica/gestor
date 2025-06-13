@@ -94,12 +94,12 @@
 /* Responsive table */
 .table-responsive {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Table sorting */
 .sortable {
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   position: relative;
 }
