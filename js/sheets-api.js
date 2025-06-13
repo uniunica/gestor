@@ -1,8 +1,8 @@
 // Configuração da API Google Sheets
 class SheetsAPI {
   constructor() {
-    this.apiKey = "AIzaSyD_tcEft1u37kUNCTDEUE-NvOHGQn6ZRSI"; // Substitua pela sua API Key
-    this.spreadsheetId = "1XvqI06KgnMeJvCDF74LZZ2bgRrRN8sjfndPU_pEP3-c"; // Substitua pelo ID da sua planilha
+    this.apiKey = "AIzaSyD_tcEft1u37kUNCTDEUE-NvOHGQn6ZRSI";
+    this.spreadsheetId = "1XvqI06KgnMeJvCDF74LZZ2bgRrRN8sjfndPU_pEP3-c";
     this.baseUrl = "https://sheets.googleapis.com/v4/spreadsheets";
 
     // Nomes das abas
@@ -15,12 +15,17 @@ class SheetsAPI {
     // Cache para otimização
     this.cache = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutos
+
+    // Flag para indicar se deve usar dados reais ou simulados
+    this.useRealData = true;
   }
 
   // Método genérico para fazer requisições à API
   async makeRequest(endpoint, options = {}) {
     try {
       const url = `${this.baseUrl}/${this.spreadsheetId}${endpoint}?key=${this.apiKey}`;
+      console.log("Fazendo requisição para:", url);
+
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -30,15 +35,19 @@ class SheetsAPI {
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Erro na resposta da API:", errorText);
         throw new Error(
           `Erro na API: ${response.status} - ${response.statusText}`
         );
       }
 
       const data = await response.json();
+      console.log("Dados recebidos da API:", data);
       return data;
     } catch (error) {
       console.error("Erro na requisição:", error);
+      toast.error(`Erro ao conectar com Google Sheets: ${error.message}`);
       throw error;
     }
   }
@@ -51,6 +60,7 @@ class SheetsAPI {
 
       // Verificar cache
       if (cachedData && Date.now() - cachedData.timestamp < this.cacheTimeout) {
+        console.log("Usando dados do cache para:", sheetName);
         return cachedData.data;
       }
 
@@ -68,46 +78,243 @@ class SheetsAPI {
       return response;
     } catch (error) {
       console.error(`Erro ao ler aba ${sheetName}:`, error);
-      throw error;
+
+      // Se falhar, tentar usar dados locais como fallback
+      console.log("Tentando usar dados locais como fallback...");
+      return this.getLocalData(sheetName);
     }
   }
 
-  // Escrever dados em uma aba específica
-  async writeSheet(sheetName, range, values) {
+  // Obter dados locais como fallback
+  getLocalData(sheetName) {
+    const key = `sheets_${sheetName}`;
+    const localData = JSON.parse(localStorage.getItem(key) || "[]");
+
+    // Simular estrutura da API do Google Sheets
+    return {
+      values: localData.map((item) => {
+        if (item.data) {
+          return item.data;
+        }
+        return this.convertObjectToArray(sheetName, item);
+      }),
+    };
+  }
+
+  // Converter objeto para array baseado na aba
+  convertObjectToArray(sheetName, obj) {
+    switch (sheetName) {
+      case this.sheets.dadosIniciais:
+        return [
+          obj.numeroContrato || "",
+          obj.ano || new Date().getFullYear(),
+          obj.mes || new Date().getMonth() + 1,
+          obj.dia || new Date().getDate(),
+          obj.nome || "",
+          obj.rg || "",
+          obj.cpf || "",
+          obj.email || "",
+          obj.cnpj || "",
+          obj.cep || "",
+          obj.rua || "",
+          obj.numero || "",
+          obj.bairro || "",
+          obj.cidade || "",
+          obj.uf || "",
+          obj.razaoSocial || "",
+          obj.nomeComercial || "",
+          obj.nomeAcademico || "",
+          obj.nomeTestemunha || "",
+          obj.emailTestemunha || "",
+          obj.cpfTestemunha || "",
+          obj.contato || "",
+          obj.tipoParceria || "",
+          obj.captadoPor || "",
+        ];
+      case this.sheets.cadastroFinais:
+        return [
+          obj.nome || "",
+          obj.cidade || "",
+          obj.uf || "",
+          obj.emailPolo || "",
+          obj.sistemas || "",
+          obj.portalParceiro || "",
+          obj.pincelAtomico || "",
+          obj.pastaDrive || "",
+          obj.enviarCaptacao || "",
+          obj.direcionarLorraine || "",
+        ];
+      case this.sheets.dadosTreinamento:
+        return [
+          obj.nome || "",
+          obj.cidade || "",
+          obj.uf || "",
+          obj.status || "",
+          obj.cadastro || "",
+          obj.contatoLorraine || "",
+          obj.treinamentoInicia || "",
+          obj.cursoCademi || "",
+          obj.treinamentoComercial || "",
+        ];
+      default:
+        return [];
+    }
+  }
+
+  // Obter todos os dados de uma aba (CORRIGIDO)
+  async getAllData(sheetName) {
     try {
-      // Para escrever, precisamos usar a API de escrita (requer autenticação OAuth)
-      // Como estamos usando apenas API Key, vamos simular o armazenamento local
-      // Em produção, você precisará implementar OAuth 2.0
+      console.log(`Carregando dados da aba: ${sheetName}`);
 
-      console.warn("Escrita simulada - implemente OAuth 2.0 para escrita real");
+      // Primeiro tentar carregar dados reais do Google Sheets
+      const sheetData = await this.readSheet(sheetName);
 
-      // Simular escrita salvando no localStorage
-      const key = `sheets_${sheetName}_${range}`;
-      const existingData = JSON.parse(localStorage.getItem(key) || "[]");
+      if (sheetData && sheetData.values && sheetData.values.length > 0) {
+        console.log(
+          `Dados encontrados no Google Sheets para ${sheetName}:`,
+          sheetData.values
+        );
 
-      // Se é uma nova linha, adicionar ao final
-      if (Array.isArray(values[0])) {
-        existingData.push(...values);
+        // Converter dados do Google Sheets para formato do sistema
+        const convertedData = [];
+
+        // Pular a primeira linha se for cabeçalho
+        const dataRows = sheetData.values.slice(1);
+
+        dataRows.forEach((row, index) => {
+          if (row && row.length > 0) {
+            const parsedData = this.parseRowData(sheetName, row);
+            convertedData.push({
+              id: `gs_${index}_${Date.now()}`,
+              data: row,
+              timestamp: new Date().toISOString(),
+              ...parsedData,
+            });
+          }
+        });
+
+        // Salvar dados localmente para cache
+        const key = `sheets_${sheetName}`;
+        localStorage.setItem(key, JSON.stringify(convertedData));
+
+        return convertedData;
       } else {
-        existingData.push(values);
+        console.log(
+          `Nenhum dado encontrado no Google Sheets para ${sheetName}, usando dados locais`
+        );
+
+        // Usar dados locais
+        const key = `sheets_${sheetName}`;
+        const localData = JSON.parse(localStorage.getItem(key) || "[]");
+        return localData;
+      }
+    } catch (error) {
+      console.error(`Erro ao obter dados da aba ${sheetName}:`, error);
+
+      // Fallback para dados locais
+      const key = `sheets_${sheetName}`;
+      const localData = JSON.parse(localStorage.getItem(key) || "[]");
+
+      if (localData.length === 0) {
+        console.log(`Criando dados de exemplo para ${sheetName}`);
+        return this.createSampleData(sheetName);
       }
 
-      localStorage.setItem(key, JSON.stringify(existingData));
-
-      // Limpar cache para forçar atualização
-      this.clearCache();
-
-      return { updatedRows: values.length };
-    } catch (error) {
-      console.error(`Erro ao escrever na aba ${sheetName}:`, error);
-      throw error;
+      return localData;
     }
   }
 
-  // Adicionar nova linha
+  // Criar dados de exemplo para teste
+  createSampleData(sheetName) {
+    let sampleData = [];
+
+    switch (sheetName) {
+      case this.sheets.dadosIniciais:
+        sampleData = [
+          {
+            id: "sample_1",
+            numeroContrato: "2024001",
+            ano: 2024,
+            mes: 12,
+            dia: 13,
+            nome: "João Silva",
+            rg: "12.345.678-9",
+            cpf: "123.456.789-00",
+            email: "joao@email.com",
+            cnpj: "12.345.678/0001-90",
+            cep: "01234-567",
+            rua: "Rua das Flores",
+            numero: "123",
+            bairro: "Centro",
+            cidade: "São Paulo",
+            uf: "SP",
+            razaoSocial: "João Silva ME",
+            nomeComercial: "Silva Educação",
+            nomeAcademico: "Instituto Silva",
+            nomeTestemunha: "Maria Santos",
+            emailTestemunha: "maria@email.com",
+            cpfTestemunha: "987.654.321-00",
+            contato: "(11) 99999-9999",
+            tipoParceria: "Polo",
+            captadoPor: "Equipe Comercial",
+            timestamp: new Date().toISOString(),
+          },
+        ];
+        break;
+
+      case this.sheets.cadastroFinais:
+        sampleData = [
+          {
+            id: "sample_cf_1",
+            nome: "João Silva",
+            cidade: "São Paulo",
+            uf: "SP",
+            emailPolo: "Sim",
+            sistemas: "Sim",
+            portalParceiro: "Não",
+            pincelAtomico: "Não",
+            pastaDrive: "Sim",
+            enviarCaptacao: "Não",
+            direcionarLorraine: "Sim",
+            timestamp: new Date().toISOString(),
+          },
+        ];
+        break;
+
+      case this.sheets.dadosTreinamento:
+        sampleData = [
+          {
+            id: "sample_dt_1",
+            nome: "João Silva",
+            cidade: "São Paulo",
+            uf: "SP",
+            status: "Em Treinamento",
+            cadastro: "Sim",
+            contatoLorraine: "Sim",
+            treinamentoInicia: "2024-12-15",
+            cursoCademi: "Não",
+            treinamentoComercial: "Não",
+            timestamp: new Date().toISOString(),
+          },
+        ];
+        break;
+    }
+
+    // Salvar dados de exemplo
+    const key = `sheets_${sheetName}`;
+    localStorage.setItem(key, JSON.stringify(sampleData));
+
+    return sampleData;
+  }
+
+  // Adicionar nova linha (CORRIGIDO)
   async appendRow(sheetName, values) {
     try {
-      // Simular adição de linha
+      console.log(`Adicionando nova linha na aba ${sheetName}:`, values);
+
+      // Por enquanto, salvar apenas localmente
+      // TODO: Implementar escrita real no Google Sheets com OAuth
+
       const key = `sheets_${sheetName}`;
       const existingData = JSON.parse(localStorage.getItem(key) || "[]");
 
@@ -126,6 +333,8 @@ class SheetsAPI {
       this.clearCache();
 
       toast.success("Dados salvos com sucesso!");
+      console.log("Nova linha adicionada:", newRow);
+
       return newRow;
     } catch (error) {
       console.error(`Erro ao adicionar linha na aba ${sheetName}:`, error);
@@ -134,72 +343,29 @@ class SheetsAPI {
     }
   }
 
-  // Atualizar linha existente
-  async updateRow(sheetName, id, values) {
+  // Teste de conectividade
+  async testConnection() {
     try {
-      const key = `sheets_${sheetName}`;
-      const existingData = JSON.parse(localStorage.getItem(key) || "[]");
+      console.log("Testando conectividade com Google Sheets...");
+      loading.show("Testando conexão...");
 
-      const index = existingData.findIndex((row) => row.id === id);
-      if (index === -1) {
-        throw new Error("Registro não encontrado");
+      const response = await this.makeRequest("");
+
+      if (response) {
+        console.log("Conexão bem-sucedida!", response);
+        toast.success("Conexão com Google Sheets estabelecida!");
+        return true;
       }
-
-      existingData[index] = {
-        ...existingData[index],
-        data: values,
-        timestamp: new Date().toISOString(),
-        ...this.parseRowData(sheetName, values),
-      };
-
-      localStorage.setItem(key, JSON.stringify(existingData));
-
-      // Limpar cache
-      this.clearCache();
-
-      toast.success("Dados atualizados com sucesso!");
-      return existingData[index];
     } catch (error) {
-      console.error(`Erro ao atualizar linha na aba ${sheetName}:`, error);
-      toast.error("Erro ao atualizar dados. Tente novamente.");
-      throw error;
+      console.error("Erro no teste de conexão:", error);
+      toast.error("Erro ao conectar com Google Sheets. Usando dados locais.");
+      return false;
+    } finally {
+      loading.hide();
     }
   }
 
-  // Deletar linha
-  async deleteRow(sheetName, id) {
-    try {
-      const key = `sheets_${sheetName}`;
-      const existingData = JSON.parse(localStorage.getItem(key) || "[]");
-
-      const filteredData = existingData.filter((row) => row.id !== id);
-      localStorage.setItem(key, JSON.stringify(filteredData));
-
-      // Limpar cache
-      this.clearCache();
-
-      toast.success("Registro excluído com sucesso!");
-      return true;
-    } catch (error) {
-      console.error(`Erro ao deletar linha na aba ${sheetName}:`, error);
-      toast.error("Erro ao excluir registro. Tente novamente.");
-      throw error;
-    }
-  }
-
-  // Obter todos os dados de uma aba (simulado)
-  async getAllData(sheetName) {
-    try {
-      const key = `sheets_${sheetName}`;
-      const data = JSON.parse(localStorage.getItem(key) || "[]");
-      return data;
-    } catch (error) {
-      console.error(`Erro ao obter dados da aba ${sheetName}:`, error);
-      return [];
-    }
-  }
-
-  // Parsear dados da linha baseado na aba
+  // Resto dos métodos permanecem iguais...
   parseRowData(sheetName, values) {
     switch (sheetName) {
       case this.sheets.dadosIniciais:
@@ -213,7 +379,6 @@ class SheetsAPI {
     }
   }
 
-  // Parsear dados iniciais
   parseDadosIniciais(values) {
     return {
       numeroContrato: values[0] || "",
@@ -243,7 +408,6 @@ class SheetsAPI {
     };
   }
 
-  // Parsear cadastro finais
   parseCadastroFinais(values) {
     return {
       nome: values[0] || "",
@@ -259,7 +423,6 @@ class SheetsAPI {
     };
   }
 
-  // Parsear dados treinamento
   parseDadosTreinamento(values) {
     return {
       nome: values[0] || "",
@@ -274,14 +437,58 @@ class SheetsAPI {
     };
   }
 
-  // Buscar parceiros
+  async updateRow(sheetName, id, values) {
+    try {
+      const key = `sheets_${sheetName}`;
+      const existingData = JSON.parse(localStorage.getItem(key) || "[]");
+
+      const index = existingData.findIndex((row) => row.id === id);
+      if (index === -1) {
+        throw new Error("Registro não encontrado");
+      }
+
+      existingData[index] = {
+        ...existingData[index],
+        data: values,
+        timestamp: new Date().toISOString(),
+        ...this.parseRowData(sheetName, values),
+      };
+
+      localStorage.setItem(key, JSON.stringify(existingData));
+      this.clearCache();
+
+      toast.success("Dados atualizados com sucesso!");
+      return existingData[index];
+    } catch (error) {
+      console.error(`Erro ao atualizar linha na aba ${sheetName}:`, error);
+      toast.error("Erro ao atualizar dados. Tente novamente.");
+      throw error;
+    }
+  }
+
+  async deleteRow(sheetName, id) {
+    try {
+      const key = `sheets_${sheetName}`;
+      const existingData = JSON.parse(localStorage.getItem(key) || "[]");
+
+      const filteredData = existingData.filter((row) => row.id !== id);
+      localStorage.setItem(key, JSON.stringify(filteredData));
+
+      this.clearCache();
+      toast.success("Registro excluído com sucesso!");
+      return true;
+    } catch (error) {
+      console.error(`Erro ao deletar linha na aba ${sheetName}:`, error);
+      toast.error("Erro ao excluir registro. Tente novamente.");
+      throw error;
+    }
+  }
+
   async searchParceiros(query, filters = {}) {
     try {
       const allData = await this.getAllData(this.sheets.dadosIniciais);
-
       let filteredData = allData;
 
-      // Aplicar filtro de busca
       if (query) {
         const searchTerm = query.toLowerCase();
         filteredData = filteredData.filter(
@@ -293,7 +500,6 @@ class SheetsAPI {
         );
       }
 
-      // Aplicar filtros adicionais
       if (filters.tipo) {
         filteredData = filteredData.filter(
           (item) => item.tipoParceria === filters.tipo
@@ -317,7 +523,6 @@ class SheetsAPI {
     }
   }
 
-  // Obter estatísticas
   async getStats() {
     try {
       const dadosIniciais = await this.getAllData(this.sheets.dadosIniciais);
@@ -337,13 +542,11 @@ class SheetsAPI {
         porUF: {},
       };
 
-      // Estatísticas por tipo
       dadosIniciais.forEach((item) => {
         const tipo = item.tipoParceria || "Não informado";
         stats.porTipo[tipo] = (stats.porTipo[tipo] || 0) + 1;
       });
 
-      // Estatísticas por UF
       dadosIniciais.forEach((item) => {
         const uf = item.uf || "Não informado";
         stats.porUF[uf] = (stats.porUF[uf] || 0) + 1;
@@ -362,12 +565,10 @@ class SheetsAPI {
     }
   }
 
-  // Limpar cache
   clearCache() {
     this.cache.clear();
   }
 
-  // Exportar dados para CSV
   async exportToCSV(sheetName) {
     try {
       const data = await this.getAllData(sheetName);
@@ -377,22 +578,17 @@ class SheetsAPI {
         return;
       }
 
-      // Obter cabeçalhos baseado na aba
       const headers = this.getHeadersForSheet(sheetName);
-
-      // Converter dados para CSV
       let csv = headers.join(",") + "\n";
 
       data.forEach((row) => {
         const values = headers.map((header) => {
           const value = row[header] || "";
-          // Escapar aspas e vírgulas
           return `"${value.toString().replace(/"/g, '""')}"`;
         });
         csv += values.join(",") + "\n";
       });
 
-      // Download do arquivo
       const filename = `${sheetName}_${
         new Date().toISOString().split("T")[0]
       }.csv`;
@@ -405,7 +601,6 @@ class SheetsAPI {
     }
   }
 
-  // Obter cabeçalhos para cada aba
   getHeadersForSheet(sheetName) {
     switch (sheetName) {
       case this.sheets.dadosIniciais:

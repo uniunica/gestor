@@ -19,6 +19,10 @@ class PartnersApp {
       this.setupEventListeners();
       this.setupFormValidation();
 
+      // NOVO: Testar conexão com Google Sheets
+      console.log("Iniciando teste de conexão...");
+      await sheetsAPI.testConnection();
+
       // Carregar dados iniciais
       await this.loadDashboard();
 
