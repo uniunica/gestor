@@ -545,6 +545,16 @@ body {
   padding: 30px;
 }
 
+#loginError {
+  display: none;
+}
+#loadingOverlay {
+  display: none;
+}
+#editModal {
+  display: none;
+}
+
 /* Loading */
 .loading-overlay {
   position: fixed;
