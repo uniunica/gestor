@@ -27,12 +27,7 @@
       <nav class="sidebar-nav">
         <ul>
           <li>
-            <a
-              href="#"
-              class="nav-link active"
-              data-section="dashboard"
-              data-tooltip="Dashboard"
-            >
+            <a href="#" class="nav-link active" data-section="dashboard">
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -54,12 +49,7 @@
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="nav-link"
-              data-section="partners"
-              data-tooltip="Lista de Parceiros"
-            >
+            <a href="#" class="nav-link" data-section="partners">
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -81,12 +71,29 @@
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="nav-link"
-              data-section="cadastros"
-              data-tooltip="Cadastros Finais"
-            >
+            <a href="#" class="nav-link" data-section="polos">
+              <span class="nav-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                  ></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </span>
+              <span class="nav-text">Polos Ativos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-section="cadastros">
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -111,37 +118,7 @@
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="nav-link"
-              data-section="treinamentos"
-              data-tooltip="Treinamentos"
-            >
-              <span class="nav-icon">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-                </svg>
-              </span>
-              <span class="nav-text">Treinamentos</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="nav-link"
-              data-section="reports"
-              data-tooltip="Relatórios"
-            >
+            <a href="#" class="nav-link" data-section="reports">
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -190,7 +167,7 @@
       <!-- Header -->
       <header class="header">
         <div class="header-left">
-          <button id="mobileMenuToggle" class="mobile-menu-toggle" title="Menu Mobile">
+          <button id="mobileMenuToggle" class="mobile-menu-toggle" title="Menu">
             <span></span>
             <span></span>
             <span></span>
@@ -199,23 +176,9 @@
         </div>
 
         <div class="header-right">
-          <button id="addPartnerBtn" class="btn btn-primary">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="16"></line>
-              <line x1="8" y1="12" x2="16" y2="12"></line>
-            </svg>
-            Novo Parceiro
-          </button>
+          <div class="header-info">
+            <span class="header-subtitle">Sistema de Gestão de Parceiros</span>
+          </div>
         </div>
       </header>
 
@@ -363,19 +326,45 @@
               />
             </div>
 
-            <select id="statusFilter" class="form-select" title="Filtrar por Status">
+            <select
+              id="statusFilter"
+              class="form-select"
+              title="Filtrar por Status"
+            >
               <option value="">Todos os Status</option>
               <option value="ativo">Ativo</option>
               <option value="pendente">Pendente</option>
-              <option value="treinamento">Em Treinamento</option>
               <option value="inativo">Inativo</option>
             </select>
 
-            <select id="typeFilter" class="form-select" title="Filtrar por Tipo">
+            <select
+              id="typeFilter"
+              class="form-select"
+              title="Filtrar por Tipo"
+            >
               <option value="">Todos os Tipos</option>
               <option value="polo">Polo</option>
-              <option value="representante">Comercial</option>
+              <option value="representante">Representante</option>
+              <option value="consultor">Consultor</option>
             </select>
+
+            <button id="exportPartners" class="btn btn-secondary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Exportar
+            </button>
           </div>
         </div>
 
@@ -385,11 +374,12 @@
               <tr>
                 <th>Nome</th>
                 <th>CPF/CNPJ</th>
+                <th>E-mail</th>
                 <th>Cidade</th>
                 <th>UF</th>
                 <th>Tipo</th>
                 <th>Status</th>
-                <th>Ações</th>
+                <th>Contato</th>
               </tr>
             </thead>
             <tbody id="partnersTableBody">
@@ -457,6 +447,262 @@
         </div>
       </section>
 
+      <!-- Polos Ativos Section -->
+      <section id="polosSection" class="content-section">
+        <div class="section-header">
+          <h2>Polos Ativos</h2>
+          <p>Consulte informações detalhadas dos polos em operação</p>
+        </div>
+
+        <div class="polos-controls">
+          <div class="search-filters">
+            <div class="search-input-container">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                id="searchPolos"
+                class="form-input search-input"
+                placeholder="Buscar polos..."
+              />
+            </div>
+
+            <select id="estadoPoloFilter" class="form-select">
+              <option value="">Todos os Estados</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+
+            <select id="statusPoloFilter" class="form-select">
+              <option value="">Todos os Status</option>
+              <option value="ativo">Ativo</option>
+              <option value="indefinido">Indefinido</option>
+            </select>
+
+            <button id="exportPolos" class="btn btn-secondary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <div class="polos-overview">
+          <div class="overview-card card">
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div class="overview-content">
+              <h3 id="totalPolos">0</h3>
+              <p>Total de Polos</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22,4 12,14.01 9,11.01"></polyline>
+              </svg>
+            </div>
+            <div class="overview-content">
+              <h3 id="polosAtivos">0</h3>
+              <p>Polos Ativos</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                ></path>
+              </svg>
+            </div>
+            <div class="overview-content">
+              <h3 id="polosSudeste">0</h3>
+              <p>Região Sudeste</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                ></path>
+              </svg>
+            </div>
+            <div class="overview-content">
+              <h3 id="polosNacional">0</h3>
+              <p>Abrangência Nacional</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="polos-table-container card">
+          <table id="polosTable" class="partners-table">
+            <thead>
+              <tr>
+                <th>Unidade</th>
+                <th>Razão Social</th>
+                <th>Nome Comercial</th>
+                <th>Cidade</th>
+                <th>UF</th>
+                <th>Telefones</th>
+                <th>E-mail</th>
+                <th>Responsável</th>
+              </tr>
+            </thead>
+            <tbody id="polosTableBody">
+              <!-- Polos serão inseridos aqui -->
+            </tbody>
+          </table>
+
+          <div id="polosTableEmpty" class="table-empty" style="display: none">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-bottom: 16px; color: var(--gray-400)"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <p>Nenhum polo encontrado.</p>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button id="prevPagePolos" class="btn btn-secondary">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+            Anterior
+          </button>
+          <span id="pageInfoPolos">Página 1 de 1</span>
+          <button id="nextPagePolos" class="btn btn-secondary">
+            Próximo
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+
       <!-- Cadastros Finais Section -->
       <section id="cadastrosSection" class="content-section">
         <div class="section-header">
@@ -489,7 +735,11 @@
               />
             </div>
 
-            <select id="statusCadastroFilter" class="form-select" title="Filtrar por Status">
+            <select
+              id="statusCadastroFilter"
+              class="form-select"
+              title="Filtrar por Status"
+            >
               <option value="">Todos os Status</option>
               <option value="pendente">Pendente</option>
               <option value="em_andamento">Em Andamento</option>
@@ -651,239 +901,6 @@
               <!-- Lista será preenchida dinamicamente -->
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Treinamentos Section -->
-      <section id="treinamentosSection" class="content-section">
-        <div class="section-header">
-          <h2>Treinamentos</h2>
-          <p>Acompanhe o progresso dos treinamentos dos parceiros</p>
-        </div>
-
-        <div class="treinamentos-controls">
-          <div class="search-filters">
-            <div class="search-input-container">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="search-icon"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-              <input
-                type="text"
-                id="searchTreinamentos"
-                class="form-input search-input"
-                placeholder="Buscar por nome ou cidade..."
-              />
-            </div>
-
-            <select id="statusTreinamentoFilter" class="form-select" title="Filtrar por Status">
-              <option value="">Todos os Status</option>
-              <option value="pendente">Pendente</option>
-              <option value="em_andamento">Em Andamento</option>
-              <option value="concluido">Concluído</option>
-            </select>
-
-            <select id="tipoTreinamentoFilter" class="form-select" title="Filtrar por Tipo">
-              <option value="">Todos os Tipos</option>
-              <option value="cademi">Curso Cademi</option>
-              <option value="comercial">Treinamento Comercial</option>
-              <option value="geral">Treinamento Geral</option>
-            </select>
-
-            <button id="exportTreinamentos" class="btn btn-secondary">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7,10 12,15 17,10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Exportar
-            </button>
-          </div>
-        </div>
-
-        <div class="treinamentos-overview">
-          <div class="overview-card card">
-            <div class="overview-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-              </svg>
-            </div>
-            <div class="overview-content">
-              <h3 id="totalTreinamentos">0</h3>
-              <p>Total em Treinamento</p>
-            </div>
-          </div>
-
-          <div class="overview-card card">
-            <div class="overview-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12,6 12,12 16,14"></polyline>
-              </svg>
-            </div>
-            <div class="overview-content">
-              <h3 id="treinamentosPendentes">0</h3>
-              <p>Aguardando Início</p>
-            </div>
-          </div>
-
-          <div class="overview-card card">
-            <div class="overview-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-              </svg>
-            </div>
-            <div class="overview-content">
-              <h3 id="treinamentosAndamento">0</h3>
-              <p>Em Andamento</p>
-            </div>
-          </div>
-
-          <div class="overview-card card">
-            <div class="overview-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22,4 12,14.01 9,11.01"></polyline>
-              </svg>
-            </div>
-            <div class="overview-content">
-              <h3 id="treinamentosConcluidos">0</h3>
-              <p>Concluídos</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="treinamentos-table-container card">
-          <table id="treinamentosTable" class="partners-table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Cidade/UF</th>
-                <th>Status</th>
-                <th>Contato Lorraine</th>
-                <th>Início Treinamento</th>
-                <th>Curso Cademi</th>
-                <th>Treinamento Comercial</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="treinamentosTableBody">
-              <!-- Treinamentos serão inseridos aqui -->
-            </tbody>
-          </table>
-
-          <div
-            id="treinamentosTableEmpty"
-            class="table-empty"
-            style="display: none"
-          >
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              style="margin-bottom: 16px; color: var(--gray-400)"
-            >
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-            </svg>
-            <p>Nenhum treinamento encontrado.</p>
-          </div>
-        </div>
-
-        <div class="pagination">
-          <button id="prevPageTreinamentos" class="btn btn-secondary">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="15,18 9,12 15,6"></polyline>
-            </svg>
-            Anterior
-          </button>
-          <span id="pageInfoTreinamentos">Página 1 de 1</span>
-          <button id="nextPageTreinamentos" class="btn btn-secondary">
-            Próximo
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="9,18 15,12 9,6"></polyline>
-            </svg>
-          </button>
         </div>
       </section>
 
@@ -1444,6 +1461,7 @@
     <!-- Scripts -->
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/polos.js"></script>
     <script src="js/dashboard.js"></script>
   </body>
 </html>

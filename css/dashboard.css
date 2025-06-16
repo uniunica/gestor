@@ -1277,6 +1277,70 @@ h3 svg {
   height: 16px;
 }
 
+/* Header Info */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.header-mode {
+  font-size: 12px;
+  color: var(--primary-purple);
+  background: var(--light-purple);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Polos Section */
+.polos-controls {
+  margin-bottom: 32px;
+}
+
+.polos-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.polos-table-container {
+  margin-bottom: 24px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .header-info {
+    display: none;
+  }
+
+  .polos-overview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .polos-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Responsividade para Ícones */
 @media (max-width: 768px) {
   .search-input-container {

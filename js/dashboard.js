@@ -1,6 +1,7 @@
 class DashboardManager {
   constructor() {
     this.api = new GoogleSheetsAPI();
+    this.polosAPI = new PolosAPI();
     this.currentSection = "dashboard";
     this.partners = [];
     this.filteredPartners = [];
@@ -133,6 +134,219 @@ class DashboardManager {
 
     // Format inputs
     this.initializeInputFormatting();
+
+    // Eventos da seção de polos
+    this.initializePolosEvents();
+  }
+
+  // ✨ NOVA: Inicializar eventos da seção de polos
+  initializePolosEvents() {
+    // Busca de polos
+    const searchPolos = document.getElementById("searchPolos");
+    if (searchPolos) {
+      searchPolos.addEventListener(
+        "input",
+        Utils.debounce(() => {
+          this.filterPolos();
+        }, 300)
+      );
+    }
+
+    // Filtros de polos
+    const estadoFilter = document.getElementById("estadoPoloFilter");
+    const statusFilter = document.getElementById("statusPoloFilter");
+
+    if (estadoFilter) {
+      estadoFilter.addEventListener("change", () => {
+        this.filterPolos();
+      });
+    }
+
+    if (statusFilter) {
+      statusFilter.addEventListener("change", () => {
+        this.filterPolos();
+      });
+    }
+
+    // Exportar polos
+    const exportBtn = document.getElementById("exportPolos");
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => {
+        this.exportPolos();
+      });
+    }
+
+    // Paginação de polos
+    const prevPagePolos = document.getElementById("prevPagePolos");
+    const nextPagePolos = document.getElementById("nextPagePolos");
+
+    if (prevPagePolos) {
+      prevPagePolos.addEventListener("click", () => {
+        if (this.currentPolosPage > 1) {
+          this.currentPolosPage--;
+          this.renderPolosTable();
+        }
+      });
+    }
+
+    if (nextPagePolos) {
+      nextPagePolos.addEventListener("click", () => {
+        const totalPages = Math.ceil(
+          this.filteredPolos.length / this.polosPerPage
+        );
+        if (this.currentPolosPage < totalPages) {
+          this.currentPolosPage++;
+          this.renderPolosTable();
+        }
+      });
+    }
+  }
+
+  // ✨ NOVA: Renderizar seção de polos
+  async renderPolosSection() {
+    try {
+      console.log("🏢 Renderizando seção de polos...");
+
+      Utils.showLoading(true);
+
+      // Carregar dados dos polos
+      this.allPolos = await this.polosAPI.getAllPolos();
+      this.filteredPolos = [...this.allPolos];
+      this.currentPolosPage = 1;
+      this.polosPerPage = 10;
+
+      // Carregar estatísticas
+      const stats = await this.polosAPI.getPolosStats();
+
+      // Atualizar estatísticas
+      document.getElementById("totalPolos").textContent = stats.total;
+      document.getElementById("polosAtivos").textContent = stats.ativos;
+      document.getElementById("polosSudeste").textContent =
+        stats.byRegion.sudeste || 0;
+      document.getElementById("polosNacional").textContent = Object.keys(
+        stats.byState
+      ).length;
+
+      // Renderizar tabela
+      this.renderPolosTable();
+
+      console.log("✅ Seção de polos renderizada com sucesso");
+    } catch (error) {
+      console.error("❌ Erro ao renderizar polos:", error);
+      Utils.showNotification(
+        "Erro ao carregar dados dos polos: " + error.message,
+        "error"
+      );
+    } finally {
+      Utils.showLoading(false);
+    }
+  }
+
+  // ✨ NOVA: Renderizar tabela de polos
+  renderPolosTable() {
+    const tbody = document.getElementById("polosTableBody");
+    const emptyState = document.getElementById("polosTableEmpty");
+
+    if (!tbody) return;
+
+    if (this.filteredPolos.length === 0) {
+      tbody.innerHTML = "";
+      emptyState.style.display = "flex";
+      this.updatePolosPaginationInfo(0, 0, 0);
+      return;
+    }
+
+    emptyState.style.display = "none";
+
+    // Calcular paginação
+    const startIndex = (this.currentPolosPage - 1) * this.polosPerPage;
+    const endIndex = startIndex + this.polosPerPage;
+    const paginatedPolos = this.filteredPolos.slice(startIndex, endIndex);
+
+    tbody.innerHTML = paginatedPolos
+      .map(
+        (polo) => `
+        <tr>
+            <td>${polo.unidade || "-"}</td>
+            <td>${polo.razao || "-"}</td>
+            <td>${polo.comercial || "-"}</td>
+            <td>${polo.cidade || "-"}</td>
+            <td>${polo.uf || "-"}</td>
+            <td>${polo.telefones || "-"}</td>
+            <td>${polo.email || "-"}</td>
+            <td>${polo.responsavel || "-"}</td>
+        </tr>
+    `
+      )
+      .join("");
+
+    // Atualizar informações de paginação
+    const totalPages = Math.ceil(this.filteredPolos.length / this.polosPerPage);
+    this.updatePolosPaginationInfo(
+      this.currentPolosPage,
+      totalPages,
+      this.filteredPolos.length
+    );
+  }
+
+  // ✨ NOVA: Filtrar polos
+  filterPolos() {
+    const searchTerm = document.getElementById("searchPolos").value;
+    const estadoFilter = document.getElementById("estadoPoloFilter").value;
+    const statusFilter = document.getElementById("statusPoloFilter").value;
+
+    const filters = {
+      search: searchTerm,
+      uf: estadoFilter,
+      status: statusFilter,
+    };
+
+    this.filteredPolos = this.polosAPI.filterPolos(this.allPolos, filters);
+    this.currentPolosPage = 1;
+    this.renderPolosTable();
+  }
+
+  // ✨ NOVA: Atualizar informações de paginação dos polos
+  updatePolosPaginationInfo(currentPage, totalPages, totalItems) {
+    const pageInfo = document.getElementById("pageInfoPolos");
+    const prevBtn = document.getElementById("prevPagePolos");
+    const nextBtn = document.getElementById("nextPagePolos");
+
+    if (pageInfo) {
+      pageInfo.textContent = `Página ${currentPage} de ${totalPages} (${totalItems} itens)`;
+    }
+
+    if (prevBtn) {
+      prevBtn.disabled = currentPage <= 1;
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+  }
+
+  // ✨ NOVA: Exportar dados dos polos
+  async exportPolos() {
+    try {
+      if (this.filteredPolos.length === 0) {
+        Utils.showNotification("Nenhum dado para exportar.", "warning");
+        return;
+      }
+
+      const success = this.polosAPI.exportToCSV(this.filteredPolos);
+
+      if (success) {
+        Utils.showNotification(
+          "Dados dos polos exportados com sucesso!",
+          "success"
+        );
+      } else {
+        Utils.showNotification("Erro ao exportar dados dos polos.", "error");
+      }
+    } catch (error) {
+      console.error("Erro ao exportar polos:", error);
+      Utils.showNotification("Erro ao exportar dados dos polos.", "error");
+    }
   }
 
   // Inicializar controles do modal
@@ -419,7 +633,9 @@ class DashboardManager {
     // Atualizar título
     const titles = {
       dashboard: "Dashboard",
-      partners: "Parceiros",
+      partners: "Lista de Parceiros",
+      polos: "Polos Ativos",
+      cadastros: "Cadastros Finais",
       reports: "Relatórios",
     };
     document.getElementById("pageTitle").textContent =
@@ -428,10 +644,19 @@ class DashboardManager {
     this.currentSection = sectionName;
 
     // Ações específicas por seção
-    if (sectionName === "partners") {
-      this.renderPartnersTable();
-    } else if (sectionName === "reports") {
-      this.renderReports();
+    switch (sectionName) {
+      case "partners":
+        this.renderPartnersTable();
+        break;
+      case "polos":
+        this.renderPolosSection();
+        break;
+      case "cadastros":
+        this.renderCadastrosFinais();
+        break;
+      case "reports":
+        this.renderReports();
+        break;
     }
   }
 
@@ -478,19 +703,17 @@ class DashboardManager {
 
     if (this.filteredPartners.length === 0) {
       tbody.innerHTML = "";
-      emptyState.style.display = "flex"; // Mudança aqui
+      emptyState.style.display = "flex";
       this.updatePaginationInfo(0, 0, 0);
       return;
     }
 
     emptyState.style.display = "none";
 
-    // Calcular paginação
     const startIndex = (this.currentPage - 1) * this.partnersPerPage;
     const endIndex = startIndex + this.partnersPerPage;
     const paginatedPartners = this.filteredPartners.slice(startIndex, endIndex);
 
-    // Renderizar linhas
     tbody.innerHTML = paginatedPartners
       .map((partner) => {
         const status = this.getPartnerStatus(partner);
@@ -498,6 +721,7 @@ class DashboardManager {
             <tr>
                 <td>${partner.nome || "-"}</td>
                 <td>${partner.cpf || partner.cnpj || "-"}</td>
+                <td>${partner.email || "-"}</td>
                 <td>${partner.cidade || "-"}</td>
                 <td>${partner.uf || "-"}</td>
                 <td>${Utils.capitalizeWords(partner.tipoParceria || "-")}</td>
@@ -506,32 +730,12 @@ class DashboardManager {
                         ${Utils.capitalizeWords(status)}
                     </span>
                 </td>
-                <td>
-                    <div class="table-actions">
-                        <button class="btn-icon btn-edit" onclick="dashboardManager.editPartner(${
-                          partner.rowIndex
-                        })" title="Editar">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                        </button>
-                        <button class="btn-icon btn-delete" onclick="dashboardManager.deletePartner(${
-                          partner.rowIndex
-                        })" title="Excluir">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="3,6 5,6 21,6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
+                <td>${partner.contato || "-"}</td>
             </tr>
         `;
       })
       .join("");
 
-    // Atualizar informações de paginação
     const totalPages = Math.ceil(
       this.filteredPartners.length / this.partnersPerPage
     );
@@ -540,6 +744,71 @@ class DashboardManager {
       totalPages,
       this.filteredPartners.length
     );
+  }
+
+  // ✨ NOVA: Renderizar seção de polos
+  async renderPolosSection() {
+    try {
+      console.log("🏢 Renderizando seção de polos...");
+
+      // Carregar dados dos polos
+      const polos = await this.api.getAllPolos();
+      const stats = await this.api.getPolosStats();
+
+      // Atualizar estatísticas
+      document.getElementById("totalPolos").textContent = stats.total;
+      document.getElementById("polosAtivos").textContent = stats.ativos;
+      document.getElementById("polosImplantacao").textContent =
+        stats.implantacao;
+      document.getElementById("polosDestaque").textContent = stats.destaque;
+
+      // Renderizar tabela
+      this.renderPolosTable(polos);
+    } catch (error) {
+      console.error("Erro ao renderizar polos:", error);
+      Utils.showNotification("Erro ao carregar dados dos polos", "error");
+    }
+  }
+
+  // ✨ NOVA: Renderizar tabela de polos
+  renderPolosTable(polos) {
+    const tbody = document.getElementById("polosTableBody");
+    const emptyState = document.getElementById("polosTableEmpty");
+
+    if (!tbody) return;
+
+    if (polos.length === 0) {
+      tbody.innerHTML = "";
+      emptyState.style.display = "flex";
+      return;
+    }
+
+    emptyState.style.display = "none";
+
+    tbody.innerHTML = polos
+      .map(
+        (polo) => `
+        <tr>
+            <td>${polo.nomePolo || "-"}</td>
+            <td>${polo.responsavel || "-"}</td>
+            <td>${polo.cidade || "-"}</td>
+            <td>${polo.uf || "-"}</td>
+            <td>
+                <span class="status-badge status-${
+                  polo.status
+                    ? polo.status.toLowerCase().replace(" ", "_")
+                    : "indefinido"
+                }">
+                    ${Utils.capitalizeWords(polo.status || "Indefinido")}
+                </span>
+            </td>
+            <td>${Utils.formatDate(polo.dataInauguracao) || "-"}</td>
+            <td>${polo.alunosAtivos || "0"}</td>
+            <td>${polo.contato || "-"}</td>
+        </tr>
+    `
+      )
+      .join("");
   }
 
   // Atualizar informações de paginação
