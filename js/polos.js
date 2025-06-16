@@ -90,14 +90,17 @@ class PolosAPI {
     }
   }
 
-  // Obter todos os polos (VERSÃO CORRIGIDA)
+  // ✨ VERSÃO SIMPLIFICADA E DIRETA
   async getAllPolos() {
     try {
       console.log("🏢 Buscando dados dos polos...");
 
-      // ✨ USAR RANGE ESPECÍFICO (como na sua aplicação que funciona)
-      const range = `${this.sheetName}!A2:J`; // Da linha 2 até coluna J
-      const url = `${this.baseUrl}/${this.spreadsheetId}/values/${range}?key=${this.apiKey}`;
+      // ✨ USAR ABORDAGEM EXATA DA SUA APLICAÇÃO QUE FUNCIONA
+      const apiKey = "AIzaSyD_tcEft1u37kUNCTDEUE-NvOHGQn6ZRSI";
+      const sheetId = "1IxAnU18qxiEf-TjvqBEEj9L1W3CsY3-DHDxREV4APmk";
+      const sheetName = "Página1";
+      const range = `${sheetName}!A2:J`; // Da linha 2 até coluna J
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
       console.log("📤 URL da requisição:", url);
 
@@ -108,7 +111,7 @@ class PolosAPI {
       }
 
       const json = await response.json();
-      console.log("📥 Resposta JSON:", json);
+      console.log("📥 Resposta JSON completa:", json);
 
       const rows = json.values || [];
       console.log("📊 Total de linhas recebidas:", rows.length);
@@ -118,30 +121,25 @@ class PolosAPI {
         return [];
       }
 
-      // ✨ PROCESSAR DADOS DIRETAMENTE (como na sua aplicação)
+      // ✨ PROCESSAR EXATAMENTE COMO NA SUA APLICAÇÃO
       const polos = [];
 
       rows.forEach((row, index) => {
-        // Extrair dados das colunas (baseado na sua aplicação)
-        const unidade = row[0]?.toString().trim() || ""; // Coluna A
-        const razao = row[1]?.toString().trim() || ""; // Coluna B
-        const comercial = row[2]?.toString().trim() || ""; // Coluna C
-        const endereco = row[3]?.toString().trim() || ""; // Coluna D
-        const cidade = row[4]?.toString().trim() || ""; // Coluna E
-        const uf = row[5]?.toString().trim() || ""; // Coluna F
-        const cep = row[6]?.toString().trim() || ""; // Coluna G
-        const telefones = row[7]?.toString().trim() || ""; // Coluna H
-        const email = row[8]?.toString().trim() || ""; // Coluna I
-        const responsavel = row[9]?.toString().trim() || ""; // Coluna J
+        const unidade = row[0]?.trim() || "";
+        const razao = row[1]?.trim() || "";
+        const comercial = row[2]?.trim() || "";
+        const endereco = row[3]?.trim() || "";
+        const cidade = row[4]?.trim() || "";
+        const uf = row[5]?.trim() || "";
+        const cep = row[6]?.trim() || "";
+        const telefones = row[7]?.trim() || "";
+        const email = row[8]?.trim() || "";
+        const responsavel = row[9]?.trim() || "";
 
-        // ✨ FILTRO SIMPLES (como na sua aplicação)
-        if (
-          unidade &&
-          unidade !== "" &&
-          !unidade.toLowerCase().includes("unidade")
-        ) {
+        // ✨ FILTRO MAIS PERMISSIVO
+        if (unidade && unidade !== "" && unidade !== "UNIDADE") {
           const polo = {
-            rowIndex: index + 2, // +2 porque começamos da linha 2
+            rowIndex: index + 2,
             unidade,
             razao,
             comercial,
@@ -152,7 +150,6 @@ class PolosAPI {
             telefones,
             email,
             responsavel,
-            // Campos calculados
             nomePolo: unidade || comercial || razao,
             contato: telefones,
             status: "ativo",
@@ -160,18 +157,23 @@ class PolosAPI {
 
           polos.push(polo);
 
-          // Log dos primeiros 3 polos para debug
-          if (index < 3) {
+          // Log dos primeiros 5 para debug
+          if (index < 5) {
             console.log(`📄 Polo ${index + 1}:`, polo);
           }
+        } else {
+          console.log(`🚫 Linha ${index + 2} filtrada - unidade: "${unidade}"`);
         }
       });
 
       console.log("✅ Total de polos processados:", polos.length);
 
       if (polos.length === 0) {
-        console.warn("⚠️ Nenhum polo válido encontrado após processamento");
-        console.log("🔍 Primeiras 5 linhas brutas:", rows.slice(0, 5));
+        console.warn("⚠️ Nenhum polo válido encontrado");
+        console.log("🔍 Primeiras 10 linhas brutas para debug:");
+        rows.slice(0, 10).forEach((row, i) => {
+          console.log(`Linha ${i + 2}:`, row);
+        });
       }
 
       return polos;
