@@ -76,7 +76,7 @@
 }
 
 .parceiro-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -347,17 +347,17 @@
   .parceiro-info {
     grid-template-columns: 1fr;
   }
-  
+
   .parceiro-actions {
     justify-content: center;
   }
-  
+
   .card-grid-2,
   .card-grid-3,
   .card-grid-4 {
     grid-template-columns: 1fr;
   }
-  
+
   .info-card {
     flex-direction: column;
     text-align: center;
