@@ -34,7 +34,7 @@ class DashboardManager {
     // Carregar dados iniciais
     await this.loadInitialData();
 
-    // ✨ ADICIONAR: Testar conexão com polos
+    // Testar conexão com polos
     try {
       const polosConnection = await this.polosAPI.testConnection();
       if (polosConnection.success) {
@@ -225,22 +225,32 @@ class DashboardManager {
     }
   }
 
-  // ✨ MELHORAR: Renderizar seção de polos com mais debug
+  // ✅ CORRIGIR: Renderizar seção de polos com debug detalhado
   async renderPolosSection() {
     try {
       console.log("🏢 Renderizando seção de polos...");
 
       Utils.showLoading(true);
 
-      // Debug da conexão
-      console.log("🔗 Testando conexão com polos...");
-      const connectionTest = await this.polosAPI.testConnection();
-      console.log("📊 Resultado da conexão:", connectionTest);
-
       // Carregar dados dos polos
       console.log("📥 Carregando dados dos polos...");
       this.allPolos = await this.polosAPI.getAllPolos();
       console.log("📊 Total de polos carregados:", this.allPolos.length);
+
+      // ✨ DEBUG ADICIONAL
+      if (this.allPolos.length === 0) {
+        console.warn("⚠️ PROBLEMA: Nenhum polo foi carregado!");
+
+        // Tentar debug direto
+        const debugResult = await this.polosAPI.debugData();
+        console.log("🔍 Debug direto:", debugResult);
+
+        // Mostrar mensagem de erro na UI
+        Utils.showNotification(
+          "Nenhum polo encontrado na planilha. Verifique os dados.",
+          "warning"
+        );
+      }
 
       this.filteredPolos = [...this.allPolos];
       this.currentPolosPage = 1;
@@ -257,12 +267,25 @@ class DashboardManager {
       const sudesteElement = document.getElementById("polosSudeste");
       const nacionalElement = document.getElementById("polosNacional");
 
-      if (totalElement) totalElement.textContent = stats.total;
-      if (ativosElement) ativosElement.textContent = stats.ativos;
-      if (sudesteElement)
+      if (totalElement) {
+        totalElement.textContent = stats.total;
+        console.log("📊 Total atualizado:", stats.total);
+      }
+      if (ativosElement) {
+        ativosElement.textContent = stats.ativos;
+        console.log("📊 Ativos atualizado:", stats.ativos);
+      }
+      if (sudesteElement) {
         sudesteElement.textContent = stats.byRegion.sudeste || 0;
-      if (nacionalElement)
+        console.log("📊 Sudeste atualizado:", stats.byRegion.sudeste || 0);
+      }
+      if (nacionalElement) {
         nacionalElement.textContent = Object.keys(stats.byState).length;
+        console.log(
+          "📊 Nacional atualizado:",
+          Object.keys(stats.byState).length
+        );
+      }
 
       console.log("📊 Estatísticas atualizadas na UI");
 
@@ -282,9 +305,15 @@ class DashboardManager {
     }
   }
 
-  // ✨ MELHORAR: Renderizar tabela de polos com debug
+  // ✅ CORRIGIR: Renderizar tabela com debug mais detalhado
   renderPolosTable() {
     console.log("📋 Iniciando renderização da tabela de polos...");
+    console.log("📊 Estado atual:", {
+      allPolos: this.allPolos?.length || 0,
+      filteredPolos: this.filteredPolos?.length || 0,
+      currentPage: this.currentPolosPage,
+      perPage: this.polosPerPage,
+    });
 
     const tbody = document.getElementById("polosTableBody");
     const emptyState = document.getElementById("polosTableEmpty");
@@ -294,15 +323,15 @@ class DashboardManager {
       return;
     }
 
-    console.log(
-      "📊 Polos filtrados para renderizar:",
-      this.filteredPolos.length
-    );
+    console.log("✅ Elemento tbody encontrado");
 
-    if (this.filteredPolos.length === 0) {
+    if (!this.filteredPolos || this.filteredPolos.length === 0) {
       console.log("📋 Nenhum polo para exibir - mostrando estado vazio");
       tbody.innerHTML = "";
-      if (emptyState) emptyState.style.display = "flex";
+      if (emptyState) {
+        emptyState.style.display = "flex";
+        console.log("📋 Estado vazio exibido");
+      }
       this.updatePolosPaginationInfo(0, 0, 0);
       return;
     }
@@ -317,6 +346,7 @@ class DashboardManager {
     console.log(
       `📋 Renderizando ${paginatedPolos.length} polos (página ${this.currentPolosPage})`
     );
+    console.log("📄 Polos da página atual:", paginatedPolos);
 
     const tableHTML = paginatedPolos
       .map((polo, index) => {
@@ -337,7 +367,13 @@ class DashboardManager {
       .join("");
 
     tbody.innerHTML = tableHTML;
-    console.log("✅ Tabela renderizada com sucesso");
+    console.log("✅ HTML da tabela inserido:", tableHTML.length, "caracteres");
+
+    // Verificar se o HTML foi realmente inserido
+    setTimeout(() => {
+      const rows = tbody.querySelectorAll("tr");
+      console.log("📊 Linhas renderizadas na tabela:", rows.length);
+    }, 100);
 
     // Atualizar informações de paginação
     const totalPages = Math.ceil(this.filteredPolos.length / this.polosPerPage);
@@ -693,7 +729,7 @@ class DashboardManager {
     const titles = {
       dashboard: "Dashboard",
       partners: "Lista de Parceiros",
-      polos: "Polos Ativos", // ✨ ADICIONAR
+      polos: "Polos Ativos",
       cadastros: "Cadastros Finais",
       reports: "Relatórios",
     };
@@ -707,7 +743,7 @@ class DashboardManager {
       case "partners":
         this.renderPartnersTable();
         break;
-      case "polos": // ✨ ADICIONAR
+      case "polos":
         this.renderPolosSection();
         break;
       case "cadastros":
@@ -803,47 +839,6 @@ class DashboardManager {
       totalPages,
       this.filteredPartners.length
     );
-  }
-
-  // ✨ NOVA: Renderizar tabela de polos
-  renderPolosTable(polos) {
-    const tbody = document.getElementById("polosTableBody");
-    const emptyState = document.getElementById("polosTableEmpty");
-
-    if (!tbody) return;
-
-    if (polos.length === 0) {
-      tbody.innerHTML = "";
-      emptyState.style.display = "flex";
-      return;
-    }
-
-    emptyState.style.display = "none";
-
-    tbody.innerHTML = polos
-      .map(
-        (polo) => `
-        <tr>
-            <td>${polo.nomePolo || "-"}</td>
-            <td>${polo.responsavel || "-"}</td>
-            <td>${polo.cidade || "-"}</td>
-            <td>${polo.uf || "-"}</td>
-            <td>
-                <span class="status-badge status-${
-                  polo.status
-                    ? polo.status.toLowerCase().replace(" ", "_")
-                    : "indefinido"
-                }">
-                    ${Utils.capitalizeWords(polo.status || "Indefinido")}
-                </span>
-            </td>
-            <td>${Utils.formatDate(polo.dataInauguracao) || "-"}</td>
-            <td>${polo.alunosAtivos || "0"}</td>
-            <td>${polo.contato || "-"}</td>
-        </tr>
-    `
-      )
-      .join("");
   }
 
   // Atualizar informações de paginação

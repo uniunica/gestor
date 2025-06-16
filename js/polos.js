@@ -90,71 +90,88 @@ class PolosAPI {
     }
   }
 
-  // Obter todos os polos
+  // Obter todos os polos (VERSÃO CORRIGIDA)
   async getAllPolos() {
     try {
       console.log("🏢 Buscando dados dos polos...");
 
-      const sheetData = await this.getSheetData();
+      // ✨ USAR RANGE ESPECÍFICO (como na sua aplicação que funciona)
+      const range = `${this.sheetName}!A2:J`; // Da linha 2 até coluna J
+      const url = `${this.baseUrl}/${this.spreadsheetId}/values/${range}?key=${this.apiKey}`;
 
-      if (!sheetData.values || sheetData.values.length < 2) {
-        console.warn("⚠️ Nenhum dado encontrado na planilha de polos");
+      console.log("📤 URL da requisição:", url);
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
+      const json = await response.json();
+      console.log("📥 Resposta JSON:", json);
+
+      const rows = json.values || [];
+      console.log("📊 Total de linhas recebidas:", rows.length);
+
+      if (rows.length === 0) {
+        console.warn("⚠️ Nenhuma linha de dados encontrada");
         return [];
       }
 
-      const headers = sheetData.values[0];
-      const rows = sheetData.values.slice(1);
+      // ✨ PROCESSAR DADOS DIRETAMENTE (como na sua aplicação)
+      const polos = [];
 
-      console.log("📋 Headers encontrados:", headers);
-      console.log("📊 Total de linhas de dados:", rows.length);
+      rows.forEach((row, index) => {
+        // Extrair dados das colunas (baseado na sua aplicação)
+        const unidade = row[0]?.toString().trim() || ""; // Coluna A
+        const razao = row[1]?.toString().trim() || ""; // Coluna B
+        const comercial = row[2]?.toString().trim() || ""; // Coluna C
+        const endereco = row[3]?.toString().trim() || ""; // Coluna D
+        const cidade = row[4]?.toString().trim() || ""; // Coluna E
+        const uf = row[5]?.toString().trim() || ""; // Coluna F
+        const cep = row[6]?.toString().trim() || ""; // Coluna G
+        const telefones = row[7]?.toString().trim() || ""; // Coluna H
+        const email = row[8]?.toString().trim() || ""; // Coluna I
+        const responsavel = row[9]?.toString().trim() || ""; // Coluna J
 
-      const polos = rows
-        .map((row, index) => {
+        // ✨ FILTRO SIMPLES (como na sua aplicação)
+        if (
+          unidade &&
+          unidade !== "" &&
+          !unidade.toLowerCase().includes("unidade")
+        ) {
           const polo = {
-            rowIndex: index + 2, // +2 porque começamos da linha 2 (header é linha 1)
+            rowIndex: index + 2, // +2 porque começamos da linha 2
+            unidade,
+            razao,
+            comercial,
+            endereco,
+            cidade,
+            uf,
+            cep,
+            telefones,
+            email,
+            responsavel,
+            // Campos calculados
+            nomePolo: unidade || comercial || razao,
+            contato: telefones,
+            status: "ativo",
           };
 
-          // ✨ MELHORAR: Mapear colunas baseado na posição (A, B, C, etc.)
-          polo.unidade = (row[0] || "").toString().trim(); // Coluna A - UNIDADE
-          polo.razao = (row[1] || "").toString().trim(); // Coluna B - RAZÃO
-          polo.comercial = (row[2] || "").toString().trim(); // Coluna C - COMERCIAL
-          polo.endereco = (row[3] || "").toString().trim(); // Coluna D - ENDEREÇO
-          polo.cidade = (row[4] || "").toString().trim(); // Coluna E - CIDADE
-          polo.uf = (row[5] || "").toString().trim(); // Coluna F - UF
-          polo.cep = (row[6] || "").toString().trim(); // Coluna G - CEP
-          polo.telefones = (row[7] || "").toString().trim(); // Coluna H - TELEFONES
-          polo.email = (row[8] || "").toString().trim(); // Coluna I - E-MAIL
-          polo.responsavel = (row[9] || "").toString().trim(); // Coluna J - RESPONSÁVEL
+          polos.push(polo);
 
-          // Campos calculados/derivados
-          polo.nomePolo = polo.unidade || polo.comercial || polo.razao;
-          polo.contato = polo.telefones;
-          polo.status = polo.unidade ? "ativo" : "indefinido";
-
-          return polo;
-        })
-        .filter((polo) => {
-          // ✨ MELHORAR: Filtros mais específicos
-          const hasValidData =
-            polo.unidade &&
-            polo.unidade.trim() !== "" &&
-            polo.unidade.toLowerCase() !== "unidade" && // Remover header duplicado
-            !polo.unidade.toLowerCase().includes("total") &&
-            !polo.unidade.toLowerCase().includes("soma");
-
-          if (!hasValidData) {
-            console.log("🚫 Linha filtrada:", polo.unidade);
+          // Log dos primeiros 3 polos para debug
+          if (index < 3) {
+            console.log(`📄 Polo ${index + 1}:`, polo);
           }
+        }
+      });
 
-          return hasValidData;
-        });
+      console.log("✅ Total de polos processados:", polos.length);
 
-      console.log("✅ Polos processados:", polos.length);
-
-      if (polos.length > 0) {
-        console.log("📋 Primeiros 3 polos:", polos.slice(0, 3));
-      } else {
-        console.warn("⚠️ Nenhum polo válido encontrado após filtros");
+      if (polos.length === 0) {
+        console.warn("⚠️ Nenhum polo válido encontrado após processamento");
+        console.log("🔍 Primeiras 5 linhas brutas:", rows.slice(0, 5));
       }
 
       return polos;
@@ -249,7 +266,7 @@ class PolosAPI {
         }
       });
 
-      // Atividade recente (últimos 5 polos)
+      // Atividade recente
       stats.recentActivity = polos
         .slice(-5)
         .reverse()
@@ -309,17 +326,17 @@ class PolosAPI {
     try {
       console.log("🔗 Testando conexão com planilha de polos...");
 
-      const url = `${this.baseUrl}/${this.spreadsheetId}?key=${this.apiKey}`;
-      const response = await this.makeRequest(url);
+      const range = `${this.sheetName}!A1:J1`; // Apenas primeira linha para teste
+      const url = `${this.baseUrl}/${this.spreadsheetId}/values/${range}?key=${this.apiKey}`;
 
-      // Testar acesso à aba específica
-      const sheetData = await this.getSheetData(false);
+      const response = await fetch(url);
+      const json = await response.json();
 
       return {
         success: true,
-        spreadsheetTitle: response.properties?.title || "Planilha de Polos",
+        spreadsheetTitle: "Planilha de Polos",
         sheetName: this.sheetName,
-        totalRows: sheetData.values ? sheetData.values.length : 0,
+        totalRows: json.values ? json.values.length : 0,
         message: "Conexão com planilha de polos estabelecida com sucesso",
       };
     } catch (error) {
