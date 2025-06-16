@@ -228,266 +228,133 @@ class DashboardManager {
   // ✅ VERSÃO CORRIGIDA com melhor controle de fluxo
   async renderPolosSection() {
     try {
-      console.log("🏢 Renderizando seção de polos...");
+      console.log("🏢 === RENDERIZANDO POLOS ===");
 
       // Mostrar loading
-      Utils.showLoading(true);
-
-      // ✨ CARREGAR DADOS COM AWAIT EXPLÍCITO
-      console.log("📥 Carregando dados dos polos...");
-
-      // Limpar dados anteriores
-      this.allPolos = [];
-      this.filteredPolos = [];
-
-      // Carregar dados
-      this.allPolos = await this.polosAPI.getAllPolos();
-      console.log(
-        "📊 Dados carregados - Total de polos:",
-        this.allPolos.length
-      );
-
-      // ✨ VERIFICAÇÃO EXPLÍCITA
-      if (!this.allPolos || this.allPolos.length === 0) {
-        console.warn("⚠️ PROBLEMA: Nenhum polo foi carregado!");
-
-        // Tentar debug adicional
-        try {
-          const debugResult = await this.polosAPI.debugData();
-          console.log("🔍 Debug adicional:", debugResult);
-        } catch (debugError) {
-          console.error("❌ Erro no debug:", debugError);
-        }
-
-        // Mostrar estado vazio
-        this.filteredPolos = [];
-        this.renderPolosTable();
-        Utils.showNotification(
-          "Nenhum polo encontrado na planilha.",
-          "warning"
-        );
-        return;
+      if (typeof Utils !== "undefined" && Utils.showLoading) {
+        Utils.showLoading(true);
       }
 
-      // ✨ COPIAR DADOS PARA FILTRADOS
+      // Carregar dados
+      console.log("📥 Carregando dados...");
+      this.allPolos = await this.polosAPI.getAllPolos();
       this.filteredPolos = [...this.allPolos];
-      this.currentPolosPage = 1;
-      this.polosPerPage = 10;
 
-      console.log("📊 Dados preparados:", {
-        allPolos: this.allPolos.length,
-        filteredPolos: this.filteredPolos.length,
+      console.log("📊 Dados carregados:", {
+        total: this.allPolos.length,
+        filtered: this.filteredPolos.length,
       });
 
-      // ✨ CARREGAR ESTATÍSTICAS
-      console.log("📈 Carregando estatísticas...");
-      const stats = await this.polosAPI.getPolosStats();
-      console.log("📊 Estatísticas calculadas:", stats);
+      // Atualizar estatísticas
+      if (this.allPolos.length > 0) {
+        const stats = await this.polosAPI.getPolosStats();
+        this.updatePolosStats(stats);
+      }
 
-      // ✨ ATUALIZAR UI
-      this.updatePolosStats(stats);
-
-      // ✨ RENDERIZAR TABELA
-      console.log("📋 Renderizando tabela...");
+      // Renderizar tabela
       this.renderPolosTable();
 
-      console.log("✅ Seção de polos renderizada com sucesso");
+      console.log("✅ Renderização concluída");
     } catch (error) {
-      console.error("❌ Erro ao renderizar polos:", error);
-      Utils.showNotification(
-        "Erro ao carregar dados dos polos: " + error.message,
-        "error"
-      );
+      console.error("❌ Erro na renderização:", error);
 
       // Mostrar estado vazio em caso de erro
       this.allPolos = [];
       this.filteredPolos = [];
       this.renderPolosTable();
     } finally {
-      Utils.showLoading(false);
+      if (typeof Utils !== "undefined" && Utils.showLoading) {
+        Utils.showLoading(false);
+      }
     }
   }
 
   // ✨ NOVA FUNÇÃO: Atualizar estatísticas
   updatePolosStats(stats) {
-    try {
-      const elements = {
-        totalPolos: document.getElementById("totalPolos"),
-        polosAtivos: document.getElementById("polosAtivos"),
-        polosSudeste: document.getElementById("polosSudeste"),
-        polosNacional: document.getElementById("polosNacional"),
-      };
+    const elements = {
+      totalPolos: document.getElementById("totalPolos"),
+      polosAtivos: document.getElementById("polosAtivos"),
+      polosSudeste: document.getElementById("polosSudeste"),
+      polosNacional: document.getElementById("polosNacional"),
+    };
 
-      if (elements.totalPolos) {
-        elements.totalPolos.textContent = stats.total;
-        console.log("📊 Total atualizado:", stats.total);
-      }
-      if (elements.polosAtivos) {
-        elements.polosAtivos.textContent = stats.ativos;
-        console.log("📊 Ativos atualizado:", stats.ativos);
-      }
-      if (elements.polosSudeste) {
-        elements.polosSudeste.textContent = stats.byRegion.sudeste || 0;
-        console.log("📊 Sudeste atualizado:", stats.byRegion.sudeste || 0);
-      }
-      if (elements.polosNacional) {
-        elements.polosNacional.textContent = Object.keys(stats.byState).length;
-        console.log(
-          "📊 Nacional atualizado:",
-          Object.keys(stats.byState).length
-        );
-      }
+    if (elements.totalPolos) elements.totalPolos.textContent = stats.total;
+    if (elements.polosAtivos) elements.polosAtivos.textContent = stats.ativos;
+    if (elements.polosSudeste)
+      elements.polosSudeste.textContent = stats.byRegion.sudeste;
+    if (elements.polosNacional)
+      elements.polosNacional.textContent = stats.total;
 
-      console.log("✅ Estatísticas atualizadas na UI");
-    } catch (error) {
-      console.error("❌ Erro ao atualizar estatísticas:", error);
-    }
+    console.log("📊 Estatísticas atualizadas");
   }
 
   // ✅ VERSÃO CORRIGIDA com verificações mais robustas
   renderPolosTable() {
-    console.log("📋 === INICIANDO RENDERIZAÇÃO DA TABELA ===");
-    console.log("📊 Estado detalhado:", {
-      allPolos: this.allPolos?.length || 0,
-      filteredPolos: this.filteredPolos?.length || 0,
-      currentPage: this.currentPolosPage,
-      perPage: this.polosPerPage,
-      allPolosType: typeof this.allPolos,
-      filteredPolosType: typeof this.filteredPolos,
-    });
+    console.log("📋 Renderizando tabela...");
 
-    // ✨ VERIFICAÇÕES ROBUSTAS
     const tbody = document.getElementById("polosTableBody");
     const emptyState = document.getElementById("polosTableEmpty");
 
     if (!tbody) {
-      console.error("❌ ERRO CRÍTICO: Elemento polosTableBody não encontrado!");
+      console.error("❌ Elemento tbody não encontrado!");
       return;
     }
 
-    console.log("✅ Elemento tbody encontrado");
-
-    // ✨ VERIFICAÇÃO MELHORADA
-    if (
-      !this.filteredPolos ||
-      !Array.isArray(this.filteredPolos) ||
-      this.filteredPolos.length === 0
-    ) {
-      console.log("📋 Exibindo estado vazio:", {
-        filteredPolos: this.filteredPolos,
-        isArray: Array.isArray(this.filteredPolos),
-        length: this.filteredPolos?.length || 0,
-      });
-
+    // Verificar se há dados
+    if (!this.filteredPolos || this.filteredPolos.length === 0) {
+      console.log("📋 Mostrando estado vazio");
       tbody.innerHTML = "";
-      if (emptyState) {
-        emptyState.style.display = "flex";
-        console.log("📋 Estado vazio exibido");
-      }
-      this.updatePolosPaginationInfo(0, 0, 0);
+      if (emptyState) emptyState.style.display = "flex";
       return;
     }
 
-    // ✨ OCULTAR ESTADO VAZIO
-    if (emptyState) {
-      emptyState.style.display = "none";
-      console.log("📋 Estado vazio ocultado");
-    }
+    // Ocultar estado vazio
+    if (emptyState) emptyState.style.display = "none";
 
-    // ✨ CALCULAR PAGINAÇÃO
-    const startIndex = (this.currentPolosPage - 1) * this.polosPerPage;
-    const endIndex = startIndex + this.polosPerPage;
-    const paginatedPolos = this.filteredPolos.slice(startIndex, endIndex);
-
-    console.log("📊 Paginação:", {
-      startIndex,
-      endIndex,
-      paginatedCount: paginatedPolos.length,
-      currentPage: this.currentPolosPage,
-      perPage: this.polosPerPage,
-    });
-
-    // ✨ VERIFICAR SE HÁ DADOS PARA PAGINAR
-    if (paginatedPolos.length === 0) {
-      console.warn("⚠️ Nenhum polo na página atual");
-      tbody.innerHTML =
-        "<tr><td colspan='8'>Nenhum polo encontrado nesta página</td></tr>";
-      this.updatePolosPaginationInfo(this.currentPolosPage, 1, 0);
-      return;
-    }
-
-    // ✨ GERAR HTML
-    console.log("📄 Gerando HTML para", paginatedPolos.length, "polos");
-
-    const tableHTML = paginatedPolos
-      .map((polo, index) => {
-        console.log(`📄 Processando polo ${index + 1}:`, {
-          unidade: polo.unidade,
-          cidade: polo.cidade,
-          uf: polo.uf,
-        });
-
-        return `
-                <tr>
-                    <td>${polo.unidade || "-"}</td>
-                    <td>${polo.razao || "-"}</td>
-                    <td>${polo.comercial || "-"}</td>
-                    <td>${polo.cidade || "-"}</td>
-                    <td>${polo.uf || "-"}</td>
-                    <td>${polo.telefones || "-"}</td>
-                    <td>${polo.email || "-"}</td>
-                    <td>${polo.responsavel || "-"}</td>
-                </tr>
-            `;
-      })
+    // Gerar HTML da tabela
+    const html = this.filteredPolos
+      .map(
+        (polo) => `
+        <tr>
+            <td>${polo.unidade || "-"}</td>
+            <td>${polo.razao || "-"}</td>
+            <td>${polo.comercial || "-"}</td>
+            <td>${polo.cidade || "-"}</td>
+            <td>${polo.uf || "-"}</td>
+            <td>${polo.telefones || "-"}</td>
+            <td>${polo.email || "-"}</td>
+            <td>${polo.responsavel || "-"}</td>
+        </tr>
+    `
+      )
       .join("");
 
-    // ✨ INSERIR HTML
-    tbody.innerHTML = tableHTML;
-    console.log("✅ HTML inserido na tabela:", {
-      htmlLength: tableHTML.length,
-      caracteres: tableHTML.length,
+    // Inserir HTML
+    tbody.innerHTML = html;
+
+    console.log("✅ Tabela renderizada:", {
+      polos: this.filteredPolos.length,
+      htmlLength: html.length,
     });
 
-    // ✨ VERIFICAÇÃO PÓS-INSERÇÃO
+    // Verificar se foi inserido
     setTimeout(() => {
       const rows = tbody.querySelectorAll("tr");
-      console.log("📊 Verificação pós-inserção:", {
-        linhasEncontradas: rows.length,
-        conteudoTbody: tbody.innerHTML.length > 0 ? "Preenchido" : "Vazio",
-      });
-
-      if (rows.length === 0) {
-        console.error("❌ PROBLEMA: HTML não foi inserido corretamente!");
-        console.log("🔍 Conteúdo atual do tbody:", tbody.innerHTML);
-      }
+      console.log("📊 Linhas na tabela:", rows.length);
     }, 100);
-
-    // ✨ ATUALIZAR PAGINAÇÃO
-    const totalPages = Math.ceil(this.filteredPolos.length / this.polosPerPage);
-    this.updatePolosPaginationInfo(
-      this.currentPolosPage,
-      totalPages,
-      this.filteredPolos.length
-    );
-
-    console.log("📋 === RENDERIZAÇÃO CONCLUÍDA ===");
   }
 
   // ✨ NOVA: Filtrar polos
   filterPolos() {
-    const searchTerm = document.getElementById("searchPolos").value;
-    const estadoFilter = document.getElementById("estadoPoloFilter").value;
-    const statusFilter = document.getElementById("statusPoloFilter").value;
+    const searchTerm = document.getElementById("searchPolos")?.value || "";
+    const estadoFilter =
+      document.getElementById("estadoPoloFilter")?.value || "";
 
-    const filters = {
+    this.filteredPolos = this.polosAPI.filterPolos(this.allPolos, {
       search: searchTerm,
       uf: estadoFilter,
-      status: statusFilter,
-    };
+    });
 
-    this.filteredPolos = this.polosAPI.filterPolos(this.allPolos, filters);
-    this.currentPolosPage = 1;
     this.renderPolosTable();
   }
 
@@ -512,25 +379,17 @@ class DashboardManager {
 
   // ✨ NOVA: Exportar dados dos polos
   async exportPolos() {
-    try {
-      if (this.filteredPolos.length === 0) {
-        Utils.showNotification("Nenhum dado para exportar.", "warning");
-        return;
-      }
+    if (this.filteredPolos.length === 0) {
+      alert("Nenhum dado para exportar");
+      return;
+    }
 
-      const success = this.polosAPI.exportToCSV(this.filteredPolos);
+    const success = this.polosAPI.exportToCSV(this.filteredPolos);
 
-      if (success) {
-        Utils.showNotification(
-          "Dados dos polos exportados com sucesso!",
-          "success"
-        );
-      } else {
-        Utils.showNotification("Erro ao exportar dados dos polos.", "error");
-      }
-    } catch (error) {
-      console.error("Erro ao exportar polos:", error);
-      Utils.showNotification("Erro ao exportar dados dos polos.", "error");
+    if (success) {
+      alert("Dados exportados com sucesso!");
+    } else {
+      alert("Erro ao exportar dados");
     }
   }
 
@@ -932,21 +791,10 @@ class DashboardManager {
   }
 
   // Atualizar informações de paginação
-  updatePaginationInfo(currentPage, totalPages, totalItems) {
-    const pageInfo = document.getElementById("pageInfo");
-    const prevBtn = document.getElementById("prevPage");
-    const nextBtn = document.getElementById("nextPage");
-
+  updatePolosPaginationInfo(currentPage, totalPages, totalItems) {
+    const pageInfo = document.getElementById("pageInfoPolos");
     if (pageInfo) {
-      pageInfo.textContent = `Página ${currentPage} de ${totalPages} (${totalItems} itens)`;
-    }
-
-    if (prevBtn) {
-      prevBtn.disabled = currentPage <= 1;
-    }
-
-    if (nextBtn) {
-      nextBtn.disabled = currentPage >= totalPages;
+      pageInfo.textContent = `${totalItems} itens encontrados`;
     }
   }
 
@@ -1686,7 +1534,7 @@ errorStyles.textContent = `
         border-color: var(--error) !important;
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
     }
-    
+
     .field-error {
         color: var(--error);
         font-size: 12px;
