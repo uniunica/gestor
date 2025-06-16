@@ -3,11 +3,19 @@ class DashboardManager {
     this.api = new GoogleSheetsAPI();
     this.polosAPI = new PolosAPI();
     this.currentSection = "dashboard";
+
+    // Variáveis para parceiros
     this.partners = [];
     this.filteredPartners = [];
     this.currentPage = 1;
     this.partnersPerPage = 10;
     this.currentEditingPartner = null;
+
+    // ✨ ADICIONAR: Variáveis para polos
+    this.allPolos = [];
+    this.filteredPolos = [];
+    this.currentPolosPage = 1;
+    this.polosPerPage = 10;
 
     this.init();
   }
@@ -25,6 +33,21 @@ class DashboardManager {
 
     // Carregar dados iniciais
     await this.loadInitialData();
+
+    // ✨ ADICIONAR: Testar conexão com polos
+    try {
+      const polosConnection = await this.polosAPI.testConnection();
+      if (polosConnection.success) {
+        console.log("✅ Conexão com planilha de polos estabelecida");
+      } else {
+        console.warn(
+          "⚠️ Problema na conexão com planilha de polos:",
+          polosConnection.error
+        );
+      }
+    } catch (error) {
+      console.warn("⚠️ Erro ao testar conexão com polos:", error);
+    }
 
     // Configurar auto-refresh
     this.setupAutoRefresh();
@@ -202,32 +225,49 @@ class DashboardManager {
     }
   }
 
-  // ✨ NOVA: Renderizar seção de polos
+  // ✨ MELHORAR: Renderizar seção de polos com mais debug
   async renderPolosSection() {
     try {
       console.log("🏢 Renderizando seção de polos...");
 
       Utils.showLoading(true);
 
+      // Debug da conexão
+      console.log("🔗 Testando conexão com polos...");
+      const connectionTest = await this.polosAPI.testConnection();
+      console.log("📊 Resultado da conexão:", connectionTest);
+
       // Carregar dados dos polos
+      console.log("📥 Carregando dados dos polos...");
       this.allPolos = await this.polosAPI.getAllPolos();
+      console.log("📊 Total de polos carregados:", this.allPolos.length);
+
       this.filteredPolos = [...this.allPolos];
       this.currentPolosPage = 1;
       this.polosPerPage = 10;
 
       // Carregar estatísticas
+      console.log("📈 Carregando estatísticas...");
       const stats = await this.polosAPI.getPolosStats();
+      console.log("📊 Estatísticas calculadas:", stats);
 
-      // Atualizar estatísticas
-      document.getElementById("totalPolos").textContent = stats.total;
-      document.getElementById("polosAtivos").textContent = stats.ativos;
-      document.getElementById("polosSudeste").textContent =
-        stats.byRegion.sudeste || 0;
-      document.getElementById("polosNacional").textContent = Object.keys(
-        stats.byState
-      ).length;
+      // Atualizar estatísticas na UI
+      const totalElement = document.getElementById("totalPolos");
+      const ativosElement = document.getElementById("polosAtivos");
+      const sudesteElement = document.getElementById("polosSudeste");
+      const nacionalElement = document.getElementById("polosNacional");
+
+      if (totalElement) totalElement.textContent = stats.total;
+      if (ativosElement) ativosElement.textContent = stats.ativos;
+      if (sudesteElement)
+        sudesteElement.textContent = stats.byRegion.sudeste || 0;
+      if (nacionalElement)
+        nacionalElement.textContent = Object.keys(stats.byState).length;
+
+      console.log("📊 Estatísticas atualizadas na UI");
 
       // Renderizar tabela
+      console.log("📋 Renderizando tabela...");
       this.renderPolosTable();
 
       console.log("✅ Seção de polos renderizada com sucesso");
@@ -242,43 +282,62 @@ class DashboardManager {
     }
   }
 
-  // ✨ NOVA: Renderizar tabela de polos
+  // ✨ MELHORAR: Renderizar tabela de polos com debug
   renderPolosTable() {
+    console.log("📋 Iniciando renderização da tabela de polos...");
+
     const tbody = document.getElementById("polosTableBody");
     const emptyState = document.getElementById("polosTableEmpty");
 
-    if (!tbody) return;
+    if (!tbody) {
+      console.error("❌ Elemento polosTableBody não encontrado");
+      return;
+    }
+
+    console.log(
+      "📊 Polos filtrados para renderizar:",
+      this.filteredPolos.length
+    );
 
     if (this.filteredPolos.length === 0) {
+      console.log("📋 Nenhum polo para exibir - mostrando estado vazio");
       tbody.innerHTML = "";
-      emptyState.style.display = "flex";
+      if (emptyState) emptyState.style.display = "flex";
       this.updatePolosPaginationInfo(0, 0, 0);
       return;
     }
 
-    emptyState.style.display = "none";
+    if (emptyState) emptyState.style.display = "none";
 
     // Calcular paginação
     const startIndex = (this.currentPolosPage - 1) * this.polosPerPage;
     const endIndex = startIndex + this.polosPerPage;
     const paginatedPolos = this.filteredPolos.slice(startIndex, endIndex);
 
-    tbody.innerHTML = paginatedPolos
-      .map(
-        (polo) => `
-        <tr>
-            <td>${polo.unidade || "-"}</td>
-            <td>${polo.razao || "-"}</td>
-            <td>${polo.comercial || "-"}</td>
-            <td>${polo.cidade || "-"}</td>
-            <td>${polo.uf || "-"}</td>
-            <td>${polo.telefones || "-"}</td>
-            <td>${polo.email || "-"}</td>
-            <td>${polo.responsavel || "-"}</td>
-        </tr>
-    `
-      )
+    console.log(
+      `📋 Renderizando ${paginatedPolos.length} polos (página ${this.currentPolosPage})`
+    );
+
+    const tableHTML = paginatedPolos
+      .map((polo, index) => {
+        console.log(`📄 Renderizando polo ${index + 1}:`, polo);
+        return `
+                <tr>
+                    <td>${polo.unidade || "-"}</td>
+                    <td>${polo.razao || "-"}</td>
+                    <td>${polo.comercial || "-"}</td>
+                    <td>${polo.cidade || "-"}</td>
+                    <td>${polo.uf || "-"}</td>
+                    <td>${polo.telefones || "-"}</td>
+                    <td>${polo.email || "-"}</td>
+                    <td>${polo.responsavel || "-"}</td>
+                </tr>
+            `;
+      })
       .join("");
+
+    tbody.innerHTML = tableHTML;
+    console.log("✅ Tabela renderizada com sucesso");
 
     // Atualizar informações de paginação
     const totalPages = Math.ceil(this.filteredPolos.length / this.polosPerPage);
@@ -634,7 +693,7 @@ class DashboardManager {
     const titles = {
       dashboard: "Dashboard",
       partners: "Lista de Parceiros",
-      polos: "Polos Ativos",
+      polos: "Polos Ativos", // ✨ ADICIONAR
       cadastros: "Cadastros Finais",
       reports: "Relatórios",
     };
@@ -648,7 +707,7 @@ class DashboardManager {
       case "partners":
         this.renderPartnersTable();
         break;
-      case "polos":
+      case "polos": // ✨ ADICIONAR
         this.renderPolosSection();
         break;
       case "cadastros":
@@ -744,30 +803,6 @@ class DashboardManager {
       totalPages,
       this.filteredPartners.length
     );
-  }
-
-  // ✨ NOVA: Renderizar seção de polos
-  async renderPolosSection() {
-    try {
-      console.log("🏢 Renderizando seção de polos...");
-
-      // Carregar dados dos polos
-      const polos = await this.api.getAllPolos();
-      const stats = await this.api.getPolosStats();
-
-      // Atualizar estatísticas
-      document.getElementById("totalPolos").textContent = stats.total;
-      document.getElementById("polosAtivos").textContent = stats.ativos;
-      document.getElementById("polosImplantacao").textContent =
-        stats.implantacao;
-      document.getElementById("polosDestaque").textContent = stats.destaque;
-
-      // Renderizar tabela
-      this.renderPolosTable(polos);
-    } catch (error) {
-      console.error("Erro ao renderizar polos:", error);
-      Utils.showNotification("Erro ao carregar dados dos polos", "error");
-    }
   }
 
   // ✨ NOVA: Renderizar tabela de polos

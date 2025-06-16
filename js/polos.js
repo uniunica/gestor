@@ -3,7 +3,7 @@ class PolosAPI {
     this.apiKey = "AIzaSyD_tcEft1u37kUNCTDEUE-NvOHGQn6ZRSI";
     this.spreadsheetId = "1IxAnU18qxiEf-TjvqBEEj9L1W3CsY3-DHDxREV4APmk";
     this.baseUrl = "https://sheets.googleapis.com/v4/spreadsheets";
-    this.sheetName = "Página 1";
+    this.sheetName = "Página1";
 
     // Cache para otimização
     this.cache = new Map();
@@ -106,7 +106,7 @@ class PolosAPI {
       const rows = sheetData.values.slice(1);
 
       console.log("📋 Headers encontrados:", headers);
-      console.log("📊 Total de linhas:", rows.length);
+      console.log("📊 Total de linhas de dados:", rows.length);
 
       const polos = rows
         .map((row, index) => {
@@ -114,17 +114,17 @@ class PolosAPI {
             rowIndex: index + 2, // +2 porque começamos da linha 2 (header é linha 1)
           };
 
-          // Mapear colunas baseado na posição (A, B, C, etc.)
-          polo.unidade = row[0] || ""; // Coluna A - UNIDADE
-          polo.razao = row[1] || ""; // Coluna B - RAZÃO
-          polo.comercial = row[2] || ""; // Coluna C - COMERCIAL
-          polo.endereco = row[3] || ""; // Coluna D - ENDEREÇO
-          polo.cidade = row[4] || ""; // Coluna E - CIDADE
-          polo.uf = row[5] || ""; // Coluna F - UF
-          polo.cep = row[6] || ""; // Coluna G - CEP
-          polo.telefones = row[7] || ""; // Coluna H - TELEFONES
-          polo.email = row[8] || ""; // Coluna I - E-MAIL
-          polo.responsavel = row[9] || ""; // Coluna J - RESPONSÁVEL
+          // ✨ MELHORAR: Mapear colunas baseado na posição (A, B, C, etc.)
+          polo.unidade = (row[0] || "").toString().trim(); // Coluna A - UNIDADE
+          polo.razao = (row[1] || "").toString().trim(); // Coluna B - RAZÃO
+          polo.comercial = (row[2] || "").toString().trim(); // Coluna C - COMERCIAL
+          polo.endereco = (row[3] || "").toString().trim(); // Coluna D - ENDEREÇO
+          polo.cidade = (row[4] || "").toString().trim(); // Coluna E - CIDADE
+          polo.uf = (row[5] || "").toString().trim(); // Coluna F - UF
+          polo.cep = (row[6] || "").toString().trim(); // Coluna G - CEP
+          polo.telefones = (row[7] || "").toString().trim(); // Coluna H - TELEFONES
+          polo.email = (row[8] || "").toString().trim(); // Coluna I - E-MAIL
+          polo.responsavel = (row[9] || "").toString().trim(); // Coluna J - RESPONSÁVEL
 
           // Campos calculados/derivados
           polo.nomePolo = polo.unidade || polo.comercial || polo.razao;
@@ -133,16 +133,29 @@ class PolosAPI {
 
           return polo;
         })
-        .filter(
-          (polo) =>
+        .filter((polo) => {
+          // ✨ MELHORAR: Filtros mais específicos
+          const hasValidData =
             polo.unidade &&
             polo.unidade.trim() !== "" &&
+            polo.unidade.toLowerCase() !== "unidade" && // Remover header duplicado
             !polo.unidade.toLowerCase().includes("total") &&
-            !polo.unidade.toLowerCase().includes("soma")
-        );
+            !polo.unidade.toLowerCase().includes("soma");
+
+          if (!hasValidData) {
+            console.log("🚫 Linha filtrada:", polo.unidade);
+          }
+
+          return hasValidData;
+        });
 
       console.log("✅ Polos processados:", polos.length);
-      console.log("📋 Primeiros 3 polos:", polos.slice(0, 3));
+
+      if (polos.length > 0) {
+        console.log("📋 Primeiros 3 polos:", polos.slice(0, 3));
+      } else {
+        console.warn("⚠️ Nenhum polo válido encontrado após filtros");
+      }
 
       return polos;
     } catch (error) {
@@ -400,6 +413,47 @@ class PolosAPI {
     } catch (error) {
       console.error("❌ Erro no debug:", error);
       throw error;
+    }
+  }
+  // Adicionar no final da classe PolosAPI
+  async debugData() {
+    try {
+      console.log("🔍 DEBUG: Analisando dados da planilha...");
+
+      const sheetData = await this.getSheetData(false);
+      console.log(
+        "📊 Total de linhas na planilha:",
+        sheetData.values?.length || 0
+      );
+
+      if (sheetData.values && sheetData.values.length > 0) {
+        console.log("📋 Headers (linha 1):", sheetData.values[0]);
+
+        if (sheetData.values.length > 1) {
+          console.log(
+            "📄 Segunda linha (primeira linha de dados):",
+            sheetData.values[1]
+          );
+        }
+
+        if (sheetData.values.length > 2) {
+          console.log("📄 Terceira linha:", sheetData.values[2]);
+        }
+      }
+
+      // Testar processamento
+      const polos = await this.getAllPolos();
+      console.log("🏢 Polos processados:", polos.length);
+
+      if (polos.length > 0) {
+        console.log("📋 Primeiro polo processado:", polos[0]);
+        console.log("📋 Segundo polo processado:", polos[1]);
+      }
+
+      return { sheetData, polos };
+    } catch (error) {
+      console.error("❌ Erro no debug:", error);
+      return { error: error.message };
     }
   }
 }
