@@ -1151,6 +1151,182 @@ body {
   background: #38a169;
 }
 
+/* Ícones SVG do Main Content */
+.btn svg {
+  transition: var(--transition);
+}
+
+.btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Ícones dos Cards de Estatísticas */
+.stat-icon {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Campo de Busca com Ícone */
+.search-input-container {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 40px !important;
+}
+
+/* Títulos com Ícones */
+h3 svg {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Botões de Paginação */
+.pagination .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination .btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Estados Vazios */
+.table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--gray-500);
+}
+
+.table-empty svg {
+  margin-bottom: 16px;
+  color: var(--gray-400);
+}
+
+/* Ícones dos Overview Cards */
+.overview-icon {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Ícones nos Títulos das Seções */
+.section-header h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Animações para Ícones */
+.cadastro-card h3 svg,
+.overview-card .overview-icon svg,
+.stat-card .stat-icon svg {
+  transition: var(--transition);
+}
+
+.cadastro-card:hover h3 svg,
+.overview-card:hover .overview-icon svg,
+.stat-card:hover .stat-icon svg {
+  transform: scale(1.1);
+}
+
+/* Ícones de Ação nas Tabelas */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsividade para Ícones */
+@media (max-width: 768px) {
+  .search-input-container {
+    min-width: 200px;
+  }
+
+  .stat-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .overview-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input-container {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .search-filters {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .search-filters > * {
+    width: 100%;
+  }
+
+  .pagination .btn span:not(svg) {
+    display: none;
+  }
+
+  .btn:not(.pagination .btn) svg {
+    margin-right: 0;
+  }
+
+  .btn:not(.pagination .btn) span:not(svg) {
+    display: none;
+  }
+}
+
 /* Responsividade para novas seções */
 @media (max-width: 768px) {
   .cadastros-grid {

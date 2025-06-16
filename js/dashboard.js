@@ -469,7 +469,7 @@ class DashboardManager {
     return statuses[Math.floor(Math.random() * statuses.length)];
   }
 
-  // Renderizar tabela de parceiros
+  // Atualizar a função renderPartnersTable para usar ícones SVG
   renderPartnersTable() {
     const tbody = document.getElementById("partnersTableBody");
     const emptyState = document.getElementById("partnersTableEmpty");
@@ -478,7 +478,7 @@ class DashboardManager {
 
     if (this.filteredPartners.length === 0) {
       tbody.innerHTML = "";
-      emptyState.style.display = "block";
+      emptyState.style.display = "flex"; // Mudança aqui
       this.updatePaginationInfo(0, 0, 0);
       return;
     }
@@ -495,35 +495,39 @@ class DashboardManager {
       .map((partner) => {
         const status = this.getPartnerStatus(partner);
         return `
-                <tr>
-                    <td>${partner.nome || "-"}</td>
-                    <td>${partner.cpf || partner.cnpj || "-"}</td>
-                    <td>${partner.cidade || "-"}</td>
-                    <td>${partner.uf || "-"}</td>
-                    <td>${Utils.capitalizeWords(
-                      partner.tipoParceria || "-"
-                    )}</td>
-                    <td>
-                        <span class="status-badge status-${status}">
-                            ${Utils.capitalizeWords(status)}
-                        </span>
-                    </td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="btn-icon btn-edit" onclick="dashboardManager.editPartner(${
-                              partner.rowIndex
-                            })" title="Editar">
-                                ✏️
-                            </button>
-                            <button class="btn-icon btn-delete" onclick="dashboardManager.deletePartner(${
-                              partner.rowIndex
-                            })" title="Excluir">
-                                🗑️
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td>${partner.nome || "-"}</td>
+                <td>${partner.cpf || partner.cnpj || "-"}</td>
+                <td>${partner.cidade || "-"}</td>
+                <td>${partner.uf || "-"}</td>
+                <td>${Utils.capitalizeWords(partner.tipoParceria || "-")}</td>
+                <td>
+                    <span class="status-badge status-${status}">
+                        ${Utils.capitalizeWords(status)}
+                    </span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <button class="btn-icon btn-edit" onclick="dashboardManager.editPartner(${
+                          partner.rowIndex
+                        })" title="Editar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="dashboardManager.deletePartner(${
+                          partner.rowIndex
+                        })" title="Excluir">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3,6 5,6 21,6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
       })
       .join("");
 

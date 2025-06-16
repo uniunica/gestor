@@ -27,7 +27,12 @@
       <nav class="sidebar-nav">
         <ul>
           <li>
-            <a href="#" class="nav-link active" data-section="dashboard" data-tooltip="Dashboard">
+            <a
+              href="#"
+              class="nav-link active"
+              data-section="dashboard"
+              data-tooltip="Dashboard"
+            >
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -49,7 +54,12 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link" data-section="partners" data-tooltip="Lista de Parceiros">
+            <a
+              href="#"
+              class="nav-link"
+              data-section="partners"
+              data-tooltip="Lista de Parceiros"
+            >
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -71,7 +81,12 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link" data-section="cadastros" data-tooltip="Cadastros Finais">
+            <a
+              href="#"
+              class="nav-link"
+              data-section="cadastros"
+              data-tooltip="Cadastros Finais"
+            >
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -96,7 +111,12 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link" data-section="treinamentos"  data-tooltip="Treinamentos">
+            <a
+              href="#"
+              class="nav-link"
+              data-section="treinamentos"
+              data-tooltip="Treinamentos"
+            >
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -116,7 +136,12 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link" data-section="reports"  data-tooltip="Relatórios">
+            <a
+              href="#"
+              class="nav-link"
+              data-section="reports"
+              data-tooltip="Relatórios"
+            >
               <span class="nav-icon">
                 <svg
                   width="20"
@@ -175,7 +200,20 @@
 
         <div class="header-right">
           <button id="addPartnerBtn" class="btn btn-primary">
-            <span>➕</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
             Novo Parceiro
           </button>
         </div>
@@ -185,7 +223,23 @@
       <section id="dashboardSection" class="content-section active">
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
             <div class="stat-content">
               <h3 id="totalPartners">0</h3>
               <p>Total de Parceiros</p>
@@ -193,7 +247,21 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">✅</div>
+            <div class="stat-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22,4 12,14.01 9,11.01"></polyline>
+              </svg>
+            </div>
             <div class="stat-content">
               <h3 id="activePartners">0</h3>
               <p>Parceiros Ativos</p>
@@ -201,7 +269,21 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">⏳</div>
+            <div class="stat-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12,6 12,12 16,14"></polyline>
+              </svg>
+            </div>
             <div class="stat-content">
               <h3 id="pendingPartners">0</h3>
               <p>Pendentes</p>
@@ -209,7 +291,21 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">🎓</div>
+            <div class="stat-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
             <div class="stat-content">
               <h3 id="trainingPartners">0</h3>
               <p>Em Treinamento</p>
@@ -218,7 +314,22 @@
         </div>
 
         <div class="recent-activity card">
-          <h3>Atividade Recente</h3>
+          <h3>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-right: 8px; vertical-align: middle"
+            >
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+            </svg>
+            Atividade Recente
+          </h3>
           <div id="recentActivity" class="activity-list">
             <!-- Atividades serão inseridas aqui -->
           </div>
@@ -229,12 +340,28 @@
       <section id="partnersSection" class="content-section">
         <div class="partners-controls">
           <div class="search-filters">
-            <input
-              type="text"
-              id="searchInput"
-              class="form-input"
-              placeholder="Buscar parceiros..."
-            />
+            <div class="search-input-container">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                id="searchInput"
+                class="form-input search-input"
+                placeholder="Buscar parceiros..."
+              />
+            </div>
 
             <select id="statusFilter" class="form-select">
               <option value="">Todos os Status</option>
@@ -276,14 +403,58 @@
             class="table-empty"
             style="display: none"
           >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-bottom: 16px; color: var(--gray-400)"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
             <p>Nenhum parceiro encontrado.</p>
           </div>
         </div>
 
         <div class="pagination">
-          <button id="prevPage" class="btn btn-secondary">Anterior</button>
+          <button id="prevPage" class="btn btn-secondary">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+            Anterior
+          </button>
           <span id="pageInfo">Página 1 de 1</span>
-          <button id="nextPage" class="btn btn-secondary">Próximo</button>
+          <button id="nextPage" class="btn btn-secondary">
+            Próximo
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
         </div>
       </section>
 
@@ -296,12 +467,28 @@
 
         <div class="cadastros-controls">
           <div class="search-filters">
-            <input
-              type="text"
-              id="searchCadastros"
-              class="form-input"
-              placeholder="Buscar por nome ou cidade..."
-            />
+            <div class="search-input-container">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                id="searchCadastros"
+                class="form-input search-input"
+                placeholder="Buscar por nome ou cidade..."
+              />
+            </div>
 
             <select id="statusCadastroFilter" class="form-select">
               <option value="">Todos os Status</option>
@@ -311,7 +498,20 @@
             </select>
 
             <button id="exportCadastros" class="btn btn-secondary">
-              <span>📤</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               Exportar
             </button>
           </div>
@@ -319,7 +519,24 @@
 
         <div class="cadastros-grid">
           <div class="cadastro-card card">
-            <h3>📧 Criação de E-mail</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              Criação de E-mail
+            </h3>
             <div class="cadastro-stats">
               <div class="stat-item">
                 <span class="stat-number" id="emailPendentes">0</span>
@@ -336,7 +553,23 @@
           </div>
 
           <div class="cadastro-card card">
-            <h3>🖥️ Cadastros nos Sistemas</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+              Cadastros nos Sistemas
+            </h3>
             <div class="cadastro-stats">
               <div class="stat-item">
                 <span class="stat-number" id="sistemasPendentes">0</span>
@@ -353,7 +586,25 @@
           </div>
 
           <div class="cadastro-card card">
-            <h3>🌐 Portal do Parceiro</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                ></path>
+              </svg>
+              Portal do Parceiro
+            </h3>
             <div class="cadastro-stats">
               <div class="stat-item">
                 <span class="stat-number" id="portalPendentes">0</span>
@@ -370,7 +621,23 @@
           </div>
 
           <div class="cadastro-card card">
-            <h3>📁 Organização</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                ></path>
+              </svg>
+              Organização
+            </h3>
             <div class="cadastro-stats">
               <div class="stat-item">
                 <span class="stat-number" id="organizacaoPendentes">0</span>
@@ -397,12 +664,28 @@
 
         <div class="treinamentos-controls">
           <div class="search-filters">
-            <input
-              type="text"
-              id="searchTreinamentos"
-              class="form-input"
-              placeholder="Buscar por nome ou cidade..."
-            />
+            <div class="search-input-container">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                id="searchTreinamentos"
+                class="form-input search-input"
+                placeholder="Buscar por nome ou cidade..."
+              />
+            </div>
 
             <select id="statusTreinamentoFilter" class="form-select">
               <option value="">Todos os Status</option>
@@ -419,7 +702,20 @@
             </select>
 
             <button id="exportTreinamentos" class="btn btn-secondary">
-              <span>📤</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               Exportar
             </button>
           </div>
@@ -427,7 +723,20 @@
 
         <div class="treinamentos-overview">
           <div class="overview-card card">
-            <div class="overview-icon">📊</div>
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+              </svg>
+            </div>
             <div class="overview-content">
               <h3 id="totalTreinamentos">0</h3>
               <p>Total em Treinamento</p>
@@ -435,7 +744,21 @@
           </div>
 
           <div class="overview-card card">
-            <div class="overview-icon">⏳</div>
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12,6 12,12 16,14"></polyline>
+              </svg>
+            </div>
             <div class="overview-content">
               <h3 id="treinamentosPendentes">0</h3>
               <p>Aguardando Início</p>
@@ -443,7 +766,22 @@
           </div>
 
           <div class="overview-card card">
-            <div class="overview-icon">🎯</div>
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
             <div class="overview-content">
               <h3 id="treinamentosAndamento">0</h3>
               <p>Em Andamento</p>
@@ -451,7 +789,21 @@
           </div>
 
           <div class="overview-card card">
-            <div class="overview-icon">✅</div>
+            <div class="overview-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22,4 12,14.01 9,11.01"></polyline>
+              </svg>
+            </div>
             <div class="overview-content">
               <h3 id="treinamentosConcluidos">0</h3>
               <p>Concluídos</p>
@@ -483,35 +835,140 @@
             class="table-empty"
             style="display: none"
           >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-bottom: 16px; color: var(--gray-400)"
+            >
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
             <p>Nenhum treinamento encontrado.</p>
           </div>
         </div>
 
         <div class="pagination">
           <button id="prevPageTreinamentos" class="btn btn-secondary">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
             Anterior
           </button>
           <span id="pageInfoTreinamentos">Página 1 de 1</span>
           <button id="nextPageTreinamentos" class="btn btn-secondary">
             Próximo
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
           </button>
         </div>
       </section>
 
       <!-- Reports Section -->
       <section id="reportsSection" class="content-section">
+        <div class="section-header">
+          <h2>Relatórios</h2>
+          <p>Análises e estatísticas detalhadas do sistema</p>
+        </div>
+
         <div class="reports-grid">
           <div class="card">
-            <h3>Relatório por Status</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="margin-right: 8px; vertical-align: middle"
+              >
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              Relatório por Status
+            </h3>
             <div id="statusChart" class="chart-container">
-              <!-- Gráfico será inserido aqui -->
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="color: var(--gray-400)"
+              >
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <p>Gráfico será inserido aqui</p>
             </div>
           </div>
 
           <div class="card">
-            <h3>Relatório por Tipo</h3>
+            <h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="margin-right: 8px; vertical-align: middle"
+              >
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+              </svg>
+              Relatório por Tipo
+            </h3>
             <div id="typeChart" class="chart-container">
-              <!-- Gráfico será inserido aqui -->
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="color: var(--gray-400)"
+              >
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+              </svg>
+              <p>Gráfico será inserido aqui</p>
             </div>
           </div>
         </div>
