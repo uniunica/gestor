@@ -35,7 +35,19 @@
           <li>
             <a href="#" class="nav-link" data-section="partners">
               <span class="nav-icon">👥</span>
-              <span class="nav-text">Parceiros</span>
+              <span class="nav-text">Lista de Parceiros</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-section="cadastros">
+              <span class="nav-icon">📋</span>
+              <span class="nav-text">Cadastros Finais</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-section="treinamentos">
+              <span class="nav-icon">🎓</span>
+              <span class="nav-text">Treinamentos</span>
             </a>
           </li>
           <li>
@@ -179,6 +191,217 @@
           <button id="prevPage" class="btn btn-secondary">Anterior</button>
           <span id="pageInfo">Página 1 de 1</span>
           <button id="nextPage" class="btn btn-secondary">Próximo</button>
+        </div>
+      </section>
+
+      <!-- Cadastros Finais Section -->
+      <section id="cadastrosSection" class="content-section">
+        <div class="section-header">
+          <h2>Cadastros Finais</h2>
+          <p>Gerencie os processos finais de cadastro dos parceiros</p>
+        </div>
+
+        <div class="cadastros-controls">
+          <div class="search-filters">
+            <input
+              type="text"
+              id="searchCadastros"
+              class="form-input"
+              placeholder="Buscar por nome ou cidade..."
+            />
+
+            <select id="statusCadastroFilter" class="form-select">
+              <option value="">Todos os Status</option>
+              <option value="pendente">Pendente</option>
+              <option value="em_andamento">Em Andamento</option>
+              <option value="concluido">Concluído</option>
+            </select>
+
+            <button id="exportCadastros" class="btn btn-secondary">
+              <span>📤</span>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <div class="cadastros-grid">
+          <div class="cadastro-card card">
+            <h3>📧 Criação de E-mail</h3>
+            <div class="cadastro-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="emailPendentes">0</span>
+                <span class="stat-label">Pendentes</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="emailConcluidos">0</span>
+                <span class="stat-label">Concluídos</span>
+              </div>
+            </div>
+            <div class="cadastro-list" id="emailList">
+              <!-- Lista será preenchida dinamicamente -->
+            </div>
+          </div>
+
+          <div class="cadastro-card card">
+            <h3>🖥️ Cadastros nos Sistemas</h3>
+            <div class="cadastro-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="sistemasPendentes">0</span>
+                <span class="stat-label">Pendentes</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="sistemasConcluidos">0</span>
+                <span class="stat-label">Concluídos</span>
+              </div>
+            </div>
+            <div class="cadastro-list" id="sistemasList">
+              <!-- Lista será preenchida dinamicamente -->
+            </div>
+          </div>
+
+          <div class="cadastro-card card">
+            <h3>🌐 Portal do Parceiro</h3>
+            <div class="cadastro-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="portalPendentes">0</span>
+                <span class="stat-label">Pendentes</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="portalConcluidos">0</span>
+                <span class="stat-label">Concluídos</span>
+              </div>
+            </div>
+            <div class="cadastro-list" id="portalList">
+              <!-- Lista será preenchida dinamicamente -->
+            </div>
+          </div>
+
+          <div class="cadastro-card card">
+            <h3>📁 Organização</h3>
+            <div class="cadastro-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="organizacaoPendentes">0</span>
+                <span class="stat-label">Pendentes</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="organizacaoConcluidos">0</span>
+                <span class="stat-label">Concluídos</span>
+              </div>
+            </div>
+            <div class="cadastro-list" id="organizacaoList">
+              <!-- Lista será preenchida dinamicamente -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Treinamentos Section -->
+      <section id="treinamentosSection" class="content-section">
+        <div class="section-header">
+          <h2>Treinamentos</h2>
+          <p>Acompanhe o progresso dos treinamentos dos parceiros</p>
+        </div>
+
+        <div class="treinamentos-controls">
+          <div class="search-filters">
+            <input
+              type="text"
+              id="searchTreinamentos"
+              class="form-input"
+              placeholder="Buscar por nome ou cidade..."
+            />
+
+            <select id="statusTreinamentoFilter" class="form-select">
+              <option value="">Todos os Status</option>
+              <option value="pendente">Pendente</option>
+              <option value="em_andamento">Em Andamento</option>
+              <option value="concluido">Concluído</option>
+            </select>
+
+            <select id="tipoTreinamentoFilter" class="form-select">
+              <option value="">Todos os Tipos</option>
+              <option value="cademi">Curso Cademi</option>
+              <option value="comercial">Treinamento Comercial</option>
+              <option value="geral">Treinamento Geral</option>
+            </select>
+
+            <button id="exportTreinamentos" class="btn btn-secondary">
+              <span>📤</span>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <div class="treinamentos-overview">
+          <div class="overview-card card">
+            <div class="overview-icon">📊</div>
+            <div class="overview-content">
+              <h3 id="totalTreinamentos">0</h3>
+              <p>Total em Treinamento</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">⏳</div>
+            <div class="overview-content">
+              <h3 id="treinamentosPendentes">0</h3>
+              <p>Aguardando Início</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">🎯</div>
+            <div class="overview-content">
+              <h3 id="treinamentosAndamento">0</h3>
+              <p>Em Andamento</p>
+            </div>
+          </div>
+
+          <div class="overview-card card">
+            <div class="overview-icon">✅</div>
+            <div class="overview-content">
+              <h3 id="treinamentosConcluidos">0</h3>
+              <p>Concluídos</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="treinamentos-table-container card">
+          <table id="treinamentosTable" class="partners-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Cidade/UF</th>
+                <th>Status</th>
+                <th>Contato Lorraine</th>
+                <th>Início Treinamento</th>
+                <th>Curso Cademi</th>
+                <th>Treinamento Comercial</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="treinamentosTableBody">
+              <!-- Treinamentos serão inseridos aqui -->
+            </tbody>
+          </table>
+
+          <div
+            id="treinamentosTableEmpty"
+            class="table-empty"
+            style="display: none"
+          >
+            <p>Nenhum treinamento encontrado.</p>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button id="prevPageTreinamentos" class="btn btn-secondary">
+            Anterior
+          </button>
+          <span id="pageInfoTreinamentos">Página 1 de 1</span>
+          <button id="nextPageTreinamentos" class="btn btn-secondary">
+            Próximo
+          </button>
         </div>
       </section>
 

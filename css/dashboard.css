@@ -706,6 +706,346 @@ body {
   }
 }
 
+/* Seções Específicas */
+.section-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.section-header h2 {
+  color: var(--primary-purple);
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.section-header p {
+  color: var(--gray-600);
+  font-size: 16px;
+}
+
+/* Cadastros Finais */
+.cadastros-controls {
+  margin-bottom: 32px;
+}
+
+.cadastros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.cadastro-card {
+  border-left: 4px solid var(--primary-purple);
+}
+
+.cadastro-card h3 {
+  color: var(--primary-purple);
+  margin-bottom: 20px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cadastro-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-purple);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--gray-600);
+  text-transform: uppercase;
+}
+
+.cadastro-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cadastro-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cadastro-item:last-child {
+  border-bottom: none;
+}
+
+.cadastro-item-info {
+  flex: 1;
+}
+
+.cadastro-item-name {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 4px;
+}
+
+.cadastro-item-location {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.cadastro-item-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pendente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-em_andamento {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-concluido {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Treinamentos */
+.treinamentos-controls {
+  margin-bottom: 32px;
+}
+
+.treinamentos-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.overview-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  background: var(--white);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.overview-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.overview-icon {
+  font-size: 32px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-purple),
+    var(--secondary-purple)
+  );
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-content h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0 0 4px 0;
+}
+
+.overview-content p {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin: 0;
+}
+
+.treinamentos-table-container {
+  margin-bottom: 24px;
+}
+
+/* Timeline de Treinamento */
+.training-timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.training-timeline::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gray-300);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -23px;
+  top: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-purple);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 3px var(--primary-purple);
+}
+
+.timeline-item.completed::before {
+  background: var(--success);
+  box-shadow: 0 0 0 3px var(--success);
+}
+
+.timeline-item.pending::before {
+  background: var(--warning);
+  box-shadow: 0 0 0 3px var(--warning);
+}
+
+.timeline-content h4 {
+  margin: 0 0 8px 0;
+  color: var(--gray-800);
+}
+
+.timeline-content p {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 14px;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 8px;
+}
+
+/* Botões de Ação */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.btn-update {
+  background: var(--light-purple);
+  color: var(--dark-purple);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-update:hover {
+  background: var(--secondary-purple);
+  color: var(--white);
+}
+
+.btn-complete {
+  background: var(--success);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-complete:hover {
+  background: #38a169;
+}
+
+/* Responsividade para novas seções */
+@media (max-width: 768px) {
+  .cadastros-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .treinamentos-overview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .overview-card {
+    padding: 16px;
+  }
+
+  .overview-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .overview-content h3 {
+    font-size: 24px;
+  }
+
+  .cadastro-stats {
+    gap: 16px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .treinamentos-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .cadastro-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+}
+
 /* Animações adicionais */
 .fade-in {
   animation: fadeIn 0.3s ease-in;

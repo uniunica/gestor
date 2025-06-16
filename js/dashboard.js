@@ -968,6 +968,314 @@ class DashboardManager {
       Utils.showNotification("Erro ao exportar dados.", "error");
     }
   }
+  // Trocar seção ativa (atualizar função existente)
+  switchSection(sectionName) {
+    // Atualizar navegação
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.classList.remove("active");
+    });
+    document
+      .querySelector(`[data-section="${sectionName}"]`)
+      .classList.add("active");
+
+    // Atualizar conteúdo
+    document.querySelectorAll(".content-section").forEach((section) => {
+      section.classList.remove("active");
+    });
+    document.getElementById(`${sectionName}Section`).classList.add("active");
+
+    // Atualizar título
+    const titles = {
+      dashboard: "Dashboard",
+      partners: "Lista de Parceiros",
+      cadastros: "Cadastros Finais",
+      treinamentos: "Treinamentos",
+      reports: "Relatórios",
+    };
+    document.getElementById("pageTitle").textContent =
+      titles[sectionName] || sectionName;
+
+    this.currentSection = sectionName;
+
+    // Ações específicas por seção
+    switch (sectionName) {
+      case "partners":
+        this.renderPartnersTable();
+        break;
+      case "cadastros":
+        this.renderCadastrosFinais();
+        break;
+      case "treinamentos":
+        this.renderTreinamentos();
+        break;
+      case "reports":
+        this.renderReports();
+        break;
+    }
+  }
+
+  // Renderizar Cadastros Finais
+  async renderCadastrosFinais() {
+    try {
+      const partners = await this.api.getAllPartners();
+
+      // Simular dados de cadastros finais
+      const cadastrosData = {
+        email: { pendentes: 0, concluidos: 0, lista: [] },
+        sistemas: { pendentes: 0, concluidos: 0, lista: [] },
+        portal: { pendentes: 0, concluidos: 0, lista: [] },
+        organizacao: { pendentes: 0, concluidos: 0, lista: [] },
+      };
+
+      partners.forEach((partner) => {
+        // Simular status aleatório para demonstração
+        const statusEmail = Math.random() > 0.5 ? "concluido" : "pendente";
+        const statusSistemas = Math.random() > 0.5 ? "concluido" : "pendente";
+        const statusPortal = Math.random() > 0.5 ? "concluido" : "pendente";
+        const statusOrg = Math.random() > 0.5 ? "concluido" : "pendente";
+
+        // Contar e adicionar às listas
+        cadastrosData.email[
+          statusEmail === "concluido" ? "concluidos" : "pendentes"
+        ]++;
+        cadastrosData.sistemas[
+          statusSistemas === "concluido" ? "concluidos" : "pendentes"
+        ]++;
+        cadastrosData.portal[
+          statusPortal === "concluido" ? "concluidos" : "pendentes"
+        ]++;
+        cadastrosData.organizacao[
+          statusOrg === "concluido" ? "concluidos" : "pendentes"
+        ]++;
+
+        if (statusEmail === "pendente") {
+          cadastrosData.email.lista.push({ partner, status: statusEmail });
+        }
+        if (statusSistemas === "pendente") {
+          cadastrosData.sistemas.lista.push({
+            partner,
+            status: statusSistemas,
+          });
+        }
+        if (statusPortal === "pendente") {
+          cadastrosData.portal.lista.push({ partner, status: statusPortal });
+        }
+        if (statusOrg === "pendente") {
+          cadastrosData.organizacao.lista.push({ partner, status: statusOrg });
+        }
+      });
+
+      // Atualizar estatísticas
+      document.getElementById("emailPendentes").textContent =
+        cadastrosData.email.pendentes;
+      document.getElementById("emailConcluidos").textContent =
+        cadastrosData.email.concluidos;
+      document.getElementById("sistemasPendentes").textContent =
+        cadastrosData.sistemas.pendentes;
+      document.getElementById("sistemasConcluidos").textContent =
+        cadastrosData.sistemas.concluidos;
+      document.getElementById("portalPendentes").textContent =
+        cadastrosData.portal.pendentes;
+      document.getElementById("portalConcluidos").textContent =
+        cadastrosData.portal.concluidos;
+      document.getElementById("organizacaoPendentes").textContent =
+        cadastrosData.organizacao.pendentes;
+      document.getElementById("organizacaoConcluidos").textContent =
+        cadastrosData.organizacao.concluidos;
+
+      // Renderizar listas
+      this.renderCadastroList("emailList", cadastrosData.email.lista);
+      this.renderCadastroList("sistemasList", cadastrosData.sistemas.lista);
+      this.renderCadastroList("portalList", cadastrosData.portal.lista);
+      this.renderCadastroList(
+        "organizacaoList",
+        cadastrosData.organizacao.lista
+      );
+    } catch (error) {
+      console.error("Erro ao renderizar cadastros finais:", error);
+      Utils.showNotification("Erro ao carregar cadastros finais", "error");
+    }
+  }
+
+  // Renderizar lista de cadastros
+  renderCadastroList(containerId, lista) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    if (lista.length === 0) {
+      container.innerHTML = '<p class="text-gray-500">Nenhum item pendente</p>';
+      return;
+    }
+
+    container.innerHTML = lista
+      .slice(0, 5)
+      .map(
+        (item) => `
+            <div class="cadastro-item">
+                <div class="cadastro-item-info">
+                    <div class="cadastro-item-name">${item.partner.nome}</div>
+                    <div class="cadastro-item-location">${
+                      item.partner.cidade
+                    }/${item.partner.uf}</div>
+                </div>
+                <span class="cadastro-item-status status-${item.status}">
+                    ${item.status === "pendente" ? "Pendente" : "Concluído"}
+                </span>
+            </div>
+        `
+      )
+      .join("");
+  }
+
+  // Renderizar Treinamentos
+  async renderTreinamentos() {
+    try {
+      const partners = await this.api.getAllPartners();
+
+      // Simular dados de treinamentos
+      let totalTreinamentos = 0;
+      let pendentes = 0;
+      let andamento = 0;
+      let concluidos = 0;
+
+      const treinamentosData = partners.map((partner) => {
+        const status = ["pendente", "em_andamento", "concluido"][
+          Math.floor(Math.random() * 3)
+        ];
+        const contatoLorraine = this.generateRandomDate(-30, 30);
+        const inicioTreinamento = this.generateRandomDate(-15, 45);
+        const cursoCademi = this.generateRandomDate(-10, 60);
+        const treinamentoComercial = this.generateRandomDate(-5, 75);
+
+        totalTreinamentos++;
+        switch (status) {
+          case "pendente":
+            pendentes++;
+            break;
+          case "em_andamento":
+            andamento++;
+            break;
+          case "concluido":
+            concluidos++;
+            break;
+        }
+
+        return {
+          ...partner,
+          statusTreinamento: status,
+          contatoLorraine,
+          inicioTreinamento,
+          cursoCademi,
+          treinamentoComercial,
+        };
+      });
+
+      // Atualizar estatísticas
+      document.getElementById("totalTreinamentos").textContent =
+        totalTreinamentos;
+      document.getElementById("treinamentosPendentes").textContent = pendentes;
+      document.getElementById("treinamentosAndamento").textContent = andamento;
+      document.getElementById("treinamentosConcluidos").textContent =
+        concluidos;
+
+      // Renderizar tabela
+      this.renderTreinamentosTable(treinamentosData);
+    } catch (error) {
+      console.error("Erro ao renderizar treinamentos:", error);
+      Utils.showNotification("Erro ao carregar treinamentos", "error");
+    }
+  }
+
+  // Renderizar tabela de treinamentos
+  renderTreinamentosTable(treinamentos) {
+    const tbody = document.getElementById("treinamentosTableBody");
+    const emptyState = document.getElementById("treinamentosTableEmpty");
+
+    if (!tbody) return;
+
+    if (treinamentos.length === 0) {
+      tbody.innerHTML = "";
+      emptyState.style.display = "block";
+      return;
+    }
+
+    emptyState.style.display = "none";
+
+    tbody.innerHTML = treinamentos
+      .map(
+        (treinamento) => `
+            <tr>
+                <td>${treinamento.nome || "-"}</td>
+                <td>${treinamento.cidade}/${treinamento.uf}</td>
+                <td>
+                    <span class="status-badge status-${
+                      treinamento.statusTreinamento
+                    }">
+                        ${Utils.capitalizeWords(
+                          treinamento.statusTreinamento.replace("_", " ")
+                        )}
+                    </span>
+                </td>
+                <td>${Utils.formatDate(treinamento.contatoLorraine)}</td>
+                <td>${Utils.formatDate(treinamento.inicioTreinamento)}</td>
+                <td>${Utils.formatDate(treinamento.cursoCademi)}</td>
+                <td>${Utils.formatDate(treinamento.treinamentoComercial)}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-small btn-update" onclick="dashboardManager.updateTreinamento(${
+                          treinamento.rowIndex
+                        })" title="Atualizar">
+                            ✏️
+                        </button>
+                        <button class="btn-small btn-complete" onclick="dashboardManager.completeTreinamento(${
+                          treinamento.rowIndex
+                        })" title="Concluir">
+                            ✅
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `
+      )
+      .join("");
+  }
+
+  // Gerar data aleatória para demonstração
+  generateRandomDate(minDays, maxDays) {
+    const today = new Date();
+    const randomDays =
+      Math.floor(Math.random() * (maxDays - minDays + 1)) + minDays;
+    const randomDate = new Date(
+      today.getTime() + randomDays * 24 * 60 * 60 * 1000
+    );
+    return randomDate.toISOString().split("T")[0];
+  }
+
+  // Atualizar treinamento
+  updateTreinamento(rowIndex) {
+    const partner = this.partners.find((p) => p.rowIndex === rowIndex);
+    if (partner) {
+      this.openPartnerModal(partner);
+      // Mostrar seções de treinamento
+      document.getElementById("dadosTreinamentoSection").style.display =
+        "block";
+      Utils.smoothScrollTo(document.getElementById("dadosTreinamentoSection"));
+    }
+  }
+
+  // Concluir treinamento
+  async completeTreinamento(rowIndex) {
+    const confirmed = await Utils.confirmAction(
+      "Marcar este treinamento como concluído?",
+      "Confirmar Conclusão"
+    );
+
+    if (confirmed) {
+      // Aqui você implementaria a lógica para marcar como concluído
+      Utils.showNotification("Treinamento marcado como concluído!", "success");
+      this.renderTreinamentos(); // Recarregar dados
+    }
+  }
 }
 
 // Inicializar aplicação quando o DOM estiver carregado
