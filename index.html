@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SGP - Sistema de Gerenciamento de Expansão | UniÚnica</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Sidebar Menu -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fas fa-network-wired"></i>
+          <span>SGP</span>
+        </div>
+        <div class="subtitle">Sistema de Gerenciamento de Expansão</div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-item active" data-page="inicio">
+          <i class="fas fa-home"></i>
+          <span>Início</span>
+        </li>
+        <li class="menu-item" data-page="dashboard">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </li>
+        <li class="menu-item" data-page="polos">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Polos Ativos</span>
+        </li>
+        <li class="menu-item" data-page="parceiros">
+          <i class="fas fa-handshake"></i>
+          <span>Lista de Parceiros</span>
+        </li>
+        <li class="menu-item" data-page="consulta">
+          <i class="fas fa-search"></i>
+          <span>Consulta</span>
+        </li>
+        <li class="menu-item" data-page="relatorios">
+          <i class="fas fa-file-alt"></i>
+          <span>Relatórios</span>
+        </li>
+        <li class="menu-item" data-page="estrategia">
+          <i class="fas fa-chess"></i>
+          <span>Estratégia</span>
+        </li>
+        <li class="menu-item" data-page="mapas">
+          <i class="fas fa-globe"></i>
+          <span>Mapas</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <i class="fas fa-user-circle"></i>
+          <span>Consultor UniÚnica</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <header class="top-header">
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 id="pageTitle">Início</h1>
+        <div class="header-actions">
+          <button class="btn-refresh" id="refreshBtn">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <div class="last-update" id="lastUpdate">
+            Última atualização: <span id="updateTime">--:--</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Carregando...</p>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area" id="contentArea">
+        <!-- Página Início -->
+        <div class="page-content active" id="inicio">
+          <div class="welcome-section">
+            <div class="welcome-card">
+              <h2><i class="fas fa-rocket"></i> Bem-vindo ao SGP</h2>
+              <p>Sistema de Gerenciamento de Expansão da UniÚnica</p>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h3 id="totalParceiros">--</h3>
+                    <p>Parceiros Ativos</p>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="fas fa-map-pin"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h3 id="totalPolos">--</h3>
+                    <p>Polos Ativos</p>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="fas fa-trending-up"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h3 id="crescimento">--</h3>
+                    <p>Crescimento Mensal</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="updates-section">
+            <div class="updates-card">
+              <h3><i class="fas fa-bell"></i> Últimas Atualizações</h3>
+              <div class="updates-list" id="updatesList">
+                <!-- Atualizações serão carregadas dinamicamente -->
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <h3><i class="fas fa-bolt"></i> Ações Rápidas</h3>
+            <div class="actions-grid">
+              <button class="action-btn" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span>Ver Dashboard</span>
+              </button>
+              <button class="action-btn" data-page="parceiros">
+                <i class="fas fa-plus"></i>
+                <span>Novo Parceiro</span>
+              </button>
+              <button class="action-btn" data-page="relatorios">
+                <i class="fas fa-download"></i>
+                <span>Gerar Relatório</span>
+              </button>
+              <button class="action-btn" data-page="consulta">
+                <i class="fas fa-search"></i>
+                <span>Consultar Dados</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
