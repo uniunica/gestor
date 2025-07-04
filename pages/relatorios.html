@@ -1,440 +1,484 @@
 <div class="relatorios-container">
-    <div class="relatorios-header">
-        <h2><i class="fas fa-file-alt"></i> Relatórios</h2>
-        <div class="relatorios-controls">
-            <button class="btn btn-secondary" id="scheduleReportBtn">
-                <i class="fas fa-clock"></i> Agendar Relatório
-            </button>
-            <button class="btn" id="customReportBtn">
-                <i class="fas fa-plus"></i> Relatório Personalizado
-            </button>
-        </div>
+  <div class="relatorios-header">
+    <h2><i class="fas fa-file-alt"></i> Relatórios</h2>
+    <div class="relatorios-controls">
+      <button class="btn btn-secondary" id="scheduleReportBtn">
+        <i class="fas fa-clock"></i> Agendar Relatório
+      </button>
+      <button class="btn" id="customReportBtn">
+        <i class="fas fa-plus"></i> Relatório Personalizado
+      </button>
     </div>
+  </div>
 
-    <div class="report-categories">
-        <div class="category-tabs">
-            <button class="tab-btn active" data-category="predefinidos">
-                <i class="fas fa-file-text"></i> Predefinidos
-            </button>
-            <button class="tab-btn" data-category="personalizados">
-                <i class="fas fa-cog"></i> Personalizados
-            </button>
-            <button class="tab-btn" data-category="agendados">
-                <i class="fas fa-calendar"></i> Agendados
-            </button>
-            <button class="tab-btn" data-category="historico">
-                <i class="fas fa-history"></i> Histórico
-            </button>
-        </div>
+  <div class="report-categories">
+    <div class="category-tabs">
+      <button class="tab-btn active" data-category="predefinidos">
+        <i class="fas fa-file-text"></i> Predefinidos
+      </button>
+      <button class="tab-btn" data-category="personalizados">
+        <i class="fas fa-cog"></i> Personalizados
+      </button>
+      <button class="tab-btn" data-category="agendados">
+        <i class="fas fa-calendar"></i> Agendados
+      </button>
+      <button class="tab-btn" data-category="historico">
+        <i class="fas fa-history"></i> Histórico
+      </button>
     </div>
+  </div>
 
-    <!-- Relatórios Predefinidos -->
-    <div class="tab-content active" id="predefinidos">
-        <div class="reports-grid">
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório de Parceiros</h3>
-                    <p>Lista completa de parceiros com status, dados de contato e performance.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 45 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 2h atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('parceiros')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('parceiros')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
-
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório de Polos</h3>
-                    <p>Análise detalhada dos polos ativos, localização e número de parceiros.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 32 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 1d atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('polos')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('polos')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
-
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório de Performance</h3>
-                    <p>Métricas de performance, crescimento e análise de tendências.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 67 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 3h atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('performance')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('performance')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
-
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório Financeiro</h3>
-                    <p>Análise financeira, receitas, comissões e projeções.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 28 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 5h atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('financeiro')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('financeiro')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
-
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório Mensal</h3>
-                    <p>Resumo mensal completo com todas as métricas principais.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 89 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 1d atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('mensal')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('mensal')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
-
-            <div class="report-card">
-                <div class="report-icon">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <div class="report-content">
-                    <h3>Relatório Executivo</h3>
-                    <p>Resumo executivo com indicadores chave e insights estratégicos.</p>
-                    <div class="report-stats">
-                        <span><i class="fas fa-download"></i> 156 downloads</span>
-                        <span><i class="fas fa-clock"></i> Última geração: 6h atrás</span>
-                    </div>
-                </div>
-                <div class="report-actions">
-                    <button class="btn btn-sm" onclick="generateReport('executivo')">
-                        <i class="fas fa-play"></i> Gerar
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="previewReport('executivo')">
-                        <i class="fas fa-eye"></i> Visualizar
-                    </button>
-                </div>
-            </div>
+  <!-- Relatórios Predefinidos -->
+  <div class="tab-content active" id="predefinidos">
+    <div class="reports-grid">
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-users"></i>
         </div>
-    </div>
-
-    <!-- Relatórios Personalizados -->
-    <div class="tab-content" id="personalizados">
-        <div class="custom-reports-section">
-            <div class="custom-reports-header">
-                <h3>Seus Relatórios Personalizados</h3>
-                <button class="btn" onclick="createCustomReport()">
-                    <i class="fas fa-plus"></i> Criar Novo
-                </button>
-            </div>
-            <div class="custom-reports-list" id="customReportsList">
-                <!-- Lista de relatórios personalizados -->
-            </div>
+        <div class="report-content">
+          <h3>Relatório de Parceiros</h3>
+          <p>
+            Lista completa de parceiros com status, dados de contato e
+            performance.
+          </p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 45 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 2h atrás</span>
+          </div>
         </div>
-    </div>
-
-    <!-- Relatórios Agendados -->
-    <div class="tab-content" id="agendados">
-        <div class="scheduled-reports-section">
-            <div class="scheduled-reports-header">
-                <h3>Relatórios Agendados</h3>
-                <button class="btn" onclick="scheduleNewReport()">
-                    <i class="fas fa-calendar-plus"></i> Agendar Novo
-                </button>
-            </div>
-            <div class="scheduled-reports-list" id="scheduledReportsList">
-                <!-- Lista de relatórios agendados -->
-            </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('parceiros')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('parceiros')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
         </div>
-    </div>
+      </div>
 
-    <!-- Histórico de Relatórios -->
-    <div class="tab-content" id="historico">
-        <div class="report-history-section">
-            <div class="history-filters">
-                <div class="filter-group">
-                    <label for="historyDateFrom">Data inicial:</label>
-                    <input type="date" id="historyDateFrom" class="form-input">
-                </div>
-                <div class="filter-group">
-                    <label for="historyDateTo">Data final:</label>
-                    <input type="date" id="historyDateTo" class="form-input">
-                </div>
-                <div class="filter-group">
-                    <label for="historyType">Tipo:</label>
-                    <select id="historyType" class="form-select">
-                        <option value="">Todos os tipos</option>
-                        <option value="parceiros">Parceiros</option>
-                        <option value="polos">Polos</option>
-                        <option value="performance">Performance</option>
-                        <option value="financeiro">Financeiro</option>
-                    </select>
-                </div>
-                <button class="btn btn-secondary" onclick="filterReportHistory()">
-                    <i class="fas fa-filter"></i> Filtrar
-                </button>
-            </div>
-            <div class="report-history-list" id="reportHistoryList">
-                <!-- Lista do histórico de relatórios -->
-            </div>
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-map-marker-alt"></i>
         </div>
+        <div class="report-content">
+          <h3>Relatório de Polos</h3>
+          <p>
+            Análise detalhada dos polos ativos, localização e número de
+            parceiros.
+          </p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 32 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 1d atrás</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('polos')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('polos')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="report-content">
+          <h3>Relatório de Performance</h3>
+          <p>Métricas de performance, crescimento e análise de tendências.</p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 67 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 3h atrás</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('performance')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('performance')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="report-content">
+          <h3>Relatório Financeiro</h3>
+          <p>Análise financeira, receitas, comissões e projeções.</p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 28 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 5h atrás</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('financeiro')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('financeiro')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="report-content">
+          <h3>Relatório Mensal</h3>
+          <p>Resumo mensal completo com todas as métricas principais.</p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 89 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 1d atrás</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('mensal')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('mensal')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-icon">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="report-content">
+          <h3>Relatório Executivo</h3>
+          <p>Resumo executivo com indicadores chave e insights estratégicos.</p>
+          <div class="report-stats">
+            <span><i class="fas fa-download"></i> 156 downloads</span>
+            <span><i class="fas fa-clock"></i> Última geração: 6h atrás</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-sm" onclick="generateReport('executivo')">
+            <i class="fas fa-play"></i> Gerar
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="previewReport('executivo')"
+          >
+            <i class="fas fa-eye"></i> Visualizar
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Relatórios Personalizados -->
+  <div class="tab-content" id="personalizados">
+    <div class="custom-reports-section">
+      <div class="custom-reports-header">
+        <h3>Seus Relatórios Personalizados</h3>
+        <button class="btn" onclick="createCustomReport()">
+          <i class="fas fa-plus"></i> Criar Novo
+        </button>
+      </div>
+      <div class="custom-reports-list" id="customReportsList">
+        <!-- Lista de relatórios personalizados -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Relatórios Agendados -->
+  <div class="tab-content" id="agendados">
+    <div class="scheduled-reports-section">
+      <div class="scheduled-reports-header">
+        <h3>Relatórios Agendados</h3>
+        <button class="btn" onclick="scheduleNewReport()">
+          <i class="fas fa-calendar-plus"></i> Agendar Novo
+        </button>
+      </div>
+      <div class="scheduled-reports-list" id="scheduledReportsList">
+        <!-- Lista de relatórios agendados -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Histórico de Relatórios -->
+  <div class="tab-content" id="historico">
+    <div class="report-history-section">
+      <div class="history-filters">
+        <div class="filter-group">
+          <label for="historyDateFrom">Data inicial:</label>
+          <input type="date" id="historyDateFrom" class="form-input" />
+        </div>
+        <div class="filter-group">
+          <label for="historyDateTo">Data final:</label>
+          <input type="date" id="historyDateTo" class="form-input" />
+        </div>
+        <div class="filter-group">
+          <label for="historyType">Tipo:</label>
+          <select id="historyType" class="form-select">
+            <option value="">Todos os tipos</option>
+            <option value="parceiros">Parceiros</option>
+            <option value="polos">Polos</option>
+            <option value="performance">Performance</option>
+            <option value="financeiro">Financeiro</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" onclick="filterReportHistory()">
+          <i class="fas fa-filter"></i> Filtrar
+        </button>
+      </div>
+      <div class="report-history-list" id="reportHistoryList">
+        <!-- Lista do histórico de relatórios -->
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal para Relatório Personalizado -->
 <div class="modal" id="customReportModal">
-    <div class="modal-content large">
-        <div class="modal-header">
-            <h3>Criar Relatório Personalizado</h3>
-            <button class="modal-close" id="closeCustomReport">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="custom-report-form">
-                <div class="form-section">
-                    <h4>Informações Básicas</h4>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="reportName">Nome do Relatório*</label>
-                            <input type="text" id="reportName" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reportDescription">Descrição</label>
-                            <input type="text" id="reportDescription" class="form-input">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h4>Fonte de Dados</h4>
-                    <div class="data-sources">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="dataSources" value="parceiros" checked>
-                            <span>Parceiros</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="dataSources" value="polos">
-                            <span>Polos</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="dataSources" value="contratos">
-                            <span>Contratos</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="dataSources" value="financeiro">
-                            <span>Dados Financeiros</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h4>Campos a Incluir</h4>
-                    <div class="fields-selection" id="fieldsSelection">
-                        <!-- Campos serão carregados dinamicamente -->
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h4>Filtros</h4>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="reportDateRange">Período:</label>
-                            <select id="reportDateRange" class="form-select">
-                                <option value="all">Todos os períodos</option>
-                                <option value="last7days">Últimos 7 dias</option>
-                                <option value="last30days">Últimos 30 dias</option>
-                                <option value="last90days">Últimos 90 dias</option>
-                                <option value="custom">Período personalizado</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="reportStatus">Status:</label>
-                            <select id="reportStatus" class="form-select">
-                                <option value="">Todos os status</option>
-                                <option value="ativo">Ativo</option>
-                                <option value="inativo">Inativo</option>
-                                <option value="pendente">Pendente</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h4>Formato de Saída</h4>
-                    <div class="output-formats">
-                        <label class="radio-label">
-                            <input type="radio" name="outputFormat" value="pdf" checked>
-                            <span><i class="fas fa-file-pdf"></i> PDF</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="outputFormat" value="excel">
-                            <span><i class="fas fa-file-excel"></i> Excel</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="outputFormat" value="csv">
-                            <span><i class="fas fa-file-csv"></i> CSV</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelCustomReport">Cancelar</button>
-            <button class="btn" id="saveCustomReport">Salvar e Gerar</button>
-        </div>
+  <div class="modal-content large">
+    <div class="modal-header">
+      <h3>Criar Relatório Personalizado</h3>
+      <button class="modal-close" id="closeCustomReport" title="Fechar Modal">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+    <div class="modal-body">
+      <div class="custom-report-form">
+        <div class="form-section">
+          <h4>Informações Básicas</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reportName">Nome do Relatório*</label>
+              <input type="text" id="reportName" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label for="reportDescription">Descrição</label>
+              <input type="text" id="reportDescription" class="form-input" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Fonte de Dados</h4>
+          <div class="data-sources">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                name="dataSources"
+                value="parceiros"
+                checked
+              />
+              <span>Parceiros</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="dataSources" value="polos" />
+              <span>Polos</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="dataSources" value="contratos" />
+              <span>Contratos</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="dataSources" value="financeiro" />
+              <span>Dados Financeiros</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Campos a Incluir</h4>
+          <div class="fields-selection" id="fieldsSelection">
+            <!-- Campos serão carregados dinamicamente -->
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Filtros</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reportDateRange">Período:</label>
+              <select id="reportDateRange" class="form-select">
+                <option value="all">Todos os períodos</option>
+                <option value="last7days">Últimos 7 dias</option>
+                <option value="last30days">Últimos 30 dias</option>
+                <option value="last90days">Últimos 90 dias</option>
+                <option value="custom">Período personalizado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reportStatus">Status:</label>
+              <select id="reportStatus" class="form-select">
+                <option value="">Todos os status</option>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+                <option value="pendente">Pendente</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Formato de Saída</h4>
+          <div class="output-formats">
+            <label class="radio-label">
+              <input type="radio" name="outputFormat" value="pdf" checked />
+              <span><i class="fas fa-file-pdf"></i> PDF</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="outputFormat" value="excel" />
+              <span><i class="fas fa-file-excel"></i> Excel</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="outputFormat" value="csv" />
+              <span><i class="fas fa-file-csv"></i> CSV</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelCustomReport">
+        Cancelar
+      </button>
+      <button class="btn" id="saveCustomReport">Salvar e Gerar</button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal para Agendar Relatório -->
 <div class="modal" id="scheduleReportModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Agendar Relatório</h3>
-            <button class="modal-close" id="closeScheduleReport">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="schedule-form">
-                <div class="form-group">
-                    <label for="scheduleReportType">Tipo de Relatório*</label>
-                    <select id="scheduleReportType" class="form-select" required>
-                        <option value="">Selecione um relatório</option>
-                        <option value="parceiros">Relatório de Parceiros</option>
-                        <option value="polos">Relatório de Polos</option>
-                        <option value="performance">Relatório de Performance</option>
-                        <option value="financeiro">Relatório Financeiro</option>
-                        <option value="mensal">Relatório Mensal</option>
-                        <option value="executivo">Relatório Executivo</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="scheduleFrequency">Frequência*</label>
-                    <select id="scheduleFrequency" class="form-select" required>
-                        <option value="">Selecione a frequência</option>
-                        <option value="daily">Diário</option>
-                        <option value="weekly">Semanal</option>
-                        <option value="monthly">Mensal</option>
-                        <option value="quarterly">Trimestral</option>
-                    </select>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="scheduleTime">Horário*</label>
-                        <input type="time" id="scheduleTime" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="scheduleStartDate">Data de Início*</label>
-                        <input type="date" id="scheduleStartDate" class="form-input" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="scheduleEmails">Emails para Envio*</label>
-                    <input type="email" id="scheduleEmails" class="form-input" placeholder="email1@exemplo.com, email2@exemplo.com" required>
-                    <small>Separe múltiplos emails com vírgula</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="scheduleFormat">Formato*</label>
-                    <select id="scheduleFormat" class="form-select" required>
-                        <option value="pdf">PDF</option>
-                        <option value="excel">Excel</option>
-                        <option value="csv">CSV</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelScheduleReport">Cancelar</button>
-            <button class="btn" id="saveScheduleReport">Agendar Relatório</button>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Agendar Relatório</h3>
+      <button class="modal-close" id="closeScheduleReport" title="Fechar Modal">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+    <div class="modal-body">
+      <div class="schedule-form">
+        <div class="form-group">
+          <label for="scheduleReportType">Tipo de Relatório*</label>
+          <select id="scheduleReportType" class="form-select" required>
+            <option value="">Selecione um relatório</option>
+            <option value="parceiros">Relatório de Parceiros</option>
+            <option value="polos">Relatório de Polos</option>
+            <option value="performance">Relatório de Performance</option>
+            <option value="financeiro">Relatório Financeiro</option>
+            <option value="mensal">Relatório Mensal</option>
+            <option value="executivo">Relatório Executivo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="scheduleFrequency">Frequência*</label>
+          <select id="scheduleFrequency" class="form-select" required>
+            <option value="">Selecione a frequência</option>
+            <option value="daily">Diário</option>
+            <option value="weekly">Semanal</option>
+            <option value="monthly">Mensal</option>
+            <option value="quarterly">Trimestral</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="scheduleTime">Horário*</label>
+            <input type="time" id="scheduleTime" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="scheduleStartDate">Data de Início*</label>
+            <input
+              type="date"
+              id="scheduleStartDate"
+              class="form-input"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="scheduleEmails">Emails para Envio*</label>
+          <input
+            type="email"
+            id="scheduleEmails"
+            class="form-input"
+            placeholder="email1@exemplo.com, email2@exemplo.com"
+            required
+          />
+          <small>Separe múltiplos emails com vírgula</small>
+        </div>
+
+        <div class="form-group">
+          <label for="scheduleFormat">Formato*</label>
+          <select id="scheduleFormat" class="form-select" required>
+            <option value="pdf">PDF</option>
+            <option value="excel">Excel</option>
+            <option value="csv">CSV</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelScheduleReport">
+        Cancelar
+      </button>
+      <button class="btn" id="saveScheduleReport">Agendar Relatório</button>
+    </div>
+  </div>
 </div>
 
 <style>
-.relatorios-container {
+  .relatorios-container {
     padding: 0;
-}
+  }
 
-.relatorios-header {
+  .relatorios-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-}
+  }
 
-.relatorios-header h2 {
+  .relatorios-header h2 {
     color: var(--primary-purple);
     margin: 0;
-}
+  }
 
-.relatorios-controls {
+  .relatorios-controls {
     display: flex;
     gap: 1rem;
-}
+  }
 
-.report-categories {
+  .report-categories {
     margin-bottom: 2rem;
-}
+  }
 
-.category-tabs {
+  .category-tabs {
     display: flex;
     gap: 0.5rem;
     border-bottom: 2px solid var(--border-color);
-}
+  }
 
-.tab-btn {
+  .tab-btn {
     padding: 1rem 1.5rem;
     border: none;
     background: none;
@@ -445,163 +489,167 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
+  }
 
-.tab-btn:hover,
-.tab-btn.active {
+  .tab-btn:hover,
+  .tab-btn.active {
     color: var(--primary-purple);
     border-bottom-color: var(--primary-purple);
-}
+  }
 
-.tab-content {
+  .tab-content {
     display: none;
-}
+  }
 
-.tab-content.active {
+  .tab-content.active {
     display: block;
-}
+  }
 
-.reports-grid {
+  .reports-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 1.5rem;
-}
+  }
 
-.report-card {
+  .report-card {
     background: var(--white);
     border-radius: 0.75rem;
     box-shadow: var(--shadow);
     padding: 1.5rem;
     transition: all 0.3s ease;
     border: 1px solid var(--border-color);
-}
+  }
 
-.report-card:hover {
+  .report-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
-}
+  }
 
-.report-icon {
+  .report-icon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--secondary-purple), var(--primary-purple));
+    background: linear-gradient(
+      135deg,
+      var(--secondary-purple),
+      var(--primary-purple)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--white);
     font-size: 1.5rem;
     margin-bottom: 1rem;
-}
+  }
 
-.report-content h3 {
+  .report-content h3 {
     color: var(--text-primary);
     margin-bottom: 0.5rem;
-}
+  }
 
-.report-content p {
+  .report-content p {
     color: var(--text-secondary);
     margin-bottom: 1rem;
     line-height: 1.5;
-}
+  }
 
-.report-stats {
+  .report-stats {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
     font-size: 0.875rem;
     color: var(--text-secondary);
-}
+  }
 
-.report-stats span {
+  .report-stats span {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-}
+  }
 
-.report-actions {
+  .report-actions {
     display: flex;
     gap: 0.5rem;
-}
+  }
 
-.btn-sm {
+  .btn-sm {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
-}
+  }
 
-.custom-reports-section,
-.scheduled-reports-section,
-.report-history-section {
+  .custom-reports-section,
+  .scheduled-reports-section,
+  .report-history-section {
     background: var(--white);
     border-radius: 0.75rem;
     box-shadow: var(--shadow);
     padding: 2rem;
-}
+  }
 
-.custom-reports-header,
-.scheduled-reports-header {
+  .custom-reports-header,
+  .scheduled-reports-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-}
+  }
 
-.custom-reports-header h3,
-.scheduled-reports-header h3 {
+  .custom-reports-header h3,
+  .scheduled-reports-header h3 {
     color: var(--text-primary);
     margin: 0;
-}
+  }
 
-.history-filters {
+  .history-filters {
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
     align-items: end;
     flex-wrap: wrap;
-}
+  }
 
-.filter-group {
+  .filter-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
+  }
 
-.filter-group label {
+  .filter-group label {
     font-weight: 500;
     color: var(--text-primary);
     font-size: 0.875rem;
-}
+  }
 
-.custom-report-form {
+  .custom-report-form {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-}
+  }
 
-.form-section {
+  .form-section {
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-color);
-}
+  }
 
-.form-section:last-child {
+  .form-section:last-child {
     border-bottom: none;
     padding-bottom: 0;
-}
+  }
 
-.form-section h4 {
+  .form-section h4 {
     color: var(--text-primary);
     margin-bottom: 1rem;
-}
+  }
 
-.data-sources,
-.output-formats {
+  .data-sources,
+  .output-formats {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-}
+  }
 
-.checkbox-label,
-.radio-label {
+  .checkbox-label,
+  .radio-label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -610,20 +658,20 @@
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     transition: all 0.3s ease;
-}
+  }
 
-.checkbox-label:hover,
-.radio-label:hover {
+  .checkbox-label:hover,
+  .radio-label:hover {
     background: var(--background-light);
-}
+  }
 
-.checkbox-label input:checked + span,
-.radio-label input:checked + span {
+  .checkbox-label input:checked + span,
+  .radio-label input:checked + span {
     color: var(--primary-purple);
     font-weight: 500;
-}
+  }
 
-.fields-selection {
+  .fields-selection {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 0.5rem;
@@ -632,27 +680,27 @@
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     padding: 1rem;
-}
+  }
 
-.schedule-form {
+  .schedule-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-}
+  }
 
-.schedule-form small {
+  .schedule-form small {
     color: var(--text-secondary);
     font-size: 0.75rem;
-}
+  }
 
-.modal-content.large {
+  .modal-content.large {
     max-width: 800px;
     width: 90%;
-}
+  }
 
-.report-history-item,
-.custom-report-item,
-.scheduled-report-item {
+  .report-history-item,
+  .custom-report-item,
+  .scheduled-report-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -661,717 +709,844 @@
     border-radius: 0.5rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
-}
+  }
 
-.report-history-item:hover,
-.custom-report-item:hover,
-.scheduled-report-item:hover {
+  .report-history-item:hover,
+  .custom-report-item:hover,
+  .scheduled-report-item:hover {
     background: var(--background-light);
-}
+  }
 
-.report-item-info h4 {
+  .report-item-info h4 {
     color: var(--text-primary);
     margin: 0 0 0.25rem 0;
-}
+  }
 
-.report-item-info p {
+  .report-item-info p {
     color: var(--text-secondary);
     margin: 0;
     font-size: 0.875rem;
-}
+  }
 
-.report-item-actions {
+  .report-item-actions {
     display: flex;
     gap: 0.5rem;
-}
+  }
 
-.status-badge.scheduled {
-    background: #FEF3C7;
-    color: #D97706;
-}
+  .status-badge.scheduled {
+    background: #fef3c7;
+    color: #d97706;
+  }
 
-.status-badge.completed {
-    background: #D1FAE5;
+  .status-badge.completed {
+    background: #d1fae5;
     color: #059669;
-}
+  }
 
-.status-badge.failed {
-    background: #FEE2E2;
-    color: #DC2626;
-}
+  .status-badge.failed {
+    background: #fee2e2;
+    color: #dc2626;
+  }
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     .relatorios-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
     }
-    
+
     .relatorios-controls {
-        width: 100%;
-        justify-content: space-between;
+      width: 100%;
+      justify-content: space-between;
     }
-    
+
     .category-tabs {
-        flex-wrap: wrap;
+      flex-wrap: wrap;
     }
-    
+
     .tab-btn {
-        flex: 1;
-        min-width: 120px;
-        justify-content: center;
+      flex: 1;
+      min-width: 120px;
+      justify-content: center;
     }
-    
+
     .reports-grid {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
-    
+
     .history-filters {
-        flex-direction: column;
-        align-items: stretch;
+      flex-direction: column;
+      align-items: stretch;
     }
-    
+
     .filter-group {
-        width: 100%;
+      width: 100%;
     }
-    
+
     .data-sources,
     .output-formats {
-        flex-direction: column;
+      flex-direction: column;
     }
-    
+
     .custom-reports-header,
     .scheduled-reports-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
     }
-    
+
     .report-history-item,
     .custom-report-item,
     .scheduled-report-item {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
     }
-    
+
     .report-item-actions {
-        width: 100%;
-        justify-content: flex-end;
+      width: 100%;
+      justify-content: flex-end;
     }
-}
+  }
 </style>
 
 <script>
-// Relatórios-specific JavaScript
-let customReports = [];
-let scheduledReports = [];
-let reportHistory = [];
+  // Relatórios-specific JavaScript
+  let customReports = [];
+  let scheduledReports = [];
+  let reportHistory = [];
 
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.sgp && window.sgp.currentPage === 'relatorios') {
-        initializeRelatorios();
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "relatorios") {
+      initializeRelatorios();
     }
-});
+  });
 
-function initializeRelatorios() {
+  function initializeRelatorios() {
     setupRelatoriosEventListeners();
     loadCustomReports();
     loadScheduledReports();
     loadReportHistory();
-}
+  }
 
-function setupRelatoriosEventListeners() {
+  function setupRelatoriosEventListeners() {
     // Category tabs
-    const categoryTabs = document.querySelectorAll('.tab-btn');
-    categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const category = this.dataset.category;
-            switchReportCategory(category);
-        });
+    const categoryTabs = document.querySelectorAll(".tab-btn");
+    categoryTabs.forEach((tab) => {
+      tab.addEventListener("click", function () {
+        const category = this.dataset.category;
+        switchReportCategory(category);
+      });
     });
-    
-    // Custom report modal
-    const customReportBtn = document.getElementById('customReportBtn');
-    const customReportModal = document.getElementById('customReportModal');
-    const closeCustomReport = document.getElementById('closeCustomReport');
-    const cancelCustomReport = document.getElementById('cancelCustomReport');
-    const saveCustomReport = document.getElementById('saveCustomReport');
-    
-    if (customReportBtn) {
-        customReportBtn.addEventListener('click', function() {
-            openCustomReportModal();
-        });
-    }
-    
-    if (closeCustomReport) {
-        closeCustomReport.addEventListener('click', function() {
-            customReportModal.classList.remove('active');
-        });
-    }
-    
-    if (cancelCustomReport) {
-        cancelCustomReport.addEventListener('click', function() {
-            customReportModal.classList.remove('active');
-        });
-    }
-    
-    if (saveCustomReport) {
-        saveCustomReport.addEventListener('click', function() {
-            saveCustomReportConfig();
-        });
-    }
-    
-    // Schedule report modal
-    const scheduleReportBtn = document.getElementById('scheduleReportBtn');
-    const scheduleReportModal = document.getElementById('scheduleReportModal');
-    const closeScheduleReport = document.getElementById('closeScheduleReport');
-    const cancelScheduleReport = document.getElementById('cancelScheduleReport');
-    const saveScheduleReport = document.getElementById('saveScheduleReport');
-    
-    if (scheduleReportBtn) {
-        scheduleReportBtn.addEventListener('click', function() {
-            scheduleReportModal.classList.add('active');
-        });
-    }
-    
-    if (closeScheduleReport) {
-        closeScheduleReport.addEventListener('click', function() {
-            scheduleReportModal.classList.remove('active');
-        });
-    }
-    
-    if (cancelScheduleReport) {
-        cancelScheduleReport.addEventListener('click', function() {
-            scheduleReportModal.classList.remove('active');
-        });
-    }
-    
-    if (saveScheduleReport) {
-        saveScheduleReport.addEventListener('click', function() {
-            saveScheduledReport();
-        });
-    }
-    
-    // Data sources change handler
-    const dataSourceCheckboxes = document.querySelectorAll('input[name="dataSources"]');
-    dataSourceCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            updateFieldsSelection();
-        });
-    });
-}
 
-function switchReportCategory(category) {
+    // Custom report modal
+    const customReportBtn = document.getElementById("customReportBtn");
+    const customReportModal = document.getElementById("customReportModal");
+    const closeCustomReport = document.getElementById("closeCustomReport");
+    const cancelCustomReport = document.getElementById("cancelCustomReport");
+    const saveCustomReport = document.getElementById("saveCustomReport");
+
+    if (customReportBtn) {
+      customReportBtn.addEventListener("click", function () {
+        openCustomReportModal();
+      });
+    }
+
+    if (closeCustomReport) {
+      closeCustomReport.addEventListener("click", function () {
+        customReportModal.classList.remove("active");
+      });
+    }
+
+    if (cancelCustomReport) {
+      cancelCustomReport.addEventListener("click", function () {
+        customReportModal.classList.remove("active");
+      });
+    }
+
+    if (saveCustomReport) {
+      saveCustomReport.addEventListener("click", function () {
+        saveCustomReportConfig();
+      });
+    }
+
+    // Schedule report modal
+    const scheduleReportBtn = document.getElementById("scheduleReportBtn");
+    const scheduleReportModal = document.getElementById("scheduleReportModal");
+    const closeScheduleReport = document.getElementById("closeScheduleReport");
+    const cancelScheduleReport = document.getElementById(
+      "cancelScheduleReport"
+    );
+    const saveScheduleReport = document.getElementById("saveScheduleReport");
+
+    if (scheduleReportBtn) {
+      scheduleReportBtn.addEventListener("click", function () {
+        scheduleReportModal.classList.add("active");
+      });
+    }
+
+    if (closeScheduleReport) {
+      closeScheduleReport.addEventListener("click", function () {
+        scheduleReportModal.classList.remove("active");
+      });
+    }
+
+    if (cancelScheduleReport) {
+      cancelScheduleReport.addEventListener("click", function () {
+        scheduleReportModal.classList.remove("active");
+      });
+    }
+
+    if (saveScheduleReport) {
+      saveScheduleReport.addEventListener("click", function () {
+        saveScheduledReport();
+      });
+    }
+
+    // Data sources change handler
+    const dataSourceCheckboxes = document.querySelectorAll(
+      'input[name="dataSources"]'
+    );
+    dataSourceCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", function () {
+        updateFieldsSelection();
+      });
+    });
+  }
+
+  function switchReportCategory(category) {
     // Update tab buttons
-    const tabs = document.querySelectorAll('.tab-btn');
-    tabs.forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.category === category);
+    const tabs = document.querySelectorAll(".tab-btn");
+    tabs.forEach((tab) => {
+      tab.classList.toggle("active", tab.dataset.category === category);
     });
-    
+
     // Update tab contents
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => {
-        content.classList.toggle('active', content.id === category);
+    const contents = document.querySelectorAll(".tab-content");
+    contents.forEach((content) => {
+      content.classList.toggle("active", content.id === category);
     });
-    
+
     // Load specific content
     switch (category) {
-        case 'personalizados':
-            renderCustomReports();
-            break;
-        case 'agendados':
-            renderScheduledReports();
-            break;
-        case 'historico':
-            renderReportHistory();
-            break;
+      case "personalizados":
+        renderCustomReports();
+        break;
+      case "agendados":
+        renderScheduledReports();
+        break;
+      case "historico":
+        renderReportHistory();
+        break;
     }
-}
+  }
 
-function generateReport(type) {
+  function generateReport(type) {
     console.log(`Generating ${type} report...`);
-    
+
     // Show loading state
     const button = event.target;
     const originalText = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
     button.disabled = true;
-    
+
     // Simulate report generation
     setTimeout(() => {
-        // Reset button
-        button.innerHTML = originalText;
-        button.disabled = false;
-        
-        // Add to history
-        const reportData = {
-            id: Date.now(),
-            name: getReportName(type),
-            type: type,
-            date: new Date().toISOString(),
-            status: 'completed',
-            format: 'pdf',
-            size: '2.5 MB'
-        };
-        
-        reportHistory.unshift(reportData);
-        localStorage.setItem('sgp_report_history', JSON.stringify(reportHistory));
-        
-        // Simulate download
-        alert(`Relatório de ${getReportName(type)} gerado com sucesso!`);
-        
-        // Update history if visible
-        if (document.querySelector('.tab-content.active').id === 'historico') {
-            renderReportHistory();
-        }
+      // Reset button
+      button.innerHTML = originalText;
+      button.disabled = false;
+
+      // Add to history
+      const reportData = {
+        id: Date.now(),
+        name: getReportName(type),
+        type: type,
+        date: new Date().toISOString(),
+        status: "completed",
+        format: "pdf",
+        size: "2.5 MB",
+      };
+
+      reportHistory.unshift(reportData);
+      localStorage.setItem("sgp_report_history", JSON.stringify(reportHistory));
+
+      // Simulate download
+      alert(`Relatório de ${getReportName(type)} gerado com sucesso!`);
+
+      // Update history if visible
+      if (document.querySelector(".tab-content.active").id === "historico") {
+        renderReportHistory();
+      }
     }, 2000);
-}
+  }
 
-function previewReport(type) {
+  function previewReport(type) {
     console.log(`Previewing ${type} report...`);
-    alert(`Visualização do relatório de ${getReportName(type)} será implementada em breve.`);
-}
+    alert(
+      `Visualização do relatório de ${getReportName(
+        type
+      )} será implementada em breve.`
+    );
+  }
 
-function getReportName(type) {
+  function getReportName(type) {
     const names = {
-        parceiros: 'Parceiros',
-        polos: 'Polos',
-        performance: 'Performance',
-        financeiro: 'Financeiro',
-        mensal: 'Mensal',
-        executivo: 'Executivo'
+      parceiros: "Parceiros",
+      polos: "Polos",
+      performance: "Performance",
+      financeiro: "Financeiro",
+      mensal: "Mensal",
+      executivo: "Executivo",
     };
     return names[type] || type;
-}
+  }
 
-function openCustomReportModal() {
-    document.getElementById('customReportModal').classList.add('active');
+  function openCustomReportModal() {
+    document.getElementById("customReportModal").classList.add("active");
     updateFieldsSelection();
-}
+  }
 
-function updateFieldsSelection() {
-    const selectedSources = Array.from(document.querySelectorAll('input[name="dataSources"]:checked'))
-        .map(cb => cb.value);
-    
-    const fieldsContainer = document.getElementById('fieldsSelection');
+  function updateFieldsSelection() {
+    const selectedSources = Array.from(
+      document.querySelectorAll('input[name="dataSources"]:checked')
+    ).map((cb) => cb.value);
+
+    const fieldsContainer = document.getElementById("fieldsSelection");
     if (!fieldsContainer) return;
-    
+
     const availableFields = {
-        parceiros: ['Nome', 'Empresa', 'Email', 'Telefone', 'Polo', 'Status', 'Tipo', 'Data de Adesão'],
-        polos: ['Nome do Polo', 'Cidade', 'Estado', 'Status', 'Número de Parceiros', 'Responsável'],
-        contratos: ['Número do Contrato', 'Data de Início', 'Data de Fim', 'Valor', 'Status'],
-        financeiro: ['Receita', 'Comissões', 'Custos', 'Lucro', 'Margem', 'Projeções']
+      parceiros: [
+        "Nome",
+        "Empresa",
+        "Email",
+        "Telefone",
+        "Polo",
+        "Status",
+        "Tipo",
+        "Data de Adesão",
+      ],
+      polos: [
+        "Nome do Polo",
+        "Cidade",
+        "Estado",
+        "Status",
+        "Número de Parceiros",
+        "Responsável",
+      ],
+      contratos: [
+        "Número do Contrato",
+        "Data de Início",
+        "Data de Fim",
+        "Valor",
+        "Status",
+      ],
+      financeiro: [
+        "Receita",
+        "Comissões",
+        "Custos",
+        "Lucro",
+        "Margem",
+        "Projeções",
+      ],
     };
-    
+
     let allFields = [];
-    selectedSources.forEach(source => {
-        if (availableFields[source]) {
-            allFields = allFields.concat(availableFields[source]);
-        }
+    selectedSources.forEach((source) => {
+      if (availableFields[source]) {
+        allFields = allFields.concat(availableFields[source]);
+      }
     });
-    
-    fieldsContainer.innerHTML = allFields.map(field => `
+
+    fieldsContainer.innerHTML = allFields
+      .map(
+        (field) => `
         <label class="checkbox-label">
             <input type="checkbox" name="reportFields" value="${field}" checked>
             <span>${field}</span>
         </label>
-    `).join('');
-}
+    `
+      )
+      .join("");
+  }
 
-function saveCustomReportConfig() {
-    const reportName = document.getElementById('reportName').value.trim();
-    const reportDescription = document.getElementById('reportDescription').value.trim();
-    
+  function saveCustomReportConfig() {
+    const reportName = document.getElementById("reportName").value.trim();
+    const reportDescription = document
+      .getElementById("reportDescription")
+      .value.trim();
+
     if (!reportName) {
-        alert('Por favor, digite um nome para o relatório.');
-        return;
+      alert("Por favor, digite um nome para o relatório.");
+      return;
     }
-    
-    const selectedSources = Array.from(document.querySelectorAll('input[name="dataSources"]:checked'))
-        .map(cb => cb.value);
-    
-    const selectedFields = Array.from(document.querySelectorAll('input[name="reportFields"]:checked'))
-        .map(cb => cb.value);
-    
-    const outputFormat = document.querySelector('input[name="outputFormat"]:checked').value;
-    
+
+    const selectedSources = Array.from(
+      document.querySelectorAll('input[name="dataSources"]:checked')
+    ).map((cb) => cb.value);
+
+    const selectedFields = Array.from(
+      document.querySelectorAll('input[name="reportFields"]:checked')
+    ).map((cb) => cb.value);
+
+    const outputFormat = document.querySelector(
+      'input[name="outputFormat"]:checked'
+    ).value;
+
     const customReport = {
-        id: Date.now(),
-        name: reportName,
-        description: reportDescription,
-        dataSources: selectedSources,
-        fields: selectedFields,
-        dateRange: document.getElementById('reportDateRange').value,
-        status: document.getElementById('reportStatus').value,
-        outputFormat: outputFormat,
-        createdAt: new Date().toISOString()
+      id: Date.now(),
+      name: reportName,
+      description: reportDescription,
+      dataSources: selectedSources,
+      fields: selectedFields,
+      dateRange: document.getElementById("reportDateRange").value,
+      status: document.getElementById("reportStatus").value,
+      outputFormat: outputFormat,
+      createdAt: new Date().toISOString(),
     };
-    
+
     customReports.push(customReport);
-    localStorage.setItem('sgp_custom_reports', JSON.stringify(customReports));
-    
+    localStorage.setItem("sgp_custom_reports", JSON.stringify(customReports));
+
     // Close modal
-    document.getElementById('customReportModal').classList.remove('active');
-    
+    document.getElementById("customReportModal").classList.remove("active");
+
     // Generate report
     generateCustomReport(customReport);
-    
-    alert('Relatório personalizado criado e sendo gerado!');
-}
 
-function generateCustomReport(reportConfig) {
-    console.log('Generating custom report:', reportConfig);
-    
+    alert("Relatório personalizado criado e sendo gerado!");
+  }
+
+  function generateCustomReport(reportConfig) {
+    console.log("Generating custom report:", reportConfig);
+
     // Add to history
     const reportData = {
-        id: reportConfig.id,
-        name: reportConfig.name,
-        type: 'personalizado',
-        date: new Date().toISOString(),
-        status: 'completed',
-        format: reportConfig.outputFormat,
-        size: '1.8 MB'
+      id: reportConfig.id,
+      name: reportConfig.name,
+      type: "personalizado",
+      date: new Date().toISOString(),
+      status: "completed",
+      format: reportConfig.outputFormat,
+      size: "1.8 MB",
     };
-    
+
     reportHistory.unshift(reportData);
-    localStorage.setItem('sgp_report_history', JSON.stringify(reportHistory));
-}
+    localStorage.setItem("sgp_report_history", JSON.stringify(reportHistory));
+  }
 
-function saveScheduledReport() {
-    const reportType = document.getElementById('scheduleReportType').value;
-    const frequency = document.getElementById('scheduleFrequency').value;
-    const time = document.getElementById('scheduleTime').value;
-    const startDate = document.getElementById('scheduleStartDate').value;
-    const emails = document.getElementById('scheduleEmails').value;
-    const format = document.getElementById('scheduleFormat').value;
-    
+  function saveScheduledReport() {
+    const reportType = document.getElementById("scheduleReportType").value;
+    const frequency = document.getElementById("scheduleFrequency").value;
+    const time = document.getElementById("scheduleTime").value;
+    const startDate = document.getElementById("scheduleStartDate").value;
+    const emails = document.getElementById("scheduleEmails").value;
+    const format = document.getElementById("scheduleFormat").value;
+
     if (!reportType || !frequency || !time || !startDate || !emails) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
     }
-    
-    const scheduledReport = {
-        id: Date.now(),
-        name: getReportName(reportType),
-        type: reportType,
-        frequency: frequency,
-        time: time,
-        startDate: startDate,
-        emails: emails.split(',').map(email => email.trim()),
-        format: format,
-        status: 'scheduled',
-        createdAt: new Date().toISOString(),
-        nextRun: calculateNextRun(startDate, time, frequency)
-    };
-    
-    scheduledReports.push(scheduledReport);
-    localStorage.setItem('sgp_scheduled_reports', JSON.stringify(scheduledReports));
-    
-    // Close modal
-    document.getElementById('scheduleReportModal').classList.remove('active');
-    
-    alert('Relatório agendado com sucesso!');
-}
 
-function calculateNextRun(startDate, time, frequency) {
+    const scheduledReport = {
+      id: Date.now(),
+      name: getReportName(reportType),
+      type: reportType,
+      frequency: frequency,
+      time: time,
+      startDate: startDate,
+      emails: emails.split(",").map((email) => email.trim()),
+      format: format,
+      status: "scheduled",
+      createdAt: new Date().toISOString(),
+      nextRun: calculateNextRun(startDate, time, frequency),
+    };
+
+    scheduledReports.push(scheduledReport);
+    localStorage.setItem(
+      "sgp_scheduled_reports",
+      JSON.stringify(scheduledReports)
+    );
+
+    // Close modal
+    document.getElementById("scheduleReportModal").classList.remove("active");
+
+    alert("Relatório agendado com sucesso!");
+  }
+
+  function calculateNextRun(startDate, time, frequency) {
     const start = new Date(`${startDate}T${time}`);
     const now = new Date();
-    
+
     if (start > now) {
-        return start.toISOString();
+      return start.toISOString();
     }
-    
+
     // Calculate next run based on frequency
     const next = new Date(start);
-    
+
     switch (frequency) {
-        case 'daily':
-            next.setDate(next.getDate() + 1);
-            break;
-        case 'weekly':
-            next.setDate(next.getDate() + 7);
-            break;
-        case 'monthly':
-            next.setMonth(next.getMonth() + 1);
-            break;
-        case 'quarterly':
-            next.setMonth(next.getMonth() + 3);
-            break;
+      case "daily":
+        next.setDate(next.getDate() + 1);
+        break;
+      case "weekly":
+        next.setDate(next.getDate() + 7);
+        break;
+      case "monthly":
+        next.setMonth(next.getMonth() + 1);
+        break;
+      case "quarterly":
+        next.setMonth(next.getMonth() + 3);
+        break;
     }
-    
+
     return next.toISOString();
-}
+  }
 
-function loadCustomReports() {
-    const saved = localStorage.getItem('sgp_custom_reports');
+  function loadCustomReports() {
+    const saved = localStorage.getItem("sgp_custom_reports");
     if (saved) {
-        customReports = JSON.parse(saved);
+      customReports = JSON.parse(saved);
     }
-}
+  }
 
-function loadScheduledReports() {
-    const saved = localStorage.getItem('sgp_scheduled_reports');
+  function loadScheduledReports() {
+    const saved = localStorage.getItem("sgp_scheduled_reports");
     if (saved) {
-        scheduledReports = JSON.parse(saved);
+      scheduledReports = JSON.parse(saved);
     }
-}
+  }
 
-function loadReportHistory() {
-    const saved = localStorage.getItem('sgp_report_history');
+  function loadReportHistory() {
+    const saved = localStorage.getItem("sgp_report_history");
     if (saved) {
-        reportHistory = JSON.parse(saved);
+      reportHistory = JSON.parse(saved);
     }
-}
+  }
 
-function renderCustomReports() {
-    const container = document.getElementById('customReportsList');
+  function renderCustomReports() {
+    const container = document.getElementById("customReportsList");
     if (!container) return;
-    
+
     if (customReports.length === 0) {
-        container.innerHTML = '<p>Nenhum relatório personalizado encontrado.</p>';
-        return;
+      container.innerHTML = "<p>Nenhum relatório personalizado encontrado.</p>";
+      return;
     }
-    
-    container.innerHTML = customReports.map(report => `
+
+    container.innerHTML = customReports
+      .map(
+        (report) => `
         <div class="custom-report-item">
             <div class="report-item-info">
                 <h4>${report.name}</h4>
-                <p>${report.description || 'Sem descrição'}</p>
-                <small>Criado em: ${new Date(report.createdAt).toLocaleDateString('pt-BR')}</small>
+                <p>${report.description || "Sem descrição"}</p>
+                <small>Criado em: ${new Date(
+                  report.createdAt
+                ).toLocaleDateString("pt-BR")}</small>
             </div>
             <div class="report-item-actions">
-                <button class="btn btn-sm" onclick="generateCustomReport(${JSON.stringify(report).replace(/"/g, '&quot;')})">
+                <button class="btn btn-sm" onclick="generateCustomReport(${JSON.stringify(
+                  report
+                ).replace(/"/g, "&quot;")})">
                     <i class="fas fa-play"></i> Gerar
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="editCustomReport(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="editCustomReport(${
+                  report.id
+                })">
                     <i class="fas fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="deleteCustomReport(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="deleteCustomReport(${
+                  report.id
+                })">
                     <i class="fas fa-trash"></i> Excluir
                 </button>
             </div>
         </div>
-    `).join('');
-}
+    `
+      )
+      .join("");
+  }
 
-function renderScheduledReports() {
-    const container = document.getElementById('scheduledReportsList');
+  function renderScheduledReports() {
+    const container = document.getElementById("scheduledReportsList");
     if (!container) return;
-    
+
     if (scheduledReports.length === 0) {
-        container.innerHTML = '<p>Nenhum relatório agendado encontrado.</p>';
-        return;
+      container.innerHTML = "<p>Nenhum relatório agendado encontrado.</p>";
+      return;
     }
-    
-    container.innerHTML = scheduledReports.map(report => `
+
+    container.innerHTML = scheduledReports
+      .map(
+        (report) => `
         <div class="scheduled-report-item">
             <div class="report-item-info">
                 <h4>${report.name}</h4>
-                <p>Frequência: ${report.frequency} | Próxima execução: ${new Date(report.nextRun).toLocaleString('pt-BR')}</p>
-                                <small>Emails: ${report.emails.join(', ')}</small>
+                <p>Frequência: ${
+                  report.frequency
+                } | Próxima execução: ${new Date(report.nextRun).toLocaleString(
+          "pt-BR"
+        )}</p>
+                                <small>Emails: ${report.emails.join(
+                                  ", "
+                                )}</small>
             </div>
             <div class="report-item-actions">
-                <span class="status-badge ${report.status}">${report.status}</span>
-                <button class="btn btn-sm" onclick="runScheduledReport(${report.id})">
+                <span class="status-badge ${report.status}">${
+          report.status
+        }</span>
+                <button class="btn btn-sm" onclick="runScheduledReport(${
+                  report.id
+                })">
                     <i class="fas fa-play"></i> Executar Agora
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="editScheduledReport(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="editScheduledReport(${
+                  report.id
+                })">
                     <i class="fas fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="deleteScheduledReport(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="deleteScheduledReport(${
+                  report.id
+                })">
                     <i class="fas fa-trash"></i> Excluir
                 </button>
             </div>
         </div>
-    `).join('');
-}
+    `
+      )
+      .join("");
+  }
 
-function renderReportHistory() {
-    const container = document.getElementById('reportHistoryList');
+  function renderReportHistory() {
+    const container = document.getElementById("reportHistoryList");
     if (!container) return;
-    
+
     if (reportHistory.length === 0) {
-        container.innerHTML = '<p>Nenhum relatório no histórico.</p>';
-        return;
+      container.innerHTML = "<p>Nenhum relatório no histórico.</p>";
+      return;
     }
-    
-    container.innerHTML = reportHistory.map(report => `
+
+    container.innerHTML = reportHistory
+      .map(
+        (report) => `
         <div class="report-history-item">
             <div class="report-item-info">
                 <h4>${report.name}</h4>
-                <p>Tipo: ${report.type} | Formato: ${report.format.toUpperCase()} | Tamanho: ${report.size}</p>
-                <small>Gerado em: ${new Date(report.date).toLocaleString('pt-BR')}</small>
+                <p>Tipo: ${
+                  report.type
+                } | Formato: ${report.format.toUpperCase()} | Tamanho: ${
+          report.size
+        }</p>
+                <small>Gerado em: ${new Date(report.date).toLocaleString(
+                  "pt-BR"
+                )}</small>
             </div>
             <div class="report-item-actions">
-                <span class="status-badge ${report.status}">${report.status}</span>
-                <button class="btn btn-sm" onclick="downloadReport(${report.id})">
+                <span class="status-badge ${report.status}">${
+          report.status
+        }</span>
+                <button class="btn btn-sm" onclick="downloadReport(${
+                  report.id
+                })">
                     <i class="fas fa-download"></i> Download
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="deleteReportFromHistory(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="deleteReportFromHistory(${
+                  report.id
+                })">
                     <i class="fas fa-trash"></i> Excluir
                 </button>
             </div>
         </div>
-    `).join('');
-}
+    `
+      )
+      .join("");
+  }
 
-function createCustomReport() {
+  function createCustomReport() {
     openCustomReportModal();
-}
+  }
 
-function scheduleNewReport() {
-    document.getElementById('scheduleReportModal').classList.add('active');
-}
+  function scheduleNewReport() {
+    document.getElementById("scheduleReportModal").classList.add("active");
+  }
 
-function editCustomReport(id) {
-    const report = customReports.find(r => r.id === id);
+  function editCustomReport(id) {
+    const report = customReports.find((r) => r.id === id);
     if (report) {
-        // Populate form with existing data
-        document.getElementById('reportName').value = report.name;
-        document.getElementById('reportDescription').value = report.description || '';
-        
-        // Set data sources
-        document.querySelectorAll('input[name="dataSources"]').forEach(cb => {
-            cb.checked = report.dataSources.includes(cb.value);
-        });
-        
-        document.getElementById('reportDateRange').value = report.dateRange || '';
-        document.getElementById('reportStatus').value = report.status || '';
-        
-        // Set output format
-        document.querySelector(`input[name="outputFormat"][value="${report.outputFormat}"]`).checked = true;
-        
-        openCustomReportModal();
-        updateFieldsSelection();
-        
-        // Set selected fields
-        setTimeout(() => {
-            document.querySelectorAll('input[name="reportFields"]').forEach(cb => {
-                cb.checked = report.fields.includes(cb.value);
-            });
-        }, 100);
-    }
-}
+      // Populate form with existing data
+      document.getElementById("reportName").value = report.name;
+      document.getElementById("reportDescription").value =
+        report.description || "";
 
-function deleteCustomReport(id) {
-    if (confirm('Tem certeza que deseja excluir este relatório personalizado?')) {
-        customReports = customReports.filter(r => r.id !== id);
-        localStorage.setItem('sgp_custom_reports', JSON.stringify(customReports));
-        renderCustomReports();
-    }
-}
+      // Set data sources
+      document.querySelectorAll('input[name="dataSources"]').forEach((cb) => {
+        cb.checked = report.dataSources.includes(cb.value);
+      });
 
-function editScheduledReport(id) {
-    const report = scheduledReports.find(r => r.id === id);
+      document.getElementById("reportDateRange").value = report.dateRange || "";
+      document.getElementById("reportStatus").value = report.status || "";
+
+      // Set output format
+      document.querySelector(
+        `input[name="outputFormat"][value="${report.outputFormat}"]`
+      ).checked = true;
+
+      openCustomReportModal();
+      updateFieldsSelection();
+
+      // Set selected fields
+      setTimeout(() => {
+        document
+          .querySelectorAll('input[name="reportFields"]')
+          .forEach((cb) => {
+            cb.checked = report.fields.includes(cb.value);
+          });
+      }, 100);
+    }
+  }
+
+  function deleteCustomReport(id) {
+    if (
+      confirm("Tem certeza que deseja excluir este relatório personalizado?")
+    ) {
+      customReports = customReports.filter((r) => r.id !== id);
+      localStorage.setItem("sgp_custom_reports", JSON.stringify(customReports));
+      renderCustomReports();
+    }
+  }
+
+  function editScheduledReport(id) {
+    const report = scheduledReports.find((r) => r.id === id);
     if (report) {
-        document.getElementById('scheduleReportType').value = report.type;
-        document.getElementById('scheduleFrequency').value = report.frequency;
-        document.getElementById('scheduleTime').value = report.time;
-        document.getElementById('scheduleStartDate').value = report.startDate;
-        document.getElementById('scheduleEmails').value = report.emails.join(', ');
-        document.getElementById('scheduleFormat').value = report.format;
-        
-        document.getElementById('scheduleReportModal').classList.add('active');
-    }
-}
+      document.getElementById("scheduleReportType").value = report.type;
+      document.getElementById("scheduleFrequency").value = report.frequency;
+      document.getElementById("scheduleTime").value = report.time;
+      document.getElementById("scheduleStartDate").value = report.startDate;
+      document.getElementById("scheduleEmails").value =
+        report.emails.join(", ");
+      document.getElementById("scheduleFormat").value = report.format;
 
-function deleteScheduledReport(id) {
-    if (confirm('Tem certeza que deseja excluir este relatório agendado?')) {
-        scheduledReports = scheduledReports.filter(r => r.id !== id);
-        localStorage.setItem('sgp_scheduled_reports', JSON.stringify(scheduledReports));
-        renderScheduledReports();
+      document.getElementById("scheduleReportModal").classList.add("active");
     }
-}
+  }
 
-function runScheduledReport(id) {
-    const report = scheduledReports.find(r => r.id === id);
+  function deleteScheduledReport(id) {
+    if (confirm("Tem certeza que deseja excluir este relatório agendado?")) {
+      scheduledReports = scheduledReports.filter((r) => r.id !== id);
+      localStorage.setItem(
+        "sgp_scheduled_reports",
+        JSON.stringify(scheduledReports)
+      );
+      renderScheduledReports();
+    }
+  }
+
+  function runScheduledReport(id) {
+    const report = scheduledReports.find((r) => r.id === id);
     if (report) {
-        console.log('Running scheduled report:', report);
-        
-        // Add to history
-        const reportData = {
-            id: Date.now(),
-            name: report.name,
-            type: report.type,
-            date: new Date().toISOString(),
-            status: 'completed',
-            format: report.format,
-            size: '2.1 MB'
-        };
-        
-        reportHistory.unshift(reportData);
-        localStorage.setItem('sgp_report_history', JSON.stringify(reportHistory));
-        
-        alert(`Relatório ${report.name} executado com sucesso!`);
-    }
-}
+      console.log("Running scheduled report:", report);
 
-function downloadReport(id) {
-    const report = reportHistory.find(r => r.id === id);
+      // Add to history
+      const reportData = {
+        id: Date.now(),
+        name: report.name,
+        type: report.type,
+        date: new Date().toISOString(),
+        status: "completed",
+        format: report.format,
+        size: "2.1 MB",
+      };
+
+      reportHistory.unshift(reportData);
+      localStorage.setItem("sgp_report_history", JSON.stringify(reportHistory));
+
+      alert(`Relatório ${report.name} executado com sucesso!`);
+    }
+  }
+
+  function downloadReport(id) {
+    const report = reportHistory.find((r) => r.id === id);
     if (report) {
-        console.log('Downloading report:', report);
-        alert(`Download do relatório ${report.name} iniciado!`);
+      console.log("Downloading report:", report);
+      alert(`Download do relatório ${report.name} iniciado!`);
     }
-}
+  }
 
-function deleteReportFromHistory(id) {
-    if (confirm('Tem certeza que deseja excluir este relatório do histórico?')) {
-        reportHistory = reportHistory.filter(r => r.id !== id);
-        localStorage.setItem('sgp_report_history', JSON.stringify(reportHistory));
-        renderReportHistory();
+  function deleteReportFromHistory(id) {
+    if (
+      confirm("Tem certeza que deseja excluir este relatório do histórico?")
+    ) {
+      reportHistory = reportHistory.filter((r) => r.id !== id);
+      localStorage.setItem("sgp_report_history", JSON.stringify(reportHistory));
+      renderReportHistory();
     }
-}
+  }
 
-function filterReportHistory() {
-    const dateFrom = document.getElementById('historyDateFrom').value;
-    const dateTo = document.getElementById('historyDateTo').value;
-    const type = document.getElementById('historyType').value;
-    
+  function filterReportHistory() {
+    const dateFrom = document.getElementById("historyDateFrom").value;
+    const dateTo = document.getElementById("historyDateTo").value;
+    const type = document.getElementById("historyType").value;
+
     let filteredHistory = [...reportHistory];
-    
+
     if (dateFrom) {
-        filteredHistory = filteredHistory.filter(report => 
-            new Date(report.date) >= new Date(dateFrom)
-        );
+      filteredHistory = filteredHistory.filter(
+        (report) => new Date(report.date) >= new Date(dateFrom)
+      );
     }
-    
+
     if (dateTo) {
-        filteredHistory = filteredHistory.filter(report => 
-            new Date(report.date) <= new Date(dateTo)
-        );
+      filteredHistory = filteredHistory.filter(
+        (report) => new Date(report.date) <= new Date(dateTo)
+      );
     }
-    
+
     if (type) {
-        filteredHistory = filteredHistory.filter(report => 
-            report.type === type
-        );
+      filteredHistory = filteredHistory.filter(
+        (report) => report.type === type
+      );
     }
-    
+
     // Render filtered results
-    const container = document.getElementById('reportHistoryList');
+    const container = document.getElementById("reportHistoryList");
     if (filteredHistory.length === 0) {
-        container.innerHTML = '<p>Nenhum relatório encontrado com os filtros aplicados.</p>';
-        return;
+      container.innerHTML =
+        "<p>Nenhum relatório encontrado com os filtros aplicados.</p>";
+      return;
     }
-    
-    container.innerHTML = filteredHistory.map(report => `
+
+    container.innerHTML = filteredHistory
+      .map(
+        (report) => `
         <div class="report-history-item">
             <div class="report-item-info">
                 <h4>${report.name}</h4>
-                <p>Tipo: ${report.type} | Formato: ${report.format.toUpperCase()} | Tamanho: ${report.size}</p>
-                <small>Gerado em: ${new Date(report.date).toLocaleString('pt-BR')}</small>
+                <p>Tipo: ${
+                  report.type
+                } | Formato: ${report.format.toUpperCase()} | Tamanho: ${
+          report.size
+        }</p>
+                <small>Gerado em: ${new Date(report.date).toLocaleString(
+                  "pt-BR"
+                )}</small>
             </div>
             <div class="report-item-actions">
-                <span class="status-badge ${report.status}">${report.status}</span>
-                <button class="btn btn-sm" onclick="downloadReport(${report.id})">
+                <span class="status-badge ${report.status}">${
+          report.status
+        }</span>
+                <button class="btn btn-sm" onclick="downloadReport(${
+                  report.id
+                })">
                     <i class="fas fa-download"></i> Download
                 </button>
-                <button class="btn btn-secondary btn-sm" onclick="deleteReportFromHistory(${report.id})">
+                <button class="btn btn-secondary btn-sm" onclick="deleteReportFromHistory(${
+                  report.id
+                })">
                     <i class="fas fa-trash"></i> Excluir
                 </button>
             </div>
         </div>
-    `).join('');
-}
+    `
+      )
+      .join("");
+  }
 </script>
