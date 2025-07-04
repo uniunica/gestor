@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Gerenciamento de Parceiros - Login</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <h1>Sistema de Gerenciamento</h1>
+          <p>Controle e gestão de parceiros</p>
+        </div>
+
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="username" class="form-label">Usuário</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-input"
+              placeholder="Digite seu usuário"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Senha</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="Digite sua senha"
+              required
+            />
+          </div>
+
+          <div id="loginError" class="alert alert-error" style="display: none"></div>
+
+          <button type="submit" class="btn btn-primary login-btn">
+            <span id="loginText">Entrar</span>
+            <div id="loginSpinner" class="spinner" style="display: none; width: 20px; height: 20px"></div>
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <p>Acesso restrito - Sistema interno</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>
