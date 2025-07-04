@@ -1,0 +1,1894 @@
+<div class="estrategia-container">
+  <div class="estrategia-header">
+    <h2><i class="fas fa-chess"></i> Estratégia de Expansão</h2>
+    <div class="estrategia-controls">
+      <button class="btn btn-secondary" id="exportStrategyBtn">
+        <i class="fas fa-download"></i> Exportar Análise
+      </button>
+      <button class="btn" id="newStrategyBtn">
+        <i class="fas fa-plus"></i> Nova Estratégia
+      </button>
+    </div>
+  </div>
+
+  <div class="strategy-overview">
+    <div class="overview-card">
+      <h3><i class="fas fa-bullseye"></i> Visão Geral Estratégica</h3>
+      <div class="overview-stats">
+        <div class="overview-stat">
+          <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="stat-content">
+            <h4 id="growthRate">+15%</h4>
+            <p>Taxa de Crescimento</p>
+          </div>
+        </div>
+        <div class="overview-stat">
+          <div class="stat-icon">
+            <i class="fas fa-target"></i>
+          </div>
+          <div class="stat-content">
+            <h4 id="marketPenetration">23%</h4>
+            <p>Penetração de Mercado</p>
+          </div>
+        </div>
+        <div class="overview-stat">
+          <div class="stat-icon">
+            <i class="fas fa-map"></i>
+          </div>
+          <div class="stat-content">
+            <h4 id="expansionOpportunities">8</h4>
+            <p>Oportunidades de Expansão</p>
+          </div>
+        </div>
+        <div class="overview-stat">
+          <div class="stat-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="stat-content">
+            <h4 id="riskLevel">Baixo</h4>
+            <p>Nível de Risco</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strategy-sections">
+    <div class="strategy-tabs">
+      <button class="strategy-tab active" data-section="swot">
+        <i class="fas fa-balance-scale"></i> Análise SWOT
+      </button>
+      <button class="strategy-tab" data-section="market">
+        <i class="fas fa-chart-pie"></i> Análise de Mercado
+      </button>
+      <button class="strategy-tab" data-section="expansion">
+        <i class="fas fa-expand-arrows-alt"></i> Plano de Expansão
+      </button>
+      <button class="strategy-tab" data-section="competitors">
+        <i class="fas fa-users-cog"></i> Concorrência
+      </button>
+      <button class="strategy-tab" data-section="goals">
+        <i class="fas fa-flag-checkered"></i> Metas e KPIs
+      </button>
+    </div>
+
+    <!-- Análise SWOT -->
+    <div class="strategy-section active" id="swot">
+      <div class="swot-analysis">
+        <div class="swot-grid">
+          <div class="swot-quadrant strengths">
+            <div class="quadrant-header">
+              <h4><i class="fas fa-thumbs-up"></i> Forças</h4>
+              <button class="btn btn-sm" onclick="addSwotItem('strengths')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="swot-items" id="strengthsItems">
+              <div class="swot-item">
+                <span>Marca consolidada no mercado de estética</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Rede de parceiros qualificados</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Sistema de gestão eficiente</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="swot-quadrant weaknesses">
+            <div class="quadrant-header">
+              <h4><i class="fas fa-thumbs-down"></i> Fraquezas</h4>
+              <button class="btn btn-sm" onclick="addSwotItem('weaknesses')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="swot-items" id="weaknessesItems">
+              <div class="swot-item">
+                <span>Dependência de poucos polos principais</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Processo de onboarding lento</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="swot-quadrant opportunities">
+            <div class="quadrant-header">
+              <h4><i class="fas fa-lightbulb"></i> Oportunidades</h4>
+              <button class="btn btn-sm" onclick="addSwotItem('opportunities')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="swot-items" id="opportunitiesItems">
+              <div class="swot-item">
+                <span>Crescimento do mercado de estética</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Expansão para cidades do interior</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Parcerias com influenciadores</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="swot-quadrant threats">
+            <div class="quadrant-header">
+              <h4><i class="fas fa-exclamation-triangle"></i> Ameaças</h4>
+              <button class="btn btn-sm" onclick="addSwotItem('threats')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="swot-items" id="threatsItems">
+              <div class="swot-item">
+                <span>Entrada de grandes redes no mercado</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="swot-item">
+                <span>Mudanças na regulamentação</span>
+                <button class="remove-item" onclick="removeSwotItem(this)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Análise de Mercado -->
+    <div class="strategy-section" id="market">
+      <div class="market-analysis">
+        <div class="market-cards">
+          <div class="market-card">
+            <h4><i class="fas fa-chart-area"></i> Tamanho do Mercado</h4>
+            <div class="market-metric">
+              <span class="metric-value">R$ 2.8 Bi</span>
+              <span class="metric-label">Mercado Total Endereçável</span>
+            </div>
+            <div class="market-chart" id="marketSizeChart">
+              <!-- Gráfico será inserido aqui -->
+            </div>
+          </div>
+
+          <div class="market-card">
+            <h4><i class="fas fa-users"></i> Segmentação de Clientes</h4>
+            <div class="customer-segments">
+              <div class="segment">
+                <span class="segment-name">Clínicas Premium</span>
+                <div class="segment-bar">
+                  <div class="segment-fill" style="width: 35%"></div>
+                </div>
+                <span class="segment-percentage">35%</span>
+              </div>
+              <div class="segment">
+                <span class="segment-name">Estúdios de Beleza</span>
+                <div class="segment-bar">
+                  <div class="segment-fill" style="width: 45%"></div>
+                </div>
+                <span class="segment-percentage">45%</span>
+              </div>
+              <div class="segment">
+                <span class="segment-name">Spas</span>
+                <div class="segment-bar">
+                  <div class="segment-fill" style="width: 20%"></div>
+                </div>
+                <span class="segment-percentage">20%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-card">
+            <h4><i class="fas fa-map-marked-alt"></i> Análise Regional</h4>
+            <div class="regional-analysis">
+              <div class="region-item">
+                <span class="region-name">Sudeste</span>
+                <span class="region-potential">Alto Potencial</span>
+                <span class="region-status active">Ativo</span>
+              </div>
+              <div class="region-item">
+                <span class="region-name">Sul</span>
+                <span class="region-potential">Médio Potencial</span>
+                <span class="region-status planned">Planejado</span>
+              </div>
+              <div class="region-item">
+                <span class="region-name">Nordeste</span>
+                <span class="region-potential">Alto Potencial</span>
+                <span class="region-status opportunity">Oportunidade</span>
+              </div>
+              <div class="region-item">
+                <span class="region-name">Centro-Oeste</span>
+                <span class="region-potential">Baixo Potencial</span>
+                <span class="region-status opportunity">Oportunidade</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-card">
+            <h4><i class="fas fa-chart-line"></i> Tendências do Mercado</h4>
+            <div class="market-trends">
+              <div class="trend-item">
+                <div class="trend-icon positive">
+                  <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="trend-content">
+                  <h5>Crescimento da Estética Masculina</h5>
+                  <p>+28% ao ano</p>
+                </div>
+              </div>
+              <div class="trend-item">
+                <div class="trend-icon positive">
+                  <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="trend-content">
+                  <h5>Tecnologias Não-Invasivas</h5>
+                  <p>+35% de demanda</p>
+                </div>
+              </div>
+              <div class="trend-item">
+                <div class="trend-icon negative">
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="trend-content">
+                  <h5>Procedimentos Invasivos</h5>
+                  <p>-12% de interesse</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plano de Expansão -->
+    <div class="strategy-section" id="expansion">
+      <div class="expansion-planning">
+        <div class="expansion-timeline">
+          <h4><i class="fas fa-calendar-alt"></i> Cronograma de Expansão</h4>
+          <div class="timeline">
+            <div class="timeline-item completed">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h5>Q1 2024 - Consolidação SP/RJ</h5>
+                <p>Fortalecimento dos polos existentes</p>
+                <span class="timeline-status">Concluído</span>
+              </div>
+            </div>
+            <div class="timeline-item active">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h5>Q2 2024 - Expansão MG/DF</h5>
+                <p>Abertura de novos polos em Belo Horizonte e Brasília</p>
+                <span class="timeline-status">Em Andamento</span>
+              </div>
+            </div>
+            <div class="timeline-item planned">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h5>Q3 2024 - Região Sul</h5>
+                <p>Entrada em Porto Alegre e Curitiba</p>
+                <span class="timeline-status">Planejado</span>
+              </div>
+            </div>
+            <div class="timeline-item planned">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h5>Q4 2024 - Nordeste</h5>
+                <p>Expansão para Salvador e Recife</p>
+                <span class="timeline-status">Planejado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expansion-priorities">
+          <h4><i class="fas fa-list-ol"></i> Prioridades de Expansão</h4>
+          <div class="priorities-list">
+            <div class="priority-item high">
+              <div class="priority-indicator"></div>
+              <div class="priority-content">
+                <h5>Campinas - SP</h5>
+                <p>População: 1.2M | Potencial: Alto | Concorrência: Baixa</p>
+                <div class="priority-metrics">
+                  <span class="metric">ROI: 145%</span>
+                  <span class="metric">Payback: 8 meses</span>
+                </div>
+              </div>
+              <button class="btn btn-sm">Analisar</button>
+            </div>
+            <div class="priority-item high">
+              <div class="priority-indicator"></div>
+              <div class="priority-content">
+                <h5>Goiânia - GO</h5>
+                <p>População: 1.5M | Potencial: Alto | Concorrência: Média</p>
+                <div class="priority-metrics">
+                  <span class="metric">ROI: 132%</span>
+                  <span class="metric">Payback: 10 meses</span>
+                </div>
+              </div>
+              <button class="btn btn-sm">Analisar</button>
+            </div>
+            <div class="priority-item medium">
+              <div class="priority-indicator"></div>
+              <div class="priority-content">
+                <h5>Florianópolis - SC</h5>
+                <p>População: 500K | Potencial: Médio | Concorrência: Baixa</p>
+                <div class="priority-metrics">
+                  <span class="metric">ROI: 118%</span>
+                  <span class="metric">Payback: 12 meses</span>
+                </div>
+              </div>
+              <button class="btn btn-sm">Analisar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Análise de Concorrência -->
+    <div class="strategy-section" id="competitors">
+      <div class="competitors-analysis">
+        <div class="competitors-overview">
+          <h4><i class="fas fa-chart-bar"></i> Panorama Competitivo</h4>
+          <div class="competitive-matrix">
+            <div class="matrix-chart" id="competitiveMatrix">
+              <!-- Gráfico de matriz competitiva -->
+            </div>
+          </div>
+        </div>
+
+        <div class="competitors-list">
+          <h4><i class="fas fa-users-cog"></i> Principais Concorrentes</h4>
+          <div class="competitor-cards">
+            <div class="competitor-card">
+              <div class="competitor-header">
+                <h5>Rede Estética Plus</h5>
+                <span class="threat-level high">Alto Risco</span>
+              </div>
+              <div class="competitor-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">Market Share</span>
+                  <span class="metric-value">28%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Polos</span>
+                  <span class="metric-value">45</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Crescimento</span>
+                  <span class="metric-value">+22%</span>
+                </div>
+              </div>
+              <div class="competitor-strengths">
+                <h6>Pontos Fortes:</h6>
+                <ul>
+                  <li>Forte presença nacional</li>
+                  <li>Investimento em tecnologia</li>
+                  <li>Marca consolidada</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="competitor-card">
+              <div class="competitor-header">
+                <h5>Beleza & Cia</h5>
+                <span class="threat-level medium">Médio Risco</span>
+              </div>
+              <div class="competitor-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">Market Share</span>
+                  <span class="metric-value">15%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Polos</span>
+                  <span class="metric-value">22</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Crescimento</span>
+                  <span class="metric-value">+8%</span>
+                </div>
+              </div>
+              <div class="competitor-strengths">
+                <h6>Pontos Fortes:</h6>
+                <ul>
+                  <li>Foco em mercado premium</li>
+                  <li>Excelente atendimento</li>
+                  <li>Parcerias estratégicas</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="competitor-card">
+              <div class="competitor-header">
+                <h5>Estética Express</h5>
+                <span class="threat-level low">Baixo Risco</span>
+              </div>
+              <div class="competitor-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">Market Share</span>
+                  <span class="metric-value">8%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Polos</span>
+                  <span class="metric-value">12</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Crescimento</span>
+                  <span class="metric-value">+3%</span>
+                </div>
+              </div>
+              <div class="competitor-strengths">
+                <h6>Pontos Fortes:</h6>
+                <ul>
+                  <li>Preços competitivos</li>
+                  <li>Agilidade no atendimento</li>
+                  <li>Foco em volume</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metas e KPIs -->
+    <div class="strategy-section" id="goals">
+      <div class="goals-management">
+        <div class="goals-overview">
+          <h4><i class="fas fa-bullseye"></i> Metas Estratégicas 2024</h4>
+          <div class="goals-progress">
+            <div class="goal-item">
+              <div class="goal-header">
+                <h5>Crescimento de Parceiros</h5>
+                <span class="goal-target">Meta: 100 parceiros</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 45%"></div>
+              </div>
+              <div class="goal-stats">
+                <span class="current">Atual: 45</span>
+                <span class="percentage">45%</span>
+              </div>
+            </div>
+
+            <div class="goal-item">
+              <div class="goal-header">
+                <h5>Expansão de Polos</h5>
+                <span class="goal-target">Meta: 20 polos</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+              </div>
+              <div class="goal-stats">
+                <span class="current">Atual: 12</span>
+                <span class="percentage">60%</span>
+              </div>
+            </div>
+
+            <div class="goal-item">
+              <div class="goal-header">
+                <h5>Receita Anual</h5>
+                <span class="goal-target">Meta: R$ 5M</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 38%"></div>
+              </div>
+              <div class="goal-stats">
+                <span class="current">Atual: R$ 1.9M</span>
+                <span class="percentage">38%</span>
+              </div>
+            </div>
+
+            <div class="goal-item">
+              <div class="goal-header">
+                <h5>Market Share</h5>
+                <span class="goal-target">Meta: 12%</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 75%"></div>
+              </div>
+              <div class="goal-stats">
+                <span class="current">Atual: 9%</span>
+                <span class="percentage">75%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpis-dashboard">
+          <h4><i class="fas fa-tachometer-alt"></i> KPIs Principais</h4>
+          <div class="kpis-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="kpi-content">
+                <h5>CAC</h5>
+                <span class="kpi-value">R$ 1.250</span>
+                <span class="kpi-change positive">-15%</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="kpi-content">
+                <h5>LTV</h5>
+                <span class="kpi-value">R$ 18.500</span>
+                <span class="kpi-change positive">+8%</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="kpi-content">
+                <h5>Churn Rate</h5>
+                <span class="kpi-value">3.2%</span>
+                <span class="kpi-change positive">-0.8%</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="kpi-content">
+                <h5>ROI</h5>
+                <span class="kpi-value">145%</span>
+                <span class="kpi-change positive">+12%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .estrategia-container {
+    padding: 0;
+  }
+
+  .estrategia-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .estrategia-header h2 {
+    color: var(--primary-purple);
+    margin: 0;
+  }
+
+  .estrategia-controls {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .strategy-overview {
+    margin-bottom: 2rem;
+  }
+
+  .overview-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+  }
+
+  .overview-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .overview-stat {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-light);
+    border-radius: 0.5rem;
+  }
+
+  .overview-stat .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+
+  .overview-stat .stat-content h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .overview-stat .stat-content p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .strategy-sections {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .strategy-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    overflow-x: auto;
+  }
+
+  .strategy-tab {
+    padding: 1rem 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .strategy-tab:hover,
+  .strategy-tab.active {
+    color: var(--primary-purple);
+    border-bottom-color: var(--primary-purple);
+  }
+
+  .strategy-section {
+    display: none;
+    padding: 2rem;
+  }
+
+  .strategy-section.active {
+    display: block;
+  }
+
+  /* SWOT Analysis Styles */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .swot-quadrant {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    min-height: 300px;
+  }
+
+  .swot-quadrant.strengths {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border-left: 4px solid #059669;
+  }
+
+  .swot-quadrant.weaknesses {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border-left: 4px solid #dc2626;
+  }
+
+  .swot-quadrant.opportunities {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-left: 4px solid #2563eb;
+  }
+
+  .swot-quadrant.threats {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-left: 4px solid #d97706;
+  }
+
+  .quadrant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .quadrant-header h4 {
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .swot-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .swot-item {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .swot-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateX(5px);
+  }
+
+  .remove-item {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .remove-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #dc2626;
+  }
+
+  /* Market Analysis Styles */
+  .market-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .market-card {
+    background: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .market-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .market-metric {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-purple);
+  }
+
+  .metric-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .customer-segments {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .segment {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .segment-name {
+    min-width: 120px;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+  }
+
+  .segment-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .segment-fill {
+    height: 100%;
+    background: var(--primary-purple);
+    transition: width 0.3s ease;
+  }
+
+  .segment-percentage {
+    min-width: 40px;
+    text-align: right;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .regional-analysis {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .region-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--white);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .region-name {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .region-potential {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .region-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .region-status.active {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .region-status.planned {
+    background: #dbeafe;
+    color: #2563eb;
+  }
+
+  .region-status.opportunity {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .market-trends {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .trend-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--white);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .trend-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+
+  .trend-icon.positive {
+    background: #059669;
+  }
+
+  .trend-icon.negative {
+    background: #dc2626;
+  }
+
+  .trend-content h5 {
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .trend-content p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  /* Expansion Planning Styles */
+  .expansion-planning {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .expansion-timeline h4,
+  .expansion-priorities h4 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-color);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -2rem;
+    top: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 3px solid var(--border-color);
+    background: var(--white);
+  }
+
+  .timeline-item.completed .timeline-marker {
+    background: #059669;
+    border-color: #059669;
+  }
+
+  .timeline-item.active .timeline-marker {
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
+    animation: pulse 2s infinite;
+  }
+
+  .timeline-item.planned .timeline-marker {
+    background: var(--background-light);
+    border-color: var(--text-secondary);
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(107, 70, 193, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(107, 70, 193, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(107, 70, 193, 0);
+    }
+  }
+
+  .timeline-content {
+    background: var(--background-light);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--border-color);
+  }
+
+  .timeline-item.completed .timeline-content {
+    border-left-color: #059669;
+  }
+
+  .timeline-item.active .timeline-content {
+    border-left-color: var(--primary-purple);
+  }
+
+  .timeline-content h5 {
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .timeline-content p {
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .timeline-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .timeline-item.completed .timeline-status {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .timeline-item.active .timeline-status {
+    background: var(--accent-purple);
+    color: var(--primary-purple);
+  }
+
+  .timeline-item.planned .timeline-status {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+
+  .priorities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .priority-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-light);
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .priority-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+  }
+
+  .priority-item.high {
+    border-left-color: #dc2626;
+  }
+
+  .priority-item.medium {
+    border-left-color: #d97706;
+  }
+
+  .priority-item.low {
+    border-left-color: #059669;
+  }
+
+  .priority-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-color);
+  }
+
+  .priority-item.high .priority-indicator {
+    background: #dc2626;
+  }
+
+  .priority-item.medium .priority-indicator {
+    background: #d97706;
+  }
+
+  .priority-item.low .priority-indicator {
+    background: #059669;
+  }
+
+  .priority-content {
+    flex: 1;
+  }
+
+  .priority-content h5 {
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .priority-content p {
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .priority-metrics {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .priority-metrics .metric {
+    padding: 0.25rem 0.5rem;
+    background: var(--white);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* Competitors Analysis Styles */
+  .competitors-overview {
+    margin-bottom: 2rem;
+  }
+
+  .competitors-overview h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .competitive-matrix {
+    height: 300px;
+    background: var(--background-light);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+  }
+
+  .competitors-list h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .competitor-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .competitor-card {
+    background: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .competitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .competitor-header h5 {
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .threat-level {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .threat-level.high {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .threat-level.medium {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .threat-level.low {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .competitor-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: 0.5rem;
+  }
+
+  .metric-item {
+    text-align: center;
+  }
+
+  .metric-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+
+  .competitor-strengths h6 {
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .competitor-strengths ul {
+    margin: 0;
+    padding-left: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .competitor-strengths li {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Goals Management Styles */
+  .goals-management {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+
+  .goals-overview h4,
+  .kpis-dashboard h4 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .goals-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .goal-item {
+    background: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .goal-header h5 {
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .goal-target {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .goal-progress-bar {
+    height: 12px;
+    background: var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--secondary-purple),
+      var(--primary-purple)
+    );
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+
+  .goal-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .goal-stats .current {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .goal-stats .percentage {
+    font-weight: bold;
+    color: var(--primary-purple);
+  }
+
+  .kpis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .kpi-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-light);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .kpi-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+
+  .kpi-content h5 {
+    color: var(--text-secondary);
+    margin: 0 0 0.25rem 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .kpi-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .kpi-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .kpi-change.positive {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .kpi-change.negative {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .swot-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .expansion-planning {
+      grid-template-columns: 1fr;
+    }
+
+    .goals-management {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .estrategia-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .estrategia-controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .overview-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .strategy-tabs {
+      flex-wrap: wrap;
+    }
+
+    .strategy-tab {
+      flex: 1;
+      min-width: 120px;
+      justify-content: center;
+    }
+
+    .market-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .competitor-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .competitor-metrics {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .metric-item {
+      display: flex;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .priority-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .priority-metrics {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .kpis-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .kpis-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .overview-stat {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .goal-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Estratégia-specific JavaScript
+  let swotData = {
+    strengths: [],
+    weaknesses: [],
+    opportunities: [],
+    threats: [],
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "estrategia") {
+      initializeEstrategia();
+    }
+  });
+
+  function initializeEstrategia() {
+    setupEstrategiaEventListeners();
+    loadSwotData();
+    updateOverviewStats();
+  }
+
+  function setupEstrategiaEventListeners() {
+    // Strategy tabs
+    const strategyTabs = document.querySelectorAll(".strategy-tab");
+    strategyTabs.forEach((tab) => {
+      tab.addEventListener("click", function () {
+        const section = this.dataset.section;
+        switchStrategySection(section);
+      });
+    });
+
+    // Export strategy button
+    const exportStrategyBtn = document.getElementById("exportStrategyBtn");
+    if (exportStrategyBtn) {
+      exportStrategyBtn.addEventListener("click", function () {
+        exportStrategyAnalysis();
+      });
+    }
+
+    // New strategy button
+    const newStrategyBtn = document.getElementById("newStrategyBtn");
+    if (newStrategyBtn) {
+      newStrategyBtn.addEventListener("click", function () {
+        createNewStrategy();
+      });
+    }
+  }
+
+  function switchStrategySection(section) {
+    // Update tab buttons
+    const tabs = document.querySelectorAll(".strategy-tab");
+    tabs.forEach((tab) => {
+      tab.classList.toggle("active", tab.dataset.section === section);
+    });
+
+    // Update section contents
+    const sections = document.querySelectorAll(".strategy-section");
+    sections.forEach((sectionEl) => {
+      sectionEl.classList.toggle("active", sectionEl.id === section);
+    });
+
+    // Load section-specific content
+    switch (section) {
+      case "market":
+        loadMarketAnalysis();
+        break;
+      case "expansion":
+        loadExpansionPlanning();
+        break;
+      case "competitors":
+        loadCompetitorsAnalysis();
+        break;
+      case "goals":
+        loadGoalsAndKPIs();
+        break;
+    }
+  }
+
+  function addSwotItem(category) {
+    const text = prompt(
+      `Digite um novo item para ${getCategoryName(category)}:`
+    );
+    if (text && text.trim()) {
+      const container = document.getElementById(`${category}Items`);
+      const newItem = document.createElement("div");
+      newItem.className = "swot-item";
+      newItem.innerHTML = `
+            <span>${text.trim()}</span>
+            <button class="remove-item" onclick="removeSwotItem(this)">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+      container.appendChild(newItem);
+
+      // Save to data
+      if (!swotData[category]) {
+        swotData[category] = [];
+      }
+      swotData[category].push(text.trim());
+      saveSwotData();
+    }
+  }
+
+  function removeSwotItem(button) {
+    if (confirm("Tem certeza que deseja remover este item?")) {
+      const item = button.closest(".swot-item");
+      const text = item.querySelector("span").textContent;
+      const container = item.closest(".swot-items");
+      const category = container.id.replace("Items", "");
+
+      // Remove from DOM
+      item.remove();
+
+      // Remove from data
+      if (swotData[category]) {
+        const index = swotData[category].indexOf(text);
+        if (index > -1) {
+          swotData[category].splice(index, 1);
+        }
+      }
+      saveSwotData();
+    }
+  }
+
+  function getCategoryName(category) {
+    const names = {
+      strengths: "Forças",
+      weaknesses: "Fraquezas",
+      opportunities: "Oportunidades",
+      threats: "Ameaças",
+    };
+    return names[category] || category;
+  }
+
+  function loadSwotData() {
+    const saved = localStorage.getItem("sgp_swot_data");
+    if (saved) {
+      swotData = JSON.parse(saved);
+
+      // Populate existing items
+      Object.keys(swotData).forEach((category) => {
+        const container = document.getElementById(`${category}Items`);
+        if (container && swotData[category]) {
+          // Clear existing items except the default ones
+          const existingItems = container.querySelectorAll(".swot-item");
+          existingItems.forEach((item) => {
+            if (
+              !item
+                .querySelector("span")
+                .textContent.includes("Marca consolidada") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Rede de parceiros") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Sistema de gestão") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Dependência de poucos") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Processo de onboarding") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Crescimento do mercado") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Expansão para cidades") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Parcerias com influenciadores") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Entrada de grandes") &&
+              !item
+                .querySelector("span")
+                .textContent.includes("Mudanças na regulamentação")
+            ) {
+              item.remove();
+            }
+          });
+
+          // Add saved items
+          swotData[category].forEach((text) => {
+            // Check if item already exists
+            const existingTexts = Array.from(
+              container.querySelectorAll(".swot-item span")
+            ).map((span) => span.textContent);
+
+            if (!existingTexts.includes(text)) {
+              const newItem = document.createElement("div");
+              newItem.className = "swot-item";
+              newItem.innerHTML = `
+                            <span>${text}</span>
+                            <button class="remove-item" onclick="removeSwotItem(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+              container.appendChild(newItem);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  function saveSwotData() {
+    localStorage.setItem("sgp_swot_data", JSON.stringify(swotData));
+  }
+
+  function updateOverviewStats() {
+    // Simulate loading of overview statistics
+    const stats = {
+      growthRate: "+15%",
+      marketPenetration: "23%",
+      expansionOpportunities: 8,
+      riskLevel: "Baixo",
+    };
+
+    document.getElementById("growthRate").textContent = stats.growthRate;
+    document.getElementById("marketPenetration").textContent =
+      stats.marketPenetration;
+    document.getElementById("expansionOpportunities").textContent =
+      stats.expansionOpportunities;
+    document.getElementById("riskLevel").textContent = stats.riskLevel;
+  }
+
+  function loadMarketAnalysis() {
+    console.log("Loading market analysis...");
+    // Implement market analysis loading
+  }
+
+  function loadExpansionPlanning() {
+    console.log("Loading expansion planning...");
+    // Implement expansion planning loading
+  }
+
+  function loadCompetitorsAnalysis() {
+    console.log("Loading competitors analysis...");
+    // Implement competitors analysis loading
+  }
+
+  function loadGoalsAndKPIs() {
+    console.log("Loading goals and KPIs...");
+    // Implement goals and KPIs loading
+  }
+
+  function exportStrategyAnalysis() {
+    console.log("Exporting strategy analysis...");
+
+    // Create a comprehensive strategy report
+    const reportData = {
+      timestamp: new Date().toISOString(),
+      swotAnalysis: swotData,
+      overviewStats: {
+        growthRate: document.getElementById("growthRate").textContent,
+        marketPenetration:
+          document.getElementById("marketPenetration").textContent,
+        expansionOpportunities: document.getElementById(
+          "expansionOpportunities"
+        ).textContent,
+        riskLevel: document.getElementById("riskLevel").textContent,
+      },
+    };
+
+    // Convert to JSON and download
+    const jsonContent = JSON.stringify(reportData, null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `analise_estrategica_${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    alert("Análise estratégica exportada com sucesso!");
+  }
+
+  function createNewStrategy() {
+    console.log("Creating new strategy...");
+
+    const strategyName = prompt("Digite o nome da nova estratégia:");
+    if (strategyName && strategyName.trim()) {
+      // Create new strategy logic here
+      alert(`Nova estratégia "${strategyName}" criada com sucesso!`);
+    }
+  }
+
+  // Priority analysis functions
+  function analyzePriority(cityName) {
+    console.log(`Analyzing expansion priority for ${cityName}...`);
+    alert(`Análise detalhada de ${cityName} será implementada em breve.`);
+  }
+
+  // Competitor analysis functions
+  function analyzeCompetitor(competitorName) {
+    console.log(`Analyzing competitor: ${competitorName}...`);
+    alert(
+      `Análise detalhada do concorrente ${competitorName} será implementada em breve.`
+    );
+  }
+
+  // Goals management functions
+  function updateGoalProgress(goalId, newProgress) {
+    console.log(`Updating goal ${goalId} progress to ${newProgress}%`);
+
+    const progressBar = document.querySelector(`#${goalId} .progress-fill`);
+    const percentageSpan = document.querySelector(`#${goalId} .percentage`);
+
+    if (progressBar && percentageSpan) {
+      progressBar.style.width = `${newProgress}%`;
+      percentageSpan.textContent = `${newProgress}%`;
+    }
+  }
+
+  function addNewGoal() {
+    const goalName = prompt("Digite o nome da nova meta:");
+    const goalTarget = prompt("Digite o valor da meta:");
+
+    if (goalName && goalTarget) {
+      console.log(`Adding new goal: ${goalName} with target: ${goalTarget}`);
+      alert(`Meta "${goalName}" adicionada com sucesso!`);
+    }
+  }
+
+  // KPI monitoring functions
+  function updateKPI(kpiName, newValue, change) {
+    console.log(`Updating KPI ${kpiName} to ${newValue} with change ${change}`);
+
+    // Find and update KPI card
+    const kpiCards = document.querySelectorAll(".kpi-card");
+    kpiCards.forEach((card) => {
+      const kpiTitle = card.querySelector("h5");
+      if (kpiTitle && kpiTitle.textContent === kpiName) {
+        const valueSpan = card.querySelector(".kpi-value");
+        const changeSpan = card.querySelector(".kpi-change");
+
+        if (valueSpan) valueSpan.textContent = newValue;
+        if (changeSpan) {
+          changeSpan.textContent = change;
+          changeSpan.className = `kpi-change ${
+            change.startsWith("+") ? "positive" : "negative"
+          }`;
+        }
+      }
+    });
+  }
+</script>

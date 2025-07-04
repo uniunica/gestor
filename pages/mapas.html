@@ -1,0 +1,1481 @@
+<div class="mapas-container">
+  <div class="mapas-header">
+    <h2><i class="fas fa-globe"></i> Mapas Interativos</h2>
+    <div class="mapas-controls">
+      <div class="map-view-selector">
+        <select id="mapViewType" class="form-select">
+          <option value="polos">Visualizar Polos</option>
+          <option value="parceiros">Visualizar Parceiros</option>
+          <option value="mercado">Análise de Mercado</option>
+          <option value="expansao">Oportunidades de Expansão</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" id="exportMapBtn">
+        <i class="fas fa-download"></i> Exportar Mapa
+      </button>
+      <button class="btn" id="fullscreenMapBtn">
+        <i class="fas fa-expand"></i> Tela Cheia
+      </button>
+    </div>
+  </div>
+
+  <div class="map-filters">
+    <div class="filter-group">
+      <label for="regionFilter">Região:</label>
+      <select id="regionFilter" class="form-select">
+        <option value="">Todas as Regiões</option>
+        <option value="norte">Norte</option>
+        <option value="nordeste">Nordeste</option>
+        <option value="centro-oeste">Centro-Oeste</option>
+        <option value="sudeste">Sudeste</option>
+        <option value="sul">Sul</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="statusMapFilter">Status:</label>
+      <select id="statusMapFilter" class="form-select">
+        <option value="">Todos os Status</option>
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+        <option value="planejado">Planejado</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sizeFilter">Tamanho:</label>
+      <select id="sizeFilter" class="form-select">
+        <option value="">Todos os Tamanhos</option>
+        <option value="pequeno">Pequeno (1-10 parceiros)</option>
+        <option value="medio">Médio (11-25 parceiros)</option>
+        <option value="grande">Grande (25+ parceiros)</option>
+      </select>
+    </div>
+    <button class="btn btn-secondary" id="clearMapFilters">
+      <i class="fas fa-times"></i> Limpar Filtros
+    </button>
+  </div>
+
+  <div class="map-content">
+    <div class="map-container" id="mainMapContainer">
+      <div class="map-placeholder" id="mapPlaceholder">
+        <div class="placeholder-content">
+          <i class="fas fa-map"></i>
+          <h3>Mapa Interativo</h3>
+          <p>Carregando mapa do Brasil com dados dos polos e parceiros...</p>
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa real será inserido aqui -->
+      <div id="brazilMap" style="display: none">
+        <!-- SVG do mapa do Brasil será carregado aqui -->
+      </div>
+
+      <!-- Controles do mapa -->
+      <div class="map-controls">
+        <button class="map-control-btn" id="zoomInBtn" title="Zoom In">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button class="map-control-btn" id="zoomOutBtn" title="Zoom Out">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button class="map-control-btn" id="resetZoomBtn" title="Reset Zoom">
+          <i class="fas fa-home"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="map-sidebar">
+      <div class="map-legend">
+        <h4><i class="fas fa-info-circle"></i> Legenda</h4>
+        <div class="legend-items" id="mapLegend">
+          <!-- Legenda será carregada dinamicamente -->
+        </div>
+      </div>
+
+      <div class="map-stats">
+        <h4><i class="fas fa-chart-bar"></i> Estatísticas</h4>
+        <div class="stats-list">
+          <div class="stat-item">
+            <span class="stat-label">Total de Polos:</span>
+            <span class="stat-value" id="totalPolosMap">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Polos Ativos:</span>
+            <span class="stat-value" id="activePolosMap">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total de Parceiros:</span>
+            <span class="stat-value" id="totalParceirosMap">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Cobertura Nacional:</span>
+            <span class="stat-value" id="coverageMap">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="selected-location"
+        id="selectedLocation"
+        style="display: none"
+      >
+        <h4><i class="fas fa-map-pin"></i> Local Selecionado</h4>
+        <div class="location-details" id="locationDetails">
+          <!-- Detalhes do local selecionado -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-data-table">
+    <div class="table-header">
+      <h4><i class="fas fa-table"></i> Dados Detalhados</h4>
+      <div class="table-actions">
+        <button class="btn btn-sm" id="refreshMapData">
+          <i class="fas fa-sync-alt"></i> Atualizar
+        </button>
+        <button class="btn btn-secondary btn-sm" id="exportMapData">
+          <i class="fas fa-download"></i> Exportar Dados
+        </button>
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="data-table" id="mapDataTable">
+        <thead id="mapTableHead">
+          <!-- Headers serão carregados dinamicamente -->
+        </thead>
+        <tbody id="mapTableBody">
+          <!-- Dados serão carregados dinamicamente -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Detalhes do Local -->
+<div class="modal" id="locationModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="locationModalTitle">Detalhes do Local</h3>
+      <button class="modal-close" id="closeLocationModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="location-info" id="locationModalContent">
+        <!-- Conteúdo será carregado dinamicamente -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="closeLocationDetails">
+        Fechar
+      </button>
+      <button class="btn" id="editLocationBtn">Editar Local</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mapas-container {
+    padding: 0;
+  }
+
+  .mapas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .mapas-header h2 {
+    color: var(--primary-purple);
+    margin: 0;
+  }
+
+  .mapas-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .map-view-selector select {
+    min-width: 200px;
+  }
+
+  .map-filters {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-group label {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+  }
+
+  .map-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .map-container {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+  }
+
+  .map-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      var(--background-light),
+      var(--accent-purple)
+    );
+  }
+
+  .placeholder-content {
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .placeholder-content i {
+    font-size: 4rem;
+    color: var(--primary-purple);
+    margin-bottom: 1rem;
+  }
+
+  .placeholder-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .placeholder-content p {
+    margin-bottom: 2rem;
+    max-width: 300px;
+  }
+
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--accent-purple);
+    border-top: 4px solid var(--primary-purple);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  #brazilMap {
+    width: 100%;
+    height: 100%;
+    background: #f0f8ff;
+  }
+
+  .map-controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .map-control-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+  }
+
+  .map-control-btn:hover {
+    background: var(--primary-purple);
+    color: var(--white);
+    border-color: var(--primary-purple);
+  }
+
+  .map-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .map-legend,
+  .map-stats,
+  .selected-location {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+  }
+
+  .map-legend h4,
+  .map-stats h4,
+  .selected-location h4 {
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+  }
+
+  .legend-color.ativo {
+    background: #059669;
+  }
+
+  .legend-color.inativo {
+    background: #dc2626;
+  }
+
+  .legend-color.planejado {
+    background: #d97706;
+  }
+
+  .legend-color.oportunidade {
+    background: #2563eb;
+  }
+
+  .legend-label {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+  }
+
+  .stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .stat-item:last-child {
+    border-bottom: none;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .stat-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .location-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+
+  .location-detail-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .location-detail-value {
+    color: var(--text-primary);
+  }
+
+  .map-data-table {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .table-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table-header h4 {
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .table-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    max-height: 400px;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .data-table th {
+    background: var(--background-light);
+    font-weight: 600;
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--background-light);
+    cursor: pointer;
+  }
+
+  .location-marker {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .location-marker:hover {
+    transform: scale(1.2);
+  }
+
+  .location-marker.selected {
+    stroke: var(--primary-purple);
+    stroke-width: 3;
+  }
+
+  .location-info-popup {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    min-width: 200px;
+    display: none;
+  }
+
+  .popup-header {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .popup-content {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 1024px) {
+    .map-content {
+      grid-template-columns: 1fr;
+    }
+
+    .map-container {
+      height: 500px;
+    }
+
+    .map-sidebar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .mapas-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .mapas-controls {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .map-view-selector select {
+      min-width: auto;
+      width: 100%;
+    }
+
+    .map-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-group {
+      width: 100%;
+    }
+
+    .map-container {
+      height: 400px;
+    }
+
+    .map-controls {
+      flex-direction: row;
+      top: auto;
+      bottom: 1rem;
+      right: 1rem;
+      left: 1rem;
+      justify-content: center;
+    }
+
+    .map-sidebar {
+      grid-template-columns: 1fr;
+    }
+
+    .table-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .table-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+</style>
+
+<script>
+  // Mapas-specific JavaScript
+  let mapData = [];
+  let currentMapView = "polos";
+  let mapZoomLevel = 1;
+  let selectedLocation = null;
+  let brazilSVG = null;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "mapas") {
+      initializeMapas();
+    }
+  });
+
+  async function initializeMapas() {
+    try {
+      setupMapasEventListeners();
+      await loadMapData();
+      await initializeBrazilMap();
+      updateMapStats();
+      renderMapTable();
+    } catch (error) {
+      console.error("Erro ao inicializar mapas:", error);
+      showMapError();
+    }
+  }
+
+  function setupMapasEventListeners() {
+    // Map view selector
+    const mapViewType = document.getElementById("mapViewType");
+    if (mapViewType) {
+      mapViewType.addEventListener("change", function () {
+        currentMapView = this.value;
+        updateMapView();
+      });
+    }
+
+    // Map filters
+    const filters = ["regionFilter", "statusMapFilter", "sizeFilter"];
+    filters.forEach((filterId) => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener("change", function () {
+          applyMapFilters();
+        });
+      }
+    });
+
+    // Clear filters
+    const clearFiltersBtn = document.getElementById("clearMapFilters");
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", function () {
+        clearAllMapFilters();
+      });
+    }
+
+    // Map controls
+    const zoomInBtn = document.getElementById("zoomInBtn");
+    const zoomOutBtn = document.getElementById("zoomOutBtn");
+    const resetZoomBtn = document.getElementById("resetZoomBtn");
+
+    if (zoomInBtn) {
+      zoomInBtn.addEventListener("click", function () {
+        zoomMap(1.2);
+      });
+    }
+
+    if (zoomOutBtn) {
+      zoomOutBtn.addEventListener("click", function () {
+        zoomMap(0.8);
+      });
+    }
+
+    if (resetZoomBtn) {
+      resetZoomBtn.addEventListener("click", function () {
+        resetMapZoom();
+      });
+    }
+
+    // Export and fullscreen buttons
+    const exportMapBtn = document.getElementById("exportMapBtn");
+    const fullscreenMapBtn = document.getElementById("fullscreenMapBtn");
+
+    if (exportMapBtn) {
+      exportMapBtn.addEventListener("click", function () {
+        exportMapImage();
+      });
+    }
+
+    if (fullscreenMapBtn) {
+      fullscreenMapBtn.addEventListener("click", function () {
+        toggleFullscreenMap();
+      });
+    }
+
+    // Table actions
+    const refreshMapData = document.getElementById("refreshMapData");
+    const exportMapData = document.getElementById("exportMapData");
+
+    if (refreshMapData) {
+      refreshMapData.addEventListener("click", function () {
+        refreshMapDataTable();
+      });
+    }
+
+    if (exportMapData) {
+      exportMapData.addEventListener("click", function () {
+        exportMapDataTable();
+      });
+    }
+
+    // Location modal
+    const closeLocationModal = document.getElementById("closeLocationModal");
+    const closeLocationDetails = document.getElementById(
+      "closeLocationDetails"
+    );
+    const editLocationBtn = document.getElementById("editLocationBtn");
+
+    if (closeLocationModal) {
+      closeLocationModal.addEventListener("click", function () {
+        closeLocationDetailsModal();
+      });
+    }
+
+    if (closeLocationDetails) {
+      closeLocationDetails.addEventListener("click", function () {
+        closeLocationDetailsModal();
+      });
+    }
+
+    if (editLocationBtn) {
+      editLocationBtn.addEventListener("click", function () {
+        editSelectedLocation();
+      });
+    }
+  }
+
+  async function loadMapData() {
+    try {
+      // Load data from different sources
+      const polosData = await window.googleSheetsAPI.getPolosData();
+      const parceirosData = await window.googleSheetsAPI.getParceirosData();
+
+      // Combine and process data for map visualization
+      mapData = processMapData(polosData, parceirosData);
+    } catch (error) {
+      console.error("Erro ao carregar dados do mapa:", error);
+      // Use fallback data
+      mapData = getFallbackMapData();
+    }
+  }
+
+  function processMapData(polosData, parceirosData) {
+    // Process and combine data for map visualization
+    const processedData = polosData.map((polo) => {
+      const parceirosNoPolo = parceirosData.filter((p) => p.polo === polo.nome);
+
+      return {
+        id: polo.id || polo.nome,
+        nome: polo.nome,
+        cidade: polo.cidade,
+        estado: polo.estado,
+        status: polo.status,
+        parceiros: parceirosNoPolo.length,
+        coordenadas: getStateCoordinates(polo.estado),
+        regiao: getRegionByState(polo.estado),
+        tamanho: categorizePoloSize(parceirosNoPolo.length),
+        detalhes: {
+          responsavel: polo.responsavel || "Não informado",
+          telefone: polo.telefone || "Não informado",
+          email: polo.email || "Não informado",
+          endereco: polo.endereco || "Não informado",
+        },
+      };
+    });
+
+    return processedData;
+  }
+
+  function getFallbackMapData() {
+    return [
+      {
+        id: "sp1",
+        nome: "Polo São Paulo",
+        cidade: "São Paulo",
+        estado: "SP",
+        status: "ativo",
+        parceiros: 15,
+        coordenadas: { lat: -23.5505, lng: -46.6333 },
+        regiao: "sudeste",
+        tamanho: "medio",
+        detalhes: {
+          responsavel: "João Silva",
+          telefone: "(11) 99999-9999",
+          email: "joao@uniutica.com",
+          endereco: "Av. Paulista, 1000",
+        },
+      },
+      {
+        id: "rj1",
+        nome: "Polo Rio de Janeiro",
+        cidade: "Rio de Janeiro",
+        estado: "RJ",
+        status: "ativo",
+        parceiros: 12,
+        coordenadas: { lat: -22.9068, lng: -43.1729 },
+        regiao: "sudeste",
+        tamanho: "medio",
+        detalhes: {
+          responsavel: "Maria Santos",
+          telefone: "(21) 88888-8888",
+          email: "maria@uniutica.com",
+          endereco: "Copacabana, 500",
+        },
+      },
+      {
+        id: "mg1",
+        nome: "Polo Belo Horizonte",
+        cidade: "Belo Horizonte",
+        estado: "MG",
+        status: "ativo",
+        parceiros: 8,
+        coordenadas: { lat: -19.9167, lng: -43.9345 },
+        regiao: "sudeste",
+        tamanho: "pequeno",
+        detalhes: {
+          responsavel: "Pedro Costa",
+          telefone: "(31) 77777-7777",
+          email: "pedro@uniutica.com",
+          endereco: "Centro, 200",
+        },
+      },
+      {
+        id: "df1",
+        nome: "Polo Brasília",
+        cidade: "Brasília",
+        estado: "DF",
+        status: "ativo",
+        parceiros: 10,
+        coordenadas: { lat: -15.7942, lng: -47.8822 },
+        regiao: "centro-oeste",
+        tamanho: "pequeno",
+        detalhes: {
+          responsavel: "Ana Oliveira",
+          telefone: "(61) 66666-6666",
+          email: "ana@uniutica.com",
+          endereco: "Asa Norte, 100",
+        },
+      },
+    ];
+  }
+
+  function getStateCoordinates(estado) {
+    const coordinates = {
+      SP: { lat: -23.5505, lng: -46.6333 },
+      RJ: { lat: -22.9068, lng: -43.1729 },
+      MG: { lat: -19.9167, lng: -43.9345 },
+      DF: { lat: -15.7942, lng: -47.8822 },
+      GO: { lat: -16.6869, lng: -49.2648 },
+      PR: { lat: -25.4284, lng: -49.2733 },
+      SC: { lat: -27.5954, lng: -48.548 },
+      RS: { lat: -30.0346, lng: -51.2177 },
+      BA: { lat: -12.9714, lng: -38.5014 },
+      PE: { lat: -8.0476, lng: -34.877 },
+    };
+
+    return coordinates[estado] || { lat: -15.7801, lng: -47.9292 };
+  }
+
+  function getRegionByState(estado) {
+    const regions = {
+      SP: "sudeste",
+      RJ: "sudeste",
+      MG: "sudeste",
+      ES: "sudeste",
+      PR: "sul",
+      SC: "sul",
+      RS: "sul",
+      GO: "centro-oeste",
+      MT: "centro-oeste",
+      MS: "centro-oeste",
+      DF: "centro-oeste",
+      BA: "nordeste",
+      PE: "nordeste",
+      CE: "nordeste",
+      RN: "nordeste",
+      PB: "nordeste",
+      AL: "nordeste",
+      SE: "nordeste",
+      PI: "nordeste",
+      MA: "nordeste",
+      AM: "norte",
+      PA: "norte",
+      AC: "norte",
+      RO: "norte",
+      RR: "norte",
+      AP: "norte",
+      TO: "norte",
+    };
+
+    return regions[estado] || "centro-oeste";
+  }
+
+  function categorizePoloSize(numParceiros) {
+    if (numParceiros <= 10) return "pequeno";
+    if (numParceiros <= 25) return "medio";
+    return "grande";
+  }
+
+  async function initializeBrazilMap() {
+    try {
+      // Simulate loading Brazil SVG map
+      setTimeout(() => {
+        createSimpleBrazilMap();
+      }, 1500);
+    } catch (error) {
+      console.error("Erro ao inicializar mapa do Brasil:", error);
+      showMapError();
+    }
+  }
+
+  function createSimpleBrazilMap() {
+    const mapContainer = document.getElementById("brazilMap");
+    const placeholder = document.getElementById("mapPlaceholder");
+
+    if (!mapContainer) return;
+
+    // Create a simple SVG representation of Brazil with markers
+    const svgContent = `
+        <svg width="100%" height="100%" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+            <!-- Simplified Brazil outline -->
+            <path d="M200 150 L600 150 L650 200 L650 450 L200 450 Z" 
+                  fill="#e8f4f8" 
+                  stroke="#94a3b8" 
+                  stroke-width="2"/>
+            
+            <!-- State divisions (simplified) -->
+            <line x1="300" y1="150" x2="300" y2="450" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="450" y1="150" x2="450" y2="450" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="200" y1="250" x2="650" y2="250" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="200" y1="350" x2="650" y2="350" stroke="#cbd5e1" stroke-width="1"/>
+            
+            <!-- Region labels -->
+            <text x="250" y="200" text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">NORTE</text>
+            <text x="525" y="200" text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">NORDESTE</text>
+            <text x="375" y="300" text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">CENTRO-OESTE</text>
+            <text x="375" y="400" text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">SUDESTE</text>
+            <text x="250" y="425" text-anchor="middle" fill="#64748b" font-size="14" font-weight="bold">SUL</text>
+            
+            ${generateMapMarkers()}
+        </svg>
+    `;
+
+    mapContainer.innerHTML = svgContent;
+    mapContainer.style.display = "block";
+    placeholder.style.display = "none";
+
+    // Add event listeners to markers
+    addMapEventListeners();
+
+    // Update legend
+    updateMapLegend();
+  }
+
+  function generateMapMarkers() {
+    if (!mapData || mapData.length === 0) return "";
+
+    const regionPositions = {
+      norte: { x: 250, y: 180 },
+      nordeste: { x: 525, y: 180 },
+      "centro-oeste": { x: 375, y: 280 },
+      sudeste: { x: 375, y: 380 },
+      sul: { x: 250, y: 405 },
+    };
+
+    return mapData
+      .map((location, index) => {
+        const basePos =
+          regionPositions[location.regiao] || regionPositions["centro-oeste"];
+        const offset = (index % 3) * 30 - 30; // Spread markers
+        const x = basePos.x + offset;
+        const y = basePos.y + Math.floor(index / 3) * 20;
+
+        const color = getMarkerColor(location.status);
+        const size = getMarkerSize(location.tamanho);
+
+        return `
+            <circle cx="${x}" 
+                    cy="${y}" 
+                    r="${size}" 
+                    fill="${color}" 
+                    stroke="#ffffff" 
+                    stroke-width="2" 
+                    class="location-marker" 
+                    data-location-id="${location.id}"
+                    style="cursor: pointer;">
+                <title>${location.nome} - ${location.cidade}/${
+          location.estado
+        }</title>
+            </circle>
+            <text x="${x}" 
+                  y="${y + size + 15}" 
+                  text-anchor="middle" 
+                  fill="#374151" 
+                  font-size="10" 
+                  font-weight="500">${location.cidade}</text>
+        `;
+      })
+      .join("");
+  }
+
+  function getMarkerColor(status) {
+    const colors = {
+      ativo: "#059669",
+      inativo: "#DC2626",
+      planejado: "#D97706",
+      oportunidade: "#2563EB",
+    };
+    return colors[status] || "#6B7280";
+  }
+
+  function getMarkerSize(tamanho) {
+    const sizes = {
+      pequeno: 8,
+      medio: 12,
+      grande: 16,
+    };
+    return sizes[tamanho] || 10;
+  }
+
+  function addMapEventListeners() {
+    const markers = document.querySelectorAll(".location-marker");
+    markers.forEach((marker) => {
+      marker.addEventListener("click", function () {
+        const locationId = this.dataset.locationId;
+        selectLocation(locationId);
+      });
+
+      marker.addEventListener("mouseenter", function () {
+        this.style.transform = "scale(1.2)";
+        this.style.filter = "brightness(1.2)";
+      });
+
+      marker.addEventListener("mouseleave", function () {
+        this.style.transform = "scale(1)";
+        this.style.filter = "brightness(1)";
+      });
+    });
+  }
+
+  function selectLocation(locationId) {
+    const location = mapData.find((l) => l.id === locationId);
+    if (!location) return;
+
+    selectedLocation = location;
+
+    // Update visual selection
+    const markers = document.querySelectorAll(".location-marker");
+    markers.forEach((marker) => {
+      marker.classList.remove("selected");
+      if (marker.dataset.locationId === locationId) {
+        marker.classList.add("selected");
+      }
+    });
+
+    // Show location details in sidebar
+    showLocationDetails(location);
+
+    // Optionally open modal with full details
+    showLocationModal(location);
+  }
+
+  function showLocationDetails(location) {
+    const selectedLocationDiv = document.getElementById("selectedLocation");
+    const locationDetails = document.getElementById("locationDetails");
+
+    if (!selectedLocationDiv || !locationDetails) return;
+
+    locationDetails.innerHTML = `
+        <div class="location-detail-item">
+            <span class="location-detail-label">Nome:</span>
+            <span class="location-detail-value">${location.nome}</span>
+        </div>
+        <div class="location-detail-item">
+            <span class="location-detail-label">Cidade/Estado:</span>
+            <span class="location-detail-value">${location.cidade}/${location.estado}</span>
+        </div>
+        <div class="location-detail-item">
+            <span class="location-detail-label">Status:</span>
+            <span class="location-detail-value">
+                <span class="status-badge ${location.status}">${location.status}</span>
+            </span>
+        </div>
+        <div class="location-detail-item">
+            <span class="location-detail-label">Parceiros:</span>
+            <span class="location-detail-value">${location.parceiros}</span>
+        </div>
+        <div class="location-detail-item">
+            <span class="location-detail-label">Tamanho:</span>
+            <span class="location-detail-value">${location.tamanho}</span>
+        </div>
+        <div class="location-detail-item">
+            <span class="location-detail-label">Responsável:</span>
+            <span class="location-detail-value">${location.detalhes.responsavel}</span>
+        </div>
+    `;
+
+    selectedLocationDiv.style.display = "block";
+  }
+
+  function showLocationModal(location) {
+    const modal = document.getElementById("locationModal");
+    const modalTitle = document.getElementById("locationModalTitle");
+    const modalContent = document.getElementById("locationModalContent");
+
+    if (!modal || !modalTitle || !modalContent) return;
+
+    modalTitle.textContent = `${location.nome} - ${location.cidade}/${location.estado}`;
+
+    modalContent.innerHTML = `
+        <div class="location-modal-grid">
+            <div class="location-section">
+                <h5>Informações Básicas</h5>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Status:</strong>
+                        <span class="status-badge ${location.status}">${location.status}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Região:</strong>
+                        <span>${location.regiao}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Tamanho:</strong>
+                        <span>${location.tamanho}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Parceiros:</strong>
+                        <span>${location.parceiros}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="location-section">
+                <h5>Contato</h5>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Responsável:</strong>
+                        <span>${location.detalhes.responsavel}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Telefone:</strong>
+                        <span>${location.detalhes.telefone}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Email:</strong>
+                        <span>${location.detalhes.email}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Endereço:</strong>
+                        <span>${location.detalhes.endereco}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add("active");
+  }
+
+  function updateMapLegend() {
+    const legendContainer = document.getElementById("mapLegend");
+    if (!legendContainer) return;
+
+    const legendItems = [
+      { color: "ativo", label: "Polos Ativos" },
+      { color: "inativo", label: "Polos Inativos" },
+      { color: "planejado", label: "Polos Planejados" },
+      { color: "oportunidade", label: "Oportunidades" },
+    ];
+
+    legendContainer.innerHTML = legendItems
+      .map(
+        (item) => `
+        <div class="legend-item">
+            <div class="legend-color ${item.color}"></div>
+            <span class="legend-label">${item.label}</span>
+        </div>
+    `
+      )
+      .join("");
+  }
+
+  function updateMapStats() {
+    const totalPolos = mapData.length;
+    const activePolos = mapData.filter((l) => l.status === "ativo").length;
+    const totalParceiros = mapData.reduce((sum, l) => sum + l.parceiros, 0);
+    const uniqueStates = new Set(mapData.map((l) => l.estado)).size;
+    const coverage = Math.round((uniqueStates / 27) * 100); // 27 states in Brazil
+
+    document.getElementById("totalPolosMap").textContent = totalPolos;
+    document.getElementById("activePolosMap").textContent = activePolos;
+    document.getElementById("totalParceirosMap").textContent = totalParceiros;
+    document.getElementById("coverageMap").textContent = `${coverage}%`;
+  }
+
+  function renderMapTable() {
+    const thead = document.getElementById("mapTableHead");
+    const tbody = document.getElementById("mapTableBody");
+
+    if (!thead || !tbody) return;
+
+    // Table headers
+    thead.innerHTML = `
+        <tr>
+            <th>Polo</th>
+            <th>Cidade/Estado</th>
+            <th>Região</th>
+            <th>Status</th>
+            <th>Parceiros</th>
+            <th>Responsável</th>
+            <th>Ações</th>
+        </tr>
+    `;
+
+    // Table rows
+    tbody.innerHTML = mapData
+      .map(
+        (location) => `
+        <tr onclick="selectLocation('${location.id}')" style="cursor: pointer;">
+            <td>${location.nome}</td>
+            <td>${location.cidade}/${location.estado}</td>
+            <td>${location.regiao}</td>
+            <td>
+                <span class="status-badge ${location.status}">${location.status}</span>
+            </td>
+            <td>${location.parceiros}</td>
+            <td>${location.detalhes.responsavel}</td>
+            <td>
+                <button class="btn btn-sm" onclick="event.stopPropagation(); editLocation('${location.id}')">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+        </tr>
+    `
+      )
+      .join("");
+  }
+
+  function updateMapView() {
+    console.log(`Updating map view to: ${currentMapView}`);
+
+    // Update map based on selected view type
+    switch (currentMapView) {
+      case "polos":
+        // Show polo-focused view
+        break;
+      case "parceiros":
+        // Show partner-focused view
+        break;
+      case "mercado":
+        // Show market analysis view
+        break;
+      case "expansao":
+        // Show expansion opportunities view
+        break;
+    }
+
+    // Recreate map with new view
+    createSimpleBrazilMap();
+  }
+
+  function applyMapFilters() {
+    const regionFilter = document.getElementById("regionFilter").value;
+    const statusFilter = document.getElementById("statusMapFilter").value;
+    const sizeFilter = document.getElementById("sizeFilter").value;
+
+    let filteredData = [...mapData];
+
+    if (regionFilter) {
+      filteredData = filteredData.filter((l) => l.regiao === regionFilter);
+    }
+
+    if (statusFilter) {
+      filteredData = filteredData.filter((l) => l.status === statusFilter);
+    }
+
+    if (sizeFilter) {
+      filteredData = filteredData.filter((l) => l.tamanho === sizeFilter);
+    }
+
+    // Update map with filtered data
+    const originalMapData = mapData;
+    mapData = filteredData;
+    createSimpleBrazilMap();
+    renderMapTable();
+    updateMapStats();
+    mapData = originalMapData; // Restore original data
+  }
+
+  function clearAllMapFilters() {
+    document.getElementById("regionFilter").value = "";
+    document.getElementById("statusMapFilter").value = "";
+    document.getElementById("sizeFilter").value = "";
+
+    createSimpleBrazilMap();
+    renderMapTable();
+    updateMapStats();
+  }
+
+  function zoomMap(factor) {
+    mapZoomLevel *= factor;
+    mapZoomLevel = Math.max(0.5, Math.min(3, mapZoomLevel)); // Limit zoom
+
+    const mapSvg = document.querySelector("#brazilMap svg");
+    if (mapSvg) {
+      mapSvg.style.transform = `scale(${mapZoomLevel})`;
+      mapSvg.style.transformOrigin = "center center";
+    }
+  }
+
+  function resetMapZoom() {
+    mapZoomLevel = 1;
+    const mapSvg = document.querySelector("#brazilMap svg");
+    if (mapSvg) {
+      mapSvg.style.transform = "scale(1)";
+    }
+  }
+
+  function toggleFullscreenMap() {
+    const mapContainer = document.getElementById("mainMapContainer");
+    if (!mapContainer) return;
+
+    if (!document.fullscreenElement) {
+      mapContainer.requestFullscreen().catch((err) => {
+        console.error("Erro ao entrar em tela cheia:", err);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  function exportMapImage() {
+    console.log("Exporting map image...");
+
+    const mapSvg = document.querySelector("#brazilMap svg");
+    if (!mapSvg) {
+      alert("Mapa não disponível para exportação.");
+      return;
+    }
+
+    // Create canvas and convert SVG to image
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const data = new XMLSerializer().serializeToString(mapSvg);
+    const img = new Image();
+
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Download image
+      const link = document.createElement("a");
+      link.download = `mapa_sgp_${new Date().toISOString().split("T")[0]}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    };
+
+    img.src = "data:image/svg+xml;base64," + btoa(data);
+  }
+
+  function exportMapDataTable() {
+    if (mapData.length === 0) {
+      alert("Não há dados para exportar.");
+      return;
+    }
+
+    const headers = [
+      "Polo",
+      "Cidade",
+      "Estado",
+      "Região",
+      "Status",
+      "Parceiros",
+      "Responsável",
+    ];
+    const csvContent = [
+      headers.join(","),
+      ...mapData.map((location) =>
+        [
+          `"${location.nome}"`,
+          `"${location.cidade}"`,
+          `"${location.estado}"`,
+          `"${location.regiao}"`,
+          `"${location.status}"`,
+          location.parceiros,
+          `"${location.detalhes.responsavel}"`,
+        ].join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `dados_mapa_${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function refreshMapDataTable() {
+    console.log("Refreshing map data...");
+    loadMapData().then(() => {
+      createSimpleBrazilMap();
+      renderMapTable();
+      updateMapStats();
+      alert("Dados do mapa atualizados com sucesso!");
+    });
+  }
+
+  function closeLocationDetailsModal() {
+    const modal = document.getElementById("locationModal");
+    if (modal) {
+      modal.classList.remove("active");
+    }
+  }
+
+  function editSelectedLocation() {
+    if (selectedLocation) {
+      console.log("Editing location:", selectedLocation);
+      alert(
+        `Edição do local ${selectedLocation.nome} será implementada em breve.`
+      );
+    }
+  }
+
+  function editLocation(locationId) {
+    const location = mapData.find((l) => l.id === locationId);
+    if (location) {
+      console.log("Editing location:", location);
+      alert(`Edição do local ${location.nome} será implementada em breve.`);
+    }
+  }
+
+  function showMapError() {
+    const placeholder = document.getElementById("mapPlaceholder");
+    if (placeholder) {
+      placeholder.innerHTML = `
+            <div class="placeholder-content">
+                <i class="fas fa-exclamation-triangle" style="color: #DC2626;"></i>
+                <h3>Erro ao Carregar Mapa</h3>
+                <p>Não foi possível carregar o mapa. Tente novamente mais tarde.</p>
+                <button class="btn" onclick="initializeMapas()">Tentar Novamente</button>
+            </div>
+        `;
+    }
+  }
+</script>

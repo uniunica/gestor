@@ -1,0 +1,1112 @@
+<div class="polos-container">
+  <div class="polos-header">
+    <h2><i class="fas fa-map-marker-alt"></i> Polos Ativos</h2>
+    <div class="polos-controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="polosSearch" placeholder="Buscar polos..." />
+      </div>
+      <button class="btn" id="addPoloBtn">
+        <i class="fas fa-plus"></i> Novo Polo
+      </button>
+    </div>
+  </div>
+
+  <div class="polos-stats">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-map-pin"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalPolosCount">--</h3>
+        <p>Total de Polos</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="activePolosCount">--</h3>
+        <p>Polos Ativos</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalParceirosPolos">--</h3>
+        <p>Total de Parceiros</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="avgParceirosPerPolo">--</h3>
+        <p>Média por Polo</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="polos-filters">
+    <div class="filter-group">
+      <label for="stateFilter">Estado:</label>
+      <select id="stateFilter" class="form-select">
+        <option value="">Todos os Estados</option>
+        <option value="SP">São Paulo</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="DF">Distrito Federal</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="statusFilter">Status:</label>
+      <select id="statusFilter" class="form-select">
+        <option value="">Todos os Status</option>
+        <option value="Ativo">Ativo</option>
+        <option value="Inativo">Inativo</option>
+        <option value="Pendente">Pendente</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sortBy">Ordenar por:</label>
+      <select id="sortBy" class="form-select">
+        <option value="nome">Nome</option>
+        <option value="cidade">Cidade</option>
+        <option value="parceiros">Nº de Parceiros</option>
+        <option value="status">Status</option>
+      </select>
+    </div>
+    <button class="btn btn-secondary" id="clearFilters">
+      <i class="fas fa-times"></i> Limpar Filtros
+    </button>
+  </div>
+
+  <div class="polos-content">
+    <div class="polos-table-container">
+      <table class="data-table" id="polosTable">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" id="selectAllPolos" />
+            </th>
+            <th>Polo</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <th>Status</th>
+            <th>Parceiros</th>
+            <th>Última Atualização</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="polosTableBody">
+          <!-- Dados carregados dinamicamente -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="polos-pagination">
+      <div class="pagination-info">
+        Mostrando <span id="showingFrom">1</span> a
+        <span id="showingTo">10</span> de
+        <span id="totalRecords">0</span> registros
+      </div>
+      <div class="pagination-controls">
+        <button class="btn-pagination" id="prevPage" disabled>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="page-numbers" id="pageNumbers">
+          <!-- Números de página gerados dinamicamente -->
+        </div>
+        <button class="btn-pagination" id="nextPage">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="polos-map-section">
+    <div class="map-card">
+      <div class="map-header">
+        <h3><i class="fas fa-globe"></i> Mapa de Polos</h3>
+        <button class="btn btn-secondary" id="toggleMapView">
+          <i class="fas fa-expand"></i> Expandir
+        </button>
+      </div>
+      <div class="map-container" id="polosMap">
+        <!-- Mapa será carregado aqui -->
+        <div class="map-placeholder">
+          <i class="fas fa-map"></i>
+          <p>Mapa dos polos será carregado aqui</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para adicionar/editar polo -->
+<div class="modal" id="poloModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Novo Polo</h3>
+      <button class="modal-close" id="closeModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="poloForm">
+        <div class="form-group">
+          <label for="poloNome">Nome do Polo*</label>
+          <input type="text" id="poloNome" class="form-input" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="poloCidade">Cidade*</label>
+            <input type="text" id="poloCidade" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="poloEstado">Estado*</label>
+            <select id="poloEstado" class="form-select" required>
+              <option value="">Selecione...</option>
+              <option value="SP">São Paulo</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="DF">Distrito Federal</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="poloEndereco">Endereço</label>
+          <input type="text" id="poloEndereco" class="form-input" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="poloResponsavel">Responsável</label>
+            <input type="text" id="poloResponsavel" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="poloTelefone">Telefone</label>
+            <input type="tel" id="poloTelefone" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="poloEmail">Email</label>
+          <input type="email" id="poloEmail" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="poloStatus">Status*</label>
+          <select id="poloStatus" class="form-select" required>
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+            <option value="Pendente">Pendente</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="poloObservacoes">Observações</label>
+          <textarea
+            id="poloObservacoes"
+            class="form-textarea"
+            rows="3"
+          ></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelModal">Cancelar</button>
+      <button class="btn" id="savePoloBtn">Salvar Polo</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .polos-container {
+    padding: 0;
+  }
+
+  .polos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .polos-header h2 {
+    color: var(--primary-purple);
+    margin: 0;
+  }
+
+  .polos-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box i {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .search-box input {
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    width: 250px;
+  }
+
+  .polos-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-item {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .stat-item .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--light-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-purple);
+    font-size: 1.25rem;
+  }
+
+  .stat-item .stat-content h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .stat-item .stat-content p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .polos-filters {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-group label {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+  }
+
+  .form-select,
+  .form-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background: var(--white);
+    color: var(--text-primary);
+    min-width: 150px;
+  }
+
+  .polos-content {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .polos-table-container {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .data-table th {
+    background: var(--background-light);
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--background-light);
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .status-badge.ativo {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .status-badge.inativo {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .status-badge.pendente {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-action {
+    padding: 0.375rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-action.edit {
+    background: var(--light-purple);
+    color: var(--primary-purple);
+  }
+
+  .btn-action.delete {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .btn-action:hover {
+    opacity: 0.8;
+  }
+
+  .polos-pagination {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .pagination-info {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-pagination {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-pagination:hover:not(:disabled) {
+    background: var(--primary-purple);
+    color: var(--white);
+    border-color: var(--primary-purple);
+  }
+
+  .btn-pagination:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .page-numbers {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .page-number {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .page-number:hover,
+  .page-number.active {
+    background: var(--primary-purple);
+    color: var(--white);
+    border-color: var(--primary-purple);
+  }
+
+  .polos-map-section {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .map-card .map-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .map-card .map-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .map-container {
+    height: 400px;
+    position: relative;
+  }
+
+  .map-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background: var(--background-light);
+  }
+
+  .map-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal.active {
+    display: flex;
+  }
+
+  .modal-content {
+    background: var(--white);
+    border-radius: 0.75rem;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-close:hover {
+    background: var(--background-light);
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background: var(--white);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .polos-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .polos-controls {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-box input {
+      width: 100%;
+    }
+
+    .polos-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .polos-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-group {
+      width: 100%;
+    }
+
+    .form-select,
+    .form-input {
+      min-width: auto;
+      width: 100%;
+    }
+
+    .polos-pagination {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+      width: 95%;
+      margin: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Polos-specific JavaScript
+  let polosData = [];
+  let filteredPolosData = [];
+  let currentPage = 1;
+  let itemsPerPage = 10;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "polos") {
+      initializePolos();
+    }
+  });
+
+  async function initializePolos() {
+    try {
+      await loadPolosData();
+      setupPolosEventListeners();
+      updatePolosStats();
+      renderPolosTable();
+    } catch (error) {
+      console.error("Erro ao inicializar polos:", error);
+    }
+  }
+
+  async function loadPolosData() {
+    polosData = await window.googleSheetsAPI.getPolosData();
+    filteredPolosData = [...polosData];
+  }
+
+  function setupPolosEventListeners() {
+    // Search functionality
+    const searchInput = document.getElementById("polosSearch");
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        filterPolos();
+      });
+    }
+
+    // Filter functionality
+    const filters = ["stateFilter", "statusFilter", "sortBy"];
+    filters.forEach((filterId) => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener("change", function () {
+          filterPolos();
+        });
+      }
+    });
+
+    // Clear filters
+    const clearFiltersBtn = document.getElementById("clearFilters");
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", function () {
+        clearAllFilters();
+      });
+    }
+
+    // Add polo button
+    const addPoloBtn = document.getElementById("addPoloBtn");
+    if (addPoloBtn) {
+      addPoloBtn.addEventListener("click", function () {
+        openPoloModal();
+      });
+    }
+
+    // Modal functionality
+    setupModalEventListeners();
+
+    // Pagination
+    setupPaginationEventListeners();
+
+    // Select all checkbox
+    const selectAllCheckbox = document.getElementById("selectAllPolos");
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener("change", function () {
+        toggleSelectAll(this.checked);
+      });
+    }
+  }
+
+  function filterPolos() {
+    const searchTerm = document
+      .getElementById("polosSearch")
+      .value.toLowerCase();
+    const stateFilter = document.getElementById("stateFilter").value;
+    const statusFilter = document.getElementById("statusFilter").value;
+    const sortBy = document.getElementById("sortBy").value;
+
+    filteredPolosData = polosData.filter((polo) => {
+      const matchesSearch =
+        !searchTerm ||
+        polo.nome.toLowerCase().includes(searchTerm) ||
+        polo.cidade.toLowerCase().includes(searchTerm);
+
+      const matchesState = !stateFilter || polo.estado === stateFilter;
+      const matchesStatus = !statusFilter || polo.status === statusFilter;
+
+      return matchesSearch && matchesState && matchesStatus;
+    });
+
+    // Sort data
+    if (sortBy) {
+      filteredPolosData.sort((a, b) => {
+        if (sortBy === "parceiros") {
+          return b[sortBy] - a[sortBy];
+        }
+        return a[sortBy].localeCompare(b[sortBy]);
+      });
+    }
+
+    currentPage = 1;
+    renderPolosTable();
+    updatePagination();
+  }
+
+  function clearAllFilters() {
+    document.getElementById("polosSearch").value = "";
+    document.getElementById("stateFilter").value = "";
+    document.getElementById("statusFilter").value = "";
+    document.getElementById("sortBy").value = "nome";
+
+    filteredPolosData = [...polosData];
+    currentPage = 1;
+    renderPolosTable();
+    updatePagination();
+  }
+
+  function updatePolosStats() {
+    const totalPolos = polosData.length;
+    const activePolos = polosData.filter(
+      (polo) => polo.status === "Ativo"
+    ).length;
+    const totalParceiros = polosData.reduce(
+      (sum, polo) => sum + polo.parceiros,
+      0
+    );
+    const avgParceiros =
+      totalPolos > 0 ? Math.round(totalParceiros / totalPolos) : 0;
+
+    document.getElementById("totalPolosCount").textContent = totalPolos;
+    document.getElementById("activePolosCount").textContent = activePolos;
+    document.getElementById("totalParceirosPolos").textContent = totalParceiros;
+    document.getElementById("avgParceirosPerPolo").textContent = avgParceiros;
+  }
+
+  function renderPolosTable() {
+    const tbody = document.getElementById("polosTableBody");
+    if (!tbody) return;
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentData = filteredPolosData.slice(startIndex, endIndex);
+
+    tbody.innerHTML = currentData
+      .map(
+        (polo) => `
+        <tr>
+            <td>
+                <input type="checkbox" class="polo-checkbox" data-id="${
+                  polo.id || polo.nome
+                }">
+            </td>
+            <td>
+                <div class="polo-info">
+                    <strong>${polo.nome}</strong>
+                </div>
+            </td>
+            <td>${polo.cidade}</td>
+            <td>${polo.estado}</td>
+            <td>
+                <span class="status-badge ${polo.status.toLowerCase()}">${
+          polo.status
+        }</span>
+            </td>
+            <td>
+                <span class="parceiros-count">${polo.parceiros}</span>
+            </td>
+            <td>${formatDate(new Date())}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-action edit" onclick="editPolo('${
+                      polo.id || polo.nome
+                    }')" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                                        <button class="btn-action delete" onclick="deletePolo('${
+                                          polo.id || polo.nome
+                                        }')" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `
+      )
+      .join("");
+
+    updatePaginationInfo();
+  }
+
+  function setupPaginationEventListeners() {
+    const prevBtn = document.getElementById("prevPage");
+    const nextBtn = document.getElementById("nextPage");
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        if (currentPage > 1) {
+          currentPage--;
+          renderPolosTable();
+          updatePagination();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        const totalPages = Math.ceil(filteredPolosData.length / itemsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderPolosTable();
+          updatePagination();
+        }
+      });
+    }
+  }
+
+  function updatePagination() {
+    const totalRecords = filteredPolosData.length;
+    const totalPages = Math.ceil(totalRecords / itemsPerPage);
+
+    // Update pagination controls
+    const prevBtn = document.getElementById("prevPage");
+    const nextBtn = document.getElementById("nextPage");
+
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn)
+      nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+    // Update page numbers
+    const pageNumbers = document.getElementById("pageNumbers");
+    if (pageNumbers) {
+      pageNumbers.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        if (
+          i === 1 ||
+          i === totalPages ||
+          (i >= currentPage - 2 && i <= currentPage + 2)
+        ) {
+          const pageBtn = document.createElement("button");
+          pageBtn.className = `page-number ${
+            i === currentPage ? "active" : ""
+          }`;
+          pageBtn.textContent = i;
+          pageBtn.addEventListener("click", function () {
+            currentPage = i;
+            renderPolosTable();
+            updatePagination();
+          });
+          pageNumbers.appendChild(pageBtn);
+        } else if (i === currentPage - 3 || i === currentPage + 3) {
+          const ellipsis = document.createElement("span");
+          ellipsis.textContent = "...";
+          ellipsis.className = "pagination-ellipsis";
+          pageNumbers.appendChild(ellipsis);
+        }
+      }
+    }
+  }
+
+  function updatePaginationInfo() {
+    const totalRecords = filteredPolosData.length;
+    const startIndex = (currentPage - 1) * itemsPerPage + 1;
+    const endIndex = Math.min(currentPage * itemsPerPage, totalRecords);
+
+    document.getElementById("showingFrom").textContent =
+      totalRecords > 0 ? startIndex : 0;
+    document.getElementById("showingTo").textContent = endIndex;
+    document.getElementById("totalRecords").textContent = totalRecords;
+  }
+
+  function setupModalEventListeners() {
+    const modal = document.getElementById("poloModal");
+    const closeBtn = document.getElementById("closeModal");
+    const cancelBtn = document.getElementById("cancelModal");
+    const saveBtn = document.getElementById("savePoloBtn");
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        closePoloModal();
+      });
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", function () {
+        closePoloModal();
+      });
+    }
+
+    if (saveBtn) {
+      saveBtn.addEventListener("click", function () {
+        savePolo();
+      });
+    }
+
+    // Close modal when clicking outside
+    if (modal) {
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          closePoloModal();
+        }
+      });
+    }
+  }
+
+  function openPoloModal(poloId = null) {
+    const modal = document.getElementById("poloModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const form = document.getElementById("poloForm");
+
+    if (poloId) {
+      // Edit mode
+      const polo = polosData.find((p) => (p.id || p.nome) === poloId);
+      if (polo) {
+        modalTitle.textContent = "Editar Polo";
+        populatePoloForm(polo);
+      }
+    } else {
+      // Add mode
+      modalTitle.textContent = "Novo Polo";
+      form.reset();
+    }
+
+    modal.classList.add("active");
+  }
+
+  function closePoloModal() {
+    const modal = document.getElementById("poloModal");
+    modal.classList.remove("active");
+  }
+
+  function populatePoloForm(polo) {
+    document.getElementById("poloNome").value = polo.nome || "";
+    document.getElementById("poloCidade").value = polo.cidade || "";
+    document.getElementById("poloEstado").value = polo.estado || "";
+    document.getElementById("poloEndereco").value = polo.endereco || "";
+    document.getElementById("poloResponsavel").value = polo.responsavel || "";
+    document.getElementById("poloTelefone").value = polo.telefone || "";
+    document.getElementById("poloEmail").value = polo.email || "";
+    document.getElementById("poloStatus").value = polo.status || "Ativo";
+    document.getElementById("poloObservacoes").value = polo.observacoes || "";
+  }
+
+  function savePolo() {
+    const form = document.getElementById("poloForm");
+    const formData = new FormData(form);
+
+    const poloData = {
+      nome: document.getElementById("poloNome").value,
+      cidade: document.getElementById("poloCidade").value,
+      estado: document.getElementById("poloEstado").value,
+      endereco: document.getElementById("poloEndereco").value,
+      responsavel: document.getElementById("poloResponsavel").value,
+      telefone: document.getElementById("poloTelefone").value,
+      email: document.getElementById("poloEmail").value,
+      status: document.getElementById("poloStatus").value,
+      observacoes: document.getElementById("poloObservacoes").value,
+      parceiros: 0, // Default value for new polos
+    };
+
+    // Validate required fields
+    if (
+      !poloData.nome ||
+      !poloData.cidade ||
+      !poloData.estado ||
+      !poloData.status
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    // Add or update polo
+    const existingIndex = polosData.findIndex((p) => p.nome === poloData.nome);
+    if (existingIndex >= 0) {
+      polosData[existingIndex] = { ...polosData[existingIndex], ...poloData };
+    } else {
+      polosData.push(poloData);
+    }
+
+    // Update filtered data and refresh table
+    filterPolos();
+    updatePolosStats();
+    closePoloModal();
+
+    // Show success message
+    showNotification("Polo salvo com sucesso!", "success");
+  }
+
+  function editPolo(poloId) {
+    openPoloModal(poloId);
+  }
+
+  function deletePolo(poloId) {
+    if (confirm("Tem certeza que deseja excluir este polo?")) {
+      polosData = polosData.filter((p) => (p.id || p.nome) !== poloId);
+      filterPolos();
+      updatePolosStats();
+      showNotification("Polo excluído com sucesso!", "success");
+    }
+  }
+
+  function toggleSelectAll(checked) {
+    const checkboxes = document.querySelectorAll(".polo-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = checked;
+    });
+  }
+
+  function formatDate(date) {
+    return date.toLocaleDateString("pt-BR");
+  }
+
+  function showNotification(message, type = "info") {
+    // Simple notification - can be enhanced with a proper notification system
+    alert(message);
+  }
+</script>

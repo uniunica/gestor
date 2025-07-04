@@ -1,0 +1,1346 @@
+<div class="consulta-container">
+  <div class="consulta-header">
+    <h2><i class="fas fa-search"></i> Consulta de Dados</h2>
+    <div class="consulta-controls">
+      <button class="btn btn-secondary" id="savedQueriesBtn">
+        <i class="fas fa-bookmark"></i> Consultas Salvas
+      </button>
+      <button class="btn" id="advancedSearchBtn">
+        <i class="fas fa-cog"></i> Busca Avançada
+      </button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <div class="search-card">
+      <div class="search-form">
+        <div class="search-input-group">
+          <div class="search-input-wrapper">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="mainSearchInput"
+              placeholder="Digite sua consulta..."
+              class="search-input"
+            />
+            <button class="search-clear" id="clearSearch" style="display: none">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <button class="btn search-btn" id="executeSearch">
+            <i class="fas fa-search"></i> Buscar
+          </button>
+        </div>
+
+        <div class="search-filters" id="searchFilters">
+          <div class="filter-group">
+            <label for="searchCategory">Categoria:</label>
+            <select id="searchCategory" class="form-select">
+              <option value="">Todas as categorias</option>
+              <option value="parceiros">Parceiros</option>
+              <option value="polos">Polos</option>
+              <option value="empresas">Empresas</option>
+              <option value="contratos">Contratos</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="searchStatus">Status:</label>
+            <select id="searchStatus" class="form-select">
+              <option value="">Todos os status</option>
+              <option value="ativo">Ativo</option>
+              <option value="inativo">Inativo</option>
+              <option value="pendente">Pendente</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="searchDateFrom">Data inicial:</label>
+            <input type="date" id="searchDateFrom" class="form-input" />
+          </div>
+          <div class="filter-group">
+            <label for="searchDateTo">Data final:</label>
+            <input type="date" id="searchDateTo" class="form-input" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-searches">
+    <h3><i class="fas fa-bolt"></i> Consultas Rápidas</h3>
+    <div class="quick-search-grid">
+      <button class="quick-search-btn" data-query="parceiros ativos">
+        <i class="fas fa-users"></i>
+        <span>Parceiros Ativos</span>
+      </button>
+      <button class="quick-search-btn" data-query="novos parceiros">
+        <i class="fas fa-user-plus"></i>
+        <span>Novos Parceiros</span>
+      </button>
+      <button class="quick-search-btn" data-query="polos ativos">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Polos Ativos</span>
+      </button>
+      <button class="quick-search-btn" data-query="contratos vencendo">
+        <i class="fas fa-calendar-times"></i>
+        <span>Contratos Vencendo</span>
+      </button>
+      <button class="quick-search-btn" data-query="top performers">
+        <i class="fas fa-trophy"></i>
+        <span>Top Performers</span>
+      </button>
+      <button class="quick-search-btn" data-query="empresas premium">
+        <i class="fas fa-star"></i>
+        <span>Empresas Premium</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="search-results-section"
+    id="searchResultsSection"
+    style="display: none"
+  >
+    <div class="results-header">
+      <h3 id="resultsTitle">Resultados da Busca</h3>
+      <div class="results-actions">
+        <button class="btn btn-secondary" id="exportResults">
+          <i class="fas fa-download"></i> Exportar
+        </button>
+        <button class="btn btn-secondary" id="saveQuery">
+          <i class="fas fa-bookmark"></i> Salvar Consulta
+        </button>
+        <div class="results-view-toggle">
+          <button class="view-toggle-btn active" data-view="table">
+            <i class="fas fa-table"></i>
+          </button>
+          <button class="view-toggle-btn" data-view="cards">
+            <i class="fas fa-th-large"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-stats">
+      <div class="stat-item">
+        <span class="stat-label">Total de resultados:</span>
+        <span class="stat-value" id="totalResults">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Tempo de busca:</span>
+        <span class="stat-value" id="searchTime">0ms</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Última atualização:</span>
+        <span class="stat-value" id="lastSearchUpdate">--</span>
+      </div>
+    </div>
+
+    <div class="results-content">
+      <!-- Table View -->
+      <div class="results-table-view" id="resultsTableView">
+        <div class="table-container">
+          <table class="data-table" id="resultsTable">
+            <thead id="resultsTableHead">
+              <!-- Headers gerados dinamicamente -->
+            </thead>
+            <tbody id="resultsTableBody">
+              <!-- Dados carregados dinamicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cards View -->
+      <div
+        class="results-cards-view"
+        id="resultsCardsView"
+        style="display: none"
+      >
+        <div class="results-grid" id="resultsGrid">
+          <!-- Cards carregados dinamicamente -->
+        </div>
+      </div>
+    </div>
+
+    <div class="results-pagination">
+      <div class="pagination-info">
+        Mostrando <span id="resultsShowingFrom">1</span> a
+        <span id="resultsShowingTo">10</span> de
+        <span id="resultsTotalRecords">0</span> registros
+      </div>
+      <div class="pagination-controls">
+        <button class="btn-pagination" id="resultsPrevPage" disabled>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="page-numbers" id="resultsPageNumbers">
+          <!-- Números de página gerados dinamicamente -->
+        </div>
+        <button class="btn-pagination" id="resultsNextPage">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults" style="display: none">
+    <div class="no-results-content">
+      <i class="fas fa-search"></i>
+      <h3>Nenhum resultado encontrado</h3>
+      <p>
+        Tente ajustar os termos de busca ou filtros para encontrar o que
+        procura.
+      </p>
+      <button class="btn" id="clearAllFilters">Limpar Filtros</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Busca Avançada -->
+<div class="modal" id="advancedSearchModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Busca Avançada</h3>
+      <button class="modal-close" id="closeAdvancedSearch">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="advanced-search-form">
+        <div class="form-group">
+          <label for="advancedQuery">Consulta SQL:</label>
+          <textarea
+            id="advancedQuery"
+            class="form-textarea"
+            rows="6"
+            placeholder="SELECT * FROM parceiros WHERE status = 'Ativo'"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="queryName">Nome da Consulta:</label>
+          <input
+            type="text"
+            id="queryName"
+            class="form-input"
+            placeholder="Digite um nome para salvar esta consulta"
+          />
+        </div>
+        <div class="query-examples">
+          <h4>Exemplos de Consultas:</h4>
+          <div class="example-queries">
+            <button
+              class="example-btn"
+              data-query="SELECT * FROM parceiros WHERE status = 'Ativo' AND tipo = 'Premium'"
+            >
+              Parceiros Premium Ativos
+            </button>
+            <button
+              class="example-btn"
+              data-query="SELECT polo, COUNT(*) as total FROM parceiros GROUP BY polo"
+            >
+              Contagem por Polo
+            </button>
+            <button
+              class="example-btn"
+              data-query="SELECT * FROM parceiros WHERE dataAdesao >= '2024-01-01'"
+            >
+              Parceiros de 2024
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelAdvancedSearch">
+        Cancelar
+      </button>
+      <button class="btn" id="executeAdvancedSearch">Executar Consulta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Consultas Salvas -->
+<div class="modal" id="savedQueriesModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Consultas Salvas</h3>
+      <button class="modal-close" id="closeSavedQueries">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="saved-queries-list" id="savedQueriesList">
+        <!-- Lista de consultas salvas -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelSavedQueries">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .consulta-container {
+    padding: 0;
+  }
+
+  .consulta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .consulta-header h2 {
+    color: var(--primary-purple);
+    margin: 0;
+  }
+
+  .consulta-controls {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .search-section {
+    margin-bottom: 2rem;
+  }
+
+  .search-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+  }
+
+  .search-input-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-input-wrapper i {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+    z-index: 1;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-clear:hover {
+    background: var(--background-light);
+  }
+
+  .search-btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .search-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .quick-searches {
+    margin-bottom: 2rem;
+  }
+
+  .quick-searches h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quick-search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .quick-search-btn {
+    background: var(--white);
+    border: 2px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .quick-search-btn:hover {
+    border-color: var(--primary-purple);
+    background: var(--accent-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .quick-search-btn i {
+    font-size: 2rem;
+    color: var(--primary-purple);
+  }
+
+  .quick-search-btn span {
+    font-weight: 500;
+  }
+
+  .search-results-section {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .results-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .results-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .results-view-toggle {
+    display: flex;
+    gap: 0.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .view-toggle-btn {
+    padding: 0.5rem;
+    border: none;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .view-toggle-btn:hover,
+  .view-toggle-btn.active {
+    background: var(--primary-purple);
+    color: var(--white);
+  }
+
+  .results-stats {
+    padding: 1rem 1.5rem;
+    background: var(--background-light);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .stat-value {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .results-content {
+    padding: 1.5rem;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .result-card {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .result-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .result-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .result-card-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .result-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .result-field {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+
+  .result-field-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .result-field-value {
+    color: var(--text-primary);
+  }
+
+  .no-results {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .no-results-content i {
+    font-size: 4rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .no-results-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .no-results-content p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .advanced-search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .query-examples {
+    margin-top: 1rem;
+  }
+
+  .query-examples h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .example-queries {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .example-btn {
+    background: var(--background-light);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+  }
+
+  .example-btn:hover {
+    background: var(--accent-purple);
+    border-color: var(--primary-purple);
+  }
+
+  .saved-queries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .saved-query-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .saved-query-info h4 {
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .saved-query-info p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .saved-query-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .consulta-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .consulta-controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .search-input-group {
+      flex-direction: column;
+    }
+
+    .search-filters {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-search-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .results-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .results-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .results-stats {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .results-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Consulta-specific JavaScript
+  let searchResults = [];
+  let filteredSearchResults = [];
+  let currentSearchPage = 1;
+  let itemsPerSearchPage = 10;
+  let currentResultsView = "table";
+  let savedQueries = [];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "consulta") {
+      initializeConsulta();
+    }
+  });
+
+  function initializeConsulta() {
+    setupConsultaEventListeners();
+    loadSavedQueries();
+  }
+
+  function setupConsultaEventListeners() {
+    // Main search
+    const searchInput = document.getElementById("mainSearchInput");
+    const executeSearchBtn = document.getElementById("executeSearch");
+
+    if (searchInput) {
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          executeSearch();
+        }
+      });
+
+      searchInput.addEventListener("input", function () {
+        const clearBtn = document.getElementById("clearSearch");
+        if (clearBtn) {
+          clearBtn.style.display = this.value ? "block" : "none";
+        }
+      });
+    }
+
+    if (executeSearchBtn) {
+      executeSearchBtn.addEventListener("click", executeSearch);
+    }
+
+    // Clear search
+    const clearSearchBtn = document.getElementById("clearSearch");
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener("click", function () {
+        searchInput.value = "";
+        this.style.display = "none";
+        hideSearchResults();
+      });
+    }
+
+    // Quick searches
+    const quickSearchBtns = document.querySelectorAll(".quick-search-btn");
+    quickSearchBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const query = this.dataset.query;
+        searchInput.value = query;
+        executeSearch();
+      });
+    });
+
+    // Advanced search modal
+    const advancedSearchBtn = document.getElementById("advancedSearchBtn");
+    const advancedSearchModal = document.getElementById("advancedSearchModal");
+    const closeAdvancedSearch = document.getElementById("closeAdvancedSearch");
+    const cancelAdvancedSearch = document.getElementById(
+      "cancelAdvancedSearch"
+    );
+    const executeAdvancedSearchBtn = document.getElementById(
+      "executeAdvancedSearch"
+    );
+
+    if (advancedSearchBtn) {
+      advancedSearchBtn.addEventListener("click", function () {
+        advancedSearchModal.classList.add("active");
+      });
+    }
+
+    if (closeAdvancedSearch) {
+      closeAdvancedSearch.addEventListener("click", function () {
+        advancedSearchModal.classList.remove("active");
+      });
+    }
+
+    if (cancelAdvancedSearch) {
+      cancelAdvancedSearch.addEventListener("click", function () {
+        advancedSearchModal.classList.remove("active");
+      });
+    }
+
+    if (executeAdvancedSearchBtn) {
+      executeAdvancedSearchBtn.addEventListener("click", executeAdvancedSearch);
+    }
+
+    // Example queries
+    const exampleBtns = document.querySelectorAll(".example-btn");
+    exampleBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const query = this.dataset.query;
+        document.getElementById("advancedQuery").value = query;
+      });
+    });
+
+    // Saved queries modal
+    const savedQueriesBtn = document.getElementById("savedQueriesBtn");
+    const savedQueriesModal = document.getElementById("savedQueriesModal");
+    const closeSavedQueries = document.getElementById("closeSavedQueries");
+    const cancelSavedQueries = document.getElementById("cancelSavedQueries");
+
+    if (savedQueriesBtn) {
+      savedQueriesBtn.addEventListener("click", function () {
+        renderSavedQueries();
+        savedQueriesModal.classList.add("active");
+      });
+    }
+
+    if (closeSavedQueries) {
+      closeSavedQueries.addEventListener("click", function () {
+        savedQueriesModal.classList.remove("active");
+      });
+    }
+
+    if (cancelSavedQueries) {
+      cancelSavedQueries.addEventListener("click", function () {
+        savedQueriesModal.classList.remove("active");
+      });
+    }
+
+    // Results view toggle
+    const viewToggleBtns = document.querySelectorAll(".view-toggle-btn");
+    viewToggleBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const view = this.dataset.view;
+        switchResultsView(view);
+      });
+    });
+
+    // Export and save query
+    const exportResultsBtn = document.getElementById("exportResults");
+    const saveQueryBtn = document.getElementById("saveQuery");
+
+    if (exportResultsBtn) {
+      exportResultsBtn.addEventListener("click", exportSearchResults);
+    }
+
+    if (saveQueryBtn) {
+      saveQueryBtn.addEventListener("click", saveCurrentQuery);
+    }
+
+    // Clear all filters
+    const clearAllFiltersBtn = document.getElementById("clearAllFilters");
+    if (clearAllFiltersBtn) {
+      clearAllFiltersBtn.addEventListener("click", clearAllSearchFilters);
+    }
+
+    // Search filters
+    const searchFilters = [
+      "searchCategory",
+      "searchStatus",
+      "searchDateFrom",
+      "searchDateTo",
+    ];
+    searchFilters.forEach((filterId) => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener("change", function () {
+          if (searchResults.length > 0) {
+            executeSearch();
+          }
+        });
+      }
+    });
+  }
+
+  async function executeSearch() {
+    const searchTerm = document.getElementById("mainSearchInput").value.trim();
+    const category = document.getElementById("searchCategory").value;
+    const status = document.getElementById("searchStatus").value;
+    const dateFrom = document.getElementById("searchDateFrom").value;
+    const dateTo = document.getElementById("searchDateTo").value;
+
+    if (!searchTerm) {
+      alert("Por favor, digite um termo de busca.");
+      return;
+    }
+
+    const startTime = performance.now();
+
+    try {
+      // Show loading
+      showSearchLoading();
+
+      // Simulate search - replace with actual search logic
+      searchResults = await performSearch(searchTerm, {
+        category,
+        status,
+        dateFrom,
+        dateTo,
+      });
+
+      const endTime = performance.now();
+      const searchTime = Math.round(endTime - startTime);
+
+      // Update search stats
+      updateSearchStats(searchResults.length, searchTime);
+
+      // Show results
+      if (searchResults.length > 0) {
+        showSearchResults();
+        renderSearchResults();
+      } else {
+        showNoResults();
+      }
+    } catch (error) {
+      console.error("Erro na busca:", error);
+      alert("Erro ao executar a busca. Tente novamente.");
+    } finally {
+      hideSearchLoading();
+    }
+  }
+
+  async function performSearch(searchTerm, filters) {
+    // Simulate API call - replace with actual search implementation
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Get data from different sources
+    const parceirosData = await window.googleSheetsAPI.getParceirosData();
+    const polosData = await window.googleSheetsAPI.getPolosData();
+
+    let results = [];
+
+    // Search in parceiros
+    if (!filters.category || filters.category === "parceiros") {
+      const parceirosResults = parceirosData
+        .filter((item) => {
+          const matchesSearch =
+            item.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.contato.toLowerCase().includes(searchTerm.toLowerCase());
+
+          const matchesStatus =
+            !filters.status ||
+            item.status.toLowerCase() === filters.status.toLowerCase();
+
+          return matchesSearch && matchesStatus;
+        })
+        .map((item) => ({
+          ...item,
+          type: "parceiro",
+          title: item.nome,
+          subtitle: item.empresa,
+        }));
+
+      results = results.concat(parceirosResults);
+    }
+
+    // Search in polos
+    if (!filters.category || filters.category === "polos") {
+      const polosResults = polosData
+        .filter((item) => {
+          const matchesSearch =
+            item.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.cidade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.estado.toLowerCase().includes(searchTerm.toLowerCase());
+
+          const matchesStatus =
+            !filters.status ||
+            item.status.toLowerCase() === filters.status.toLowerCase();
+
+          return matchesSearch && matchesStatus;
+        })
+        .map((item) => ({
+          ...item,
+          type: "polo",
+          title: item.nome,
+          subtitle: `${item.cidade} - ${item.estado}`,
+        }));
+
+      results = results.concat(polosResults);
+    }
+
+    return results;
+  }
+
+  function executeAdvancedSearch() {
+    const query = document.getElementById("advancedQuery").value.trim();
+    const queryName = document.getElementById("queryName").value.trim();
+
+    if (!query) {
+      alert("Por favor, digite uma consulta SQL.");
+      return;
+    }
+
+    // Close modal
+    document.getElementById("advancedSearchModal").classList.remove("active");
+
+    // Execute search with SQL query
+    console.log("Executing advanced search:", query);
+
+    // For demo purposes, show a simple result
+    searchResults = [
+      {
+        type: "advanced",
+        title: "Resultado da Consulta Avançada",
+        subtitle: "Consulta SQL executada com sucesso",
+        query: query,
+        results: "Dados simulados da consulta",
+      },
+    ];
+
+    updateSearchStats(searchResults.length, 150);
+    showSearchResults();
+    renderSearchResults();
+
+    // Save query if name provided
+    if (queryName) {
+      savedQueries.push({
+        name: queryName,
+        query: query,
+        date: new Date().toISOString(),
+        type: "advanced",
+      });
+      localStorage.setItem("sgp_saved_queries", JSON.stringify(savedQueries));
+    }
+  }
+
+  function showSearchLoading() {
+    // Show loading state
+    const searchBtn = document.getElementById("executeSearch");
+    if (searchBtn) {
+      searchBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+      searchBtn.disabled = true;
+    }
+  }
+
+  function hideSearchLoading() {
+    // Hide loading state
+    const searchBtn = document.getElementById("executeSearch");
+    if (searchBtn) {
+      searchBtn.innerHTML = '<i class="fas fa-search"></i> Buscar';
+      searchBtn.disabled = false;
+    }
+  }
+
+  function showSearchResults() {
+    document.getElementById("searchResultsSection").style.display = "block";
+    document.getElementById("noResults").style.display = "none";
+  }
+
+  function showNoResults() {
+    document.getElementById("searchResultsSection").style.display = "none";
+    document.getElementById("noResults").style.display = "block";
+  }
+
+  function hideSearchResults() {
+    document.getElementById("searchResultsSection").style.display = "none";
+    document.getElementById("noResults").style.display = "none";
+  }
+
+  function updateSearchStats(totalResults, searchTime) {
+    document.getElementById("totalResults").textContent = totalResults;
+    document.getElementById("searchTime").textContent = `${searchTime}ms`;
+    document.getElementById("lastSearchUpdate").textContent =
+      new Date().toLocaleTimeString("pt-BR");
+  }
+
+  function switchResultsView(view) {
+    currentResultsView = view;
+
+    // Update button states
+    const viewToggleBtns = document.querySelectorAll(".view-toggle-btn");
+    viewToggleBtns.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.view === view);
+    });
+
+    // Show/hide views
+    const tableView = document.getElementById("resultsTableView");
+    const cardsView = document.getElementById("resultsCardsView");
+
+    if (view === "table") {
+      tableView.style.display = "block";
+      cardsView.style.display = "none";
+    } else {
+      tableView.style.display = "none";
+      cardsView.style.display = "block";
+    }
+
+    renderSearchResults();
+  }
+
+  function renderSearchResults() {
+    if (currentResultsView === "table") {
+      renderResultsTable();
+    } else {
+      renderResultsCards();
+    }
+  }
+
+  function renderResultsTable() {
+    const thead = document.getElementById("resultsTableHead");
+    const tbody = document.getElementById("resultsTableBody");
+
+    if (!thead || !tbody || searchResults.length === 0) return;
+
+    // Generate table headers based on first result
+    const firstResult = searchResults[0];
+    const headers = Object.keys(firstResult).filter((key) => key !== "type");
+
+    thead.innerHTML = `
+        <tr>
+            ${headers
+              .map(
+                (header) =>
+                  `<th>${header.charAt(0).toUpperCase() + header.slice(1)}</th>`
+              )
+              .join("")}
+            <th>Ações</th>
+        </tr>
+    `;
+
+    // Generate table rows
+    tbody.innerHTML = searchResults
+      .map(
+        (result) => `
+        <tr>
+            ${headers
+              .map((header) => `<td>${result[header] || "--"}</td>`)
+              .join("")}
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-action edit" onclick="viewResultDetails('${
+                      result.id || result.title
+                    }')" title="Ver Detalhes">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `
+      )
+      .join("");
+  }
+
+  function renderResultsCards() {
+    const grid = document.getElementById("resultsGrid");
+    if (!grid) return;
+
+    grid.innerHTML = searchResults
+      .map(
+        (result) => `
+        <div class="result-card">
+            <div class="result-card-header">
+                <h4 class="result-card-title">${result.title}</h4>
+                <span class="status-badge ${
+                  result.status ? result.status.toLowerCase() : "default"
+                }">${result.status || result.type}</span>
+            </div>
+            <div class="result-card-body">
+                <div class="result-field">
+                    <span class="result-field-label">Tipo:</span>
+                    <span class="result-field-value">${result.type}</span>
+                </div>
+                <div class="result-field">
+                    <span class="result-field-label">Subtítulo:</span>
+                    <span class="result-field-value">${result.subtitle}</span>
+                </div>
+                ${
+                  result.polo
+                    ? `
+                <div class="result-field">
+                    <span class="result-field-label">Polo:</span>
+                    <span class="result-field-value">${result.polo}</span>
+                </div>
+                `
+                    : ""
+                }
+                ${
+                  result.contato
+                    ? `
+                <div class="result-field">
+                    <span class="result-field-label">Contato:</span>
+                    <span class="result-field-value">${result.contato}</span>
+                </div>
+                `
+                    : ""
+                }
+            </div>
+        </div>
+    `
+      )
+      .join("");
+  }
+
+  function viewResultDetails(id) {
+    const result = searchResults.find((r) => (r.id || r.title) === id);
+    if (result) {
+      console.log("Viewing details for:", result);
+      // Implement details view
+      alert(`Detalhes de: ${result.title}`);
+    }
+  }
+
+  function exportSearchResults() {
+    if (searchResults.length === 0) {
+      alert("Não há resultados para exportar.");
+      return;
+    }
+
+    // Simple CSV export
+    const headers = Object.keys(searchResults[0]).filter(
+      (key) => key !== "type"
+    );
+    const csvContent = [
+      headers.join(","),
+      ...searchResults.map((result) =>
+        headers.map((header) => `"${result[header] || ""}"`).join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `resultados_busca_${
+      new Date().toISOString().split("T")[0]
+    }.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function saveCurrentQuery() {
+    const searchTerm = document.getElementById("mainSearchInput").value.trim();
+    if (!searchTerm) {
+      alert("Não há consulta para salvar.");
+      return;
+    }
+
+    const queryName = prompt("Digite um nome para esta consulta:");
+    if (!queryName) return;
+
+    const query = {
+      name: queryName,
+      searchTerm: searchTerm,
+      category: document.getElementById("searchCategory").value,
+      status: document.getElementById("searchStatus").value,
+      dateFrom: document.getElementById("searchDateFrom").value,
+      dateTo: document.getElementById("searchDateTo").value,
+      date: new Date().toISOString(),
+      type: "simple",
+    };
+
+    savedQueries.push(query);
+    localStorage.setItem("sgp_saved_queries", JSON.stringify(savedQueries));
+
+    alert("Consulta salva com sucesso!");
+  }
+
+  function loadSavedQueries() {
+    const saved = localStorage.getItem("sgp_saved_queries");
+    if (saved) {
+      savedQueries = JSON.parse(saved);
+    }
+  }
+
+  function renderSavedQueries() {
+    const list = document.getElementById("savedQueriesList");
+    if (!list) return;
+
+    if (savedQueries.length === 0) {
+      list.innerHTML = "<p>Nenhuma consulta salva encontrada.</p>";
+      return;
+    }
+
+    list.innerHTML = savedQueries
+      .map(
+        (query, index) => `
+        <div class="saved-query-item">
+            <div class="saved-query-info">
+                <h4>${query.name}</h4>
+                <p>${
+                  query.type === "advanced"
+                    ? "Consulta SQL"
+                    : `Busca: ${query.searchTerm}`
+                }</p>
+                <small>Salva em: ${new Date(query.date).toLocaleDateString(
+                  "pt-BR"
+                )}</small>
+            </div>
+            <div class="saved-query-actions">
+                <button class="btn btn-sm" onclick="executeSavedQuery(${index})">
+                    <i class="fas fa-play"></i> Executar
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="deleteSavedQuery(${index})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `
+      )
+      .join("");
+  }
+
+  function executeSavedQuery(index) {
+    const query = savedQueries[index];
+    if (!query) return;
+
+    // Close modal
+    document.getElementById("savedQueriesModal").classList.remove("active");
+
+    if (query.type === "advanced") {
+      // Execute advanced query
+      document.getElementById("advancedQuery").value = query.query;
+      executeAdvancedSearch();
+    } else {
+      // Execute simple query
+      document.getElementById("mainSearchInput").value = query.searchTerm;
+      document.getElementById("searchCategory").value = query.category || "";
+      document.getElementById("searchStatus").value = query.status || "";
+      document.getElementById("searchDateFrom").value = query.dateFrom || "";
+      document.getElementById("searchDateTo").value = query.dateTo || "";
+
+      executeSearch();
+    }
+  }
+
+  function deleteSavedQuery(index) {
+    if (confirm("Tem certeza que deseja excluir esta consulta salva?")) {
+      savedQueries.splice(index, 1);
+      localStorage.setItem("sgp_saved_queries", JSON.stringify(savedQueries));
+      renderSavedQueries();
+    }
+  }
+
+  function clearAllSearchFilters() {
+    document.getElementById("mainSearchInput").value = "";
+    document.getElementById("searchCategory").value = "";
+    document.getElementById("searchStatus").value = "";
+    document.getElementById("searchDateFrom").value = "";
+    document.getElementById("searchDateTo").value = "";
+
+    hideSearchResults();
+
+    const clearBtn = document.getElementById("clearSearch");
+    if (clearBtn) {
+      clearBtn.style.display = "none";
+    }
+  }
+</script>

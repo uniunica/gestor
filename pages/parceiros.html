@@ -1,0 +1,1319 @@
+<div class="parceiros-container">
+  <div class="parceiros-header">
+    <h2><i class="fas fa-handshake"></i> Lista de Parceiros</h2>
+    <div class="parceiros-controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          id="parceirosSearch"
+          placeholder="Buscar parceiros..."
+        />
+      </div>
+      <button class="btn" id="addParceiroBtn">
+        <i class="fas fa-user-plus"></i> Novo Parceiro
+      </button>
+      <button class="btn btn-secondary" id="importParceirosBtn">
+        <i class="fas fa-upload"></i> Importar
+      </button>
+    </div>
+  </div>
+
+  <div class="parceiros-stats">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalParceirosCount">--</h3>
+        <p>Total de Parceiros</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-user-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="activeParceirosCount">--</h3>
+        <p>Parceiros Ativos</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-calendar-plus"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="newParceirosMonth">--</h3>
+        <p>Novos este Mês</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="conversionRate">--</h3>
+        <p>Taxa de Conversão</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="parceiros-filters">
+    <div class="filter-group">
+      <label for="poloFilter">Polo:</label>
+      <select id="poloFilter" class="form-select">
+        <option value="">Todos os Polos</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="statusParceiroFilter">Status:</label>
+      <select id="statusParceiroFilter" class="form-select">
+        <option value="">Todos os Status</option>
+        <option value="Ativo">Ativo</option>
+        <option value="Inativo">Inativo</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Suspenso">Suspenso</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="tipoParceiroFilter">Tipo:</label>
+      <select id="tipoParceiroFilter" class="form-select">
+        <option value="">Todos os Tipos</option>
+        <option value="Premium">Premium</option>
+        <option value="Standard">Standard</option>
+        <option value="Basic">Basic</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sortParceirosBy">Ordenar por:</label>
+      <select id="sortParceirosBy" class="form-select">
+        <option value="nome">Nome</option>
+        <option value="empresa">Empresa</option>
+        <option value="polo">Polo</option>
+        <option value="dataAdesao">Data de Adesão</option>
+        <option value="status">Status</option>
+      </select>
+    </div>
+    <button class="btn btn-secondary" id="clearParceirosFilters">
+      <i class="fas fa-times"></i> Limpar Filtros
+    </button>
+    <button class="btn btn-secondary" id="exportParceirosBtn">
+      <i class="fas fa-download"></i> Exportar
+    </button>
+  </div>
+
+  <div class="parceiros-content">
+    <div class="parceiros-view-toggle">
+      <button class="view-btn active" data-view="table">
+        <i class="fas fa-table"></i> Tabela
+      </button>
+      <button class="view-btn" data-view="cards">
+        <i class="fas fa-th-large"></i> Cards
+      </button>
+    </div>
+
+    <!-- Table View -->
+    <div class="parceiros-table-view" id="tableView">
+      <div class="parceiros-table-container">
+        <table class="data-table" id="parceirosTable">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" id="selectAllParceiros" />
+              </th>
+              <th>Parceiro</th>
+              <th>Empresa</th>
+              <th>Polo</th>
+              <th>Tipo</th>
+              <th>Status</th>
+              <th>Contato</th>
+              <th>Data de Adesão</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="parceirosTableBody">
+            <!-- Dados carregados dinamicamente -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cards View -->
+    <div class="parceiros-cards-view" id="cardsView" style="display: none">
+      <div class="parceiros-grid" id="parceirosGrid">
+        <!-- Cards carregados dinamicamente -->
+      </div>
+    </div>
+
+    <div class="parceiros-pagination">
+      <div class="pagination-info">
+        Mostrando <span id="showingFromParceiros">1</span> a
+        <span id="showingToParceiros">10</span> de
+        <span id="totalRecordsParceiros">0</span> registros
+      </div>
+      <div class="pagination-controls">
+        <button class="btn-pagination" id="prevPageParceiros" disabled>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="page-numbers" id="pageNumbersParceiros">
+          <!-- Números de página gerados dinamicamente -->
+        </div>
+        <button class="btn-pagination" id="nextPageParceiros">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para adicionar/editar parceiro -->
+<div class="modal" id="parceiroModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="parceiroModalTitle">Novo Parceiro</h3>
+      <button class="modal-close" id="closeParceiroModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="parceiroForm">
+        <div class="form-tabs">
+          <button
+            type="button"
+            class="tab-btn active"
+            data-tab="dados-pessoais"
+          >
+            Dados Pessoais
+          </button>
+          <button type="button" class="tab-btn" data-tab="empresa">
+            Empresa
+          </button>
+          <button type="button" class="tab-btn" data-tab="contrato">
+            Contrato
+          </button>
+        </div>
+
+        <!-- Aba Dados Pessoais -->
+        <div class="tab-content active" id="dados-pessoais">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroNome">Nome Completo*</label>
+              <input
+                type="text"
+                id="parceiroNome"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="parceiroCPF">CPF*</label>
+              <input type="text" id="parceiroCPF" class="form-input" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroEmail">Email*</label>
+              <input
+                type="email"
+                id="parceiroEmail"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="parceiroTelefone">Telefone*</label>
+              <input
+                type="tel"
+                id="parceiroTelefone"
+                class="form-input"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroDataNascimento">Data de Nascimento</label>
+              <input
+                type="date"
+                id="parceiroDataNascimento"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="parceiroGenero">Gênero</label>
+              <select id="parceiroGenero" class="form-select">
+                <option value="">Selecione...</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="parceiroEndereco">Endereço</label>
+            <input type="text" id="parceiroEndereco" class="form-input" />
+          </div>
+        </div>
+
+        <!-- Aba Empresa -->
+        <div class="tab-content" id="empresa">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empresaNome">Nome da Empresa*</label>
+              <input type="text" id="empresaNome" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label for="empresaCNPJ">CNPJ</label>
+              <input type="text" id="empresaCNPJ" class="form-input" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empresaSegmento">Segmento</label>
+              <select id="empresaSegmento" class="form-select">
+                <option value="">Selecione...</option>
+                <option value="Estética">Estética</option>
+                <option value="Beleza">Beleza</option>
+                <option value="Spa">Spa</option>
+                <option value="Clínica">Clínica</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="empresaPorte">Porte da Empresa</label>
+              <select id="empresaPorte" class="form-select">
+                <option value="">Selecione...</option>
+                <option value="MEI">MEI</option>
+                <option value="Micro">Micro Empresa</option>
+                <option value="Pequena">Pequena Empresa</option>
+                <option value="Média">Média Empresa</option>
+                <option value="Grande">Grande Empresa</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="empresaEndereco">Endereço da Empresa</label>
+            <input type="text" id="empresaEndereco" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="empresaDescricao">Descrição dos Serviços</label>
+            <textarea
+              id="empresaDescricao"
+              class="form-textarea"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Aba Contrato -->
+        <div class="tab-content" id="contrato">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroPolo">Polo*</label>
+              <select id="parceiroPolo" class="form-select" required>
+                <option value="">Selecione um polo...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="parceiroTipo">Tipo de Parceria*</label>
+              <select id="parceiroTipo" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option value="Premium">Premium</option>
+                <option value="Standard">Standard</option>
+                <option value="Basic">Basic</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroStatus">Status*</label>
+              <select id="parceiroStatus" class="form-select" required>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Suspenso">Suspenso</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="parceiroDataAdesao">Data de Adesão*</label>
+              <input
+                type="date"
+                id="parceiroDataAdesao"
+                class="form-input"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parceiroComissao">Taxa de Comissão (%)</label>
+              <input
+                type="number"
+                id="parceiroComissao"
+                class="form-input"
+                min="0"
+                max="100"
+                step="0.1"
+              />
+            </div>
+            <div class="form-group">
+              <label for="parceiroMetaMensal">Meta Mensal (R$)</label>
+              <input
+                type="number"
+                id="parceiroMetaMensal"
+                class="form-input"
+                min="0"
+                step="0.01"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="parceiroObservacoes">Observações</label>
+            <textarea
+              id="parceiroObservacoes"
+              class="form-textarea"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelParceiroModal">
+        Cancelar
+      </button>
+      <button class="btn" id="saveParceiroBtn">Salvar Parceiro</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .parceiros-container {
+    padding: 0;
+  }
+
+  .parceiros-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .parceiros-header h2 {
+    color: var(--primary-purple);
+    margin: 0;
+  }
+
+  .parceiros-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .parceiros-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .parceiros-filters {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+
+  .parceiros-content {
+    background: var(--white);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .parceiros-view-toggle {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .view-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .view-btn:hover,
+  .view-btn.active {
+    background: var(--primary-purple);
+    color: var(--white);
+    border-color: var(--primary-purple);
+  }
+
+  .parceiros-cards-view {
+    padding: 1.5rem;
+  }
+
+  .parceiros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .parceiro-card {
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    background: var(--white);
+  }
+
+  .parceiro-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .parceiro-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .parceiro-info h4 {
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+  }
+
+  .parceiro-info p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .parceiro-card-body {
+    margin-bottom: 1rem;
+  }
+
+  .parceiro-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .parceiro-detail strong {
+    color: var(--text-primary);
+  }
+
+  .parceiro-detail span {
+    color: var(--text-secondary);
+  }
+
+  .parceiro-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .parceiro-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  /* Form Tabs */
+  .form-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+  }
+
+  .tab-btn:hover,
+  .tab-btn.active {
+    color: var(--primary-purple);
+    border-bottom-color: var(--primary-purple);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .tipo-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .tipo-badge.premium {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .tipo-badge.standard {
+    background: #dbeafe;
+    color: #2563eb;
+  }
+
+  .tipo-badge.basic {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+
+  @media (max-width: 768px) {
+    .parceiros-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .parceiros-controls {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-box input {
+      width: 100%;
+    }
+
+    .parceiros-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .parceiros-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-group {
+      width: 100%;
+    }
+
+    .parceiros-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-tabs {
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+    }
+  }
+</style>
+
+<script>
+  // Parceiros-specific JavaScript
+  let parceirosData = [];
+  let filteredParceirosData = [];
+  let currentPageParceiros = 1;
+  let itemsPerPageParceiros = 10;
+  let currentView = "table";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.sgp && window.sgp.currentPage === "parceiros") {
+      initializeParceiros();
+    }
+  });
+
+  async function initializeParceiros() {
+    try {
+      await loadParceirosData();
+      await loadPolosForSelect();
+      setupParceirosEventListeners();
+      updateParceirosStats();
+      renderParceirosView();
+    } catch (error) {
+      console.error("Erro ao inicializar parceiros:", error);
+    }
+  }
+
+  async function loadParceirosData() {
+    parceirosData = await window.googleSheetsAPI.getParceirosData();
+
+    // Add mock data if needed
+    if (parceirosData.length === 0) {
+      parceirosData = [
+        {
+          nome: "João Silva",
+          empresa: "Estética Premium",
+          polo: "São Paulo",
+          tipo: "Premium",
+          status: "Ativo",
+          contato: "joao@estetica.com",
+          telefone: "(11) 99999-9999",
+          dataAdesao: "2024-01-15",
+          comissao: 15,
+          metaMensal: 5000,
+        },
+        {
+          nome: "Maria Santos",
+          empresa: "Beleza Total",
+          polo: "Rio de Janeiro",
+          tipo: "Standard",
+          status: "Ativo",
+          contato: "maria@beleza.com",
+          telefone: "(21) 88888-8888",
+          dataAdesao: "2024-02-10",
+          comissao: 12,
+          metaMensal: 3000,
+        },
+      ];
+    }
+
+    filteredParceirosData = [...parceirosData];
+  }
+
+  async function loadPolosForSelect() {
+    const polosData = await window.googleSheetsAPI.getPolosData();
+    const poloSelect = document.getElementById("parceiroPolo");
+    const poloFilter = document.getElementById("poloFilter");
+
+    if (poloSelect) {
+      poloSelect.innerHTML = '<option value="">Selecione um polo...</option>';
+      polosData.forEach((polo) => {
+        const option = document.createElement("option");
+        option.value = polo.nome;
+        option.textContent = polo.nome;
+        poloSelect.appendChild(option);
+      });
+    }
+
+    if (poloFilter) {
+      poloFilter.innerHTML = '<option value="">Todos os Polos</option>';
+      polosData.forEach((polo) => {
+        const option = document.createElement("option");
+        option.value = polo.nome;
+        option.textContent = polo.nome;
+        poloFilter.appendChild(option);
+      });
+    }
+  }
+
+  function setupParceirosEventListeners() {
+    // Search functionality
+    const searchInput = document.getElementById("parceirosSearch");
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        filterParceiros();
+      });
+    }
+
+    // Filter functionality
+    const filters = [
+      "poloFilter",
+      "statusParceiroFilter",
+      "tipoParceiroFilter",
+      "sortParceirosBy",
+    ];
+    filters.forEach((filterId) => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener("change", function () {
+          filterParceiros();
+        });
+      }
+    });
+
+    // Clear filters
+    const clearFiltersBtn = document.getElementById("clearParceirosFilters");
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", function () {
+        clearAllParceirosFilters();
+      });
+    }
+
+    // View toggle
+    const viewButtons = document.querySelectorAll(".view-btn");
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const view = this.dataset.view;
+        switchView(view);
+      });
+    });
+
+    // Add parceiro button
+    const addParceiroBtn = document.getElementById("addParceiroBtn");
+    if (addParceiroBtn) {
+      addParceiroBtn.addEventListener("click", function () {
+        openParceiroModal();
+      });
+    }
+
+    // Modal functionality
+    setupParceiroModalEventListeners();
+
+    // Pagination
+    setupParceirosPageination();
+
+    // Form tabs
+    setupFormTabs();
+  }
+
+  function setupFormTabs() {
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const tabId = this.dataset.tab;
+
+        // Remove active class from all tabs and contents
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        tabContents.forEach((c) => c.classList.remove("active"));
+
+        // Add active class to clicked tab and corresponding content
+        this.classList.add("active");
+        document.getElementById(tabId).classList.add("active");
+      });
+    });
+  }
+
+  function switchView(view) {
+    currentView = view;
+
+    // Update button states
+    const viewButtons = document.querySelectorAll(".view-btn");
+    viewButtons.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.view === view);
+    });
+
+    // Show/hide views
+    const tableView = document.getElementById("tableView");
+    const cardsView = document.getElementById("cardsView");
+
+    if (view === "table") {
+      tableView.style.display = "block";
+      cardsView.style.display = "none";
+    } else {
+      tableView.style.display = "none";
+      cardsView.style.display = "block";
+    }
+
+    renderParceirosView();
+  }
+
+  function filterParceiros() {
+    const searchTerm = document
+      .getElementById("parceirosSearch")
+      .value.toLowerCase();
+    const poloFilter = document.getElementById("poloFilter").value;
+    const statusFilter = document.getElementById("statusParceiroFilter").value;
+    const tipoFilter = document.getElementById("tipoParceiroFilter").value;
+    const sortBy = document.getElementById("sortParceirosBy").value;
+
+    filteredParceirosData = parceirosData.filter((parceiro) => {
+      const matchesSearch =
+        !searchTerm ||
+        parceiro.nome.toLowerCase().includes(searchTerm) ||
+        parceiro.empresa.toLowerCase().includes(searchTerm) ||
+        parceiro.contato.toLowerCase().includes(searchTerm);
+
+      const matchesPolo = !poloFilter || parceiro.polo === poloFilter;
+      const matchesStatus = !statusFilter || parceiro.status === statusFilter;
+      const matchesTipo = !tipoFilter || parceiro.tipo === tipoFilter;
+
+      return matchesSearch && matchesPolo && matchesStatus && matchesTipo;
+    });
+
+    // Sort data
+    if (sortBy) {
+      filteredParceirosData.sort((a, b) => {
+        if (sortBy === "dataAdesao") {
+          return new Date(b[sortBy]) - new Date(a[sortBy]);
+        }
+        return a[sortBy].localeCompare(b[sortBy]);
+      });
+    }
+
+    currentPageParceiros = 1;
+    renderParceirosView();
+    updateParceirosPageination();
+  }
+
+  function clearAllParceirosFilters() {
+    document.getElementById("parceirosSearch").value = "";
+    document.getElementById("poloFilter").value = "";
+    document.getElementById("statusParceiroFilter").value = "";
+    document.getElementById("tipoParceiroFilter").value = "";
+    document.getElementById("sortParceirosBy").value = "nome";
+
+    filteredParceirosData = [...parceirosData];
+    currentPageParceiros = 1;
+    renderParceirosView();
+    updateParceirosPageination();
+  }
+
+  function updateParceirosStats() {
+    const totalParceiros = parceirosData.length;
+    const activeParceiros = parceirosData.filter(
+      (p) => p.status === "Ativo"
+    ).length;
+    const currentMonth = new Date().getMonth();
+    const newThisMonth = parceirosData.filter((p) => {
+      const adesaoMonth = new Date(p.dataAdesao).getMonth();
+      return adesaoMonth === currentMonth;
+    }).length;
+    const conversionRate =
+      totalParceiros > 0
+        ? Math.round((activeParceiros / totalParceiros) * 100)
+        : 0;
+
+    document.getElementById("totalParceirosCount").textContent = totalParceiros;
+    document.getElementById("activeParceirosCount").textContent =
+      activeParceiros;
+    document.getElementById("newParceirosMonth").textContent = newThisMonth;
+    document.getElementById(
+      "conversionRate"
+    ).textContent = `${conversionRate}%`;
+  }
+
+  function renderParceirosView() {
+    if (currentView === "table") {
+      renderParceirosTable();
+    } else {
+      renderParceirosCards();
+    }
+  }
+
+  function renderParceirosTable() {
+    const tbody = document.getElementById("parceirosTableBody");
+    if (!tbody) return;
+
+    const startIndex = (currentPageParceiros - 1) * itemsPerPageParceiros;
+    const endIndex = startIndex + itemsPerPageParceiros;
+    const currentData = filteredParceirosData.slice(startIndex, endIndex);
+
+    tbody.innerHTML = currentData
+      .map(
+        (parceiro) => `
+        <tr>
+            <td>
+                <input type="checkbox" class="parceiro-checkbox" data-id="${
+                  parceiro.id || parceiro.nome
+                }">
+            </td>
+            <td>
+                <div class="parceiro-info">
+                    <strong>${parceiro.nome}</strong>
+                    <br>
+                    <small>${parceiro.telefone}</small>
+                </div>
+            </td>
+            <td>${parceiro.empresa}</td>
+            <td>${parceiro.polo}</td>
+            <td>
+                <span class="tipo-badge ${parceiro.tipo.toLowerCase()}">${
+          parceiro.tipo
+        }</span>
+            </td>
+            <td>
+                <span class="status-badge ${parceiro.status.toLowerCase()}">${
+          parceiro.status
+        }</span>
+            </td>
+            <td>
+                <a href="mailto:${parceiro.contato}">${parceiro.contato}</a>
+            </td>
+            <td>${formatDate(new Date(parceiro.dataAdesao))}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-action edit" onclick="editParceiro('${
+                      parceiro.id || parceiro.nome
+                    }')" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-action delete" onclick="deleteParceiro('${
+                      parceiro.id || parceiro.nome
+                    }')" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `
+      )
+      .join("");
+
+    updateParceirosPageinationInfo();
+  }
+
+  function renderParceirosCards() {
+    const grid = document.getElementById("parceirosGrid");
+    if (!grid) return;
+
+    const startIndex = (currentPageParceiros - 1) * itemsPerPageParceiros;
+    const endIndex = startIndex + itemsPerPageParceiros;
+    const currentData = filteredParceirosData.slice(startIndex, endIndex);
+
+    grid.innerHTML = currentData
+      .map(
+        (parceiro) => `
+        <div class="parceiro-card">
+            <div class="parceiro-card-header">
+                <div class="parceiro-info">
+                    <h4>${parceiro.nome}</h4>
+                    <p>${parceiro.empresa}</p>
+                </div>
+                <span class="status-badge ${parceiro.status.toLowerCase()}">${
+          parceiro.status
+        }</span>
+            </div>
+            <div class="parceiro-card-body">
+                <div class="parceiro-detail">
+                    <strong>Polo:</strong>
+                    <span>${parceiro.polo}</span>
+                </div>
+                <div class="parceiro-detail">
+                    <strong>Tipo:</strong>
+                    <span class="tipo-badge ${parceiro.tipo.toLowerCase()}">${
+          parceiro.tipo
+        }</span>
+                </div>
+                <div class="parceiro-detail">
+                    <strong>Contato:</strong>
+                    <span>${parceiro.contato}</span>
+                </div>
+                <div class="parceiro-detail">
+                    <strong>Adesão:</strong>
+                    <span>${formatDate(new Date(parceiro.dataAdesao))}</span>
+                </div>
+            </div>
+            <div class="parceiro-card-footer">
+                <div class="parceiro-actions">
+                    <button class="btn-action edit" onclick="editParceiro('${
+                      parceiro.id || parceiro.nome
+                    }')" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-action delete" onclick="deleteParceiro('${
+                      parceiro.id || parceiro.nome
+                    }')" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `
+      )
+      .join("");
+
+    updateParceirosPageinationInfo();
+  }
+
+  function setupParceirosPageination() {
+    const prevBtn = document.getElementById("prevPageParceiros");
+    const nextBtn = document.getElementById("nextPageParceiros");
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        if (currentPageParceiros > 1) {
+          currentPageParceiros--;
+          renderParceirosView();
+          updateParceirosPageination();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        const totalPages = Math.ceil(
+          filteredParceirosData.length / itemsPerPageParceiros
+        );
+        if (currentPageParceiros < totalPages) {
+          currentPageParceiros++;
+          renderParceirosView();
+          updateParceirosPageination();
+        }
+      });
+    }
+  }
+
+  function updateParceirosPageination() {
+    const totalRecords = filteredParceirosData.length;
+    const totalPages = Math.ceil(totalRecords / itemsPerPageParceiros);
+
+    // Update pagination controls
+    const prevBtn = document.getElementById("prevPageParceiros");
+    const nextBtn = document.getElementById("nextPageParceiros");
+
+    if (prevBtn) prevBtn.disabled = currentPageParceiros === 1;
+    if (nextBtn)
+      nextBtn.disabled =
+        currentPageParceiros === totalPages || totalPages === 0;
+
+    // Update page numbers
+    const pageNumbers = document.getElementById("pageNumbersParceiros");
+    if (pageNumbers) {
+      pageNumbers.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        if (
+          i === 1 ||
+          i === totalPages ||
+          (i >= currentPageParceiros - 2 && i <= currentPageParceiros + 2)
+        ) {
+          const pageBtn = document.createElement("button");
+          pageBtn.className = `page-number ${
+            i === currentPageParceiros ? "active" : ""
+          }`;
+          pageBtn.textContent = i;
+          pageBtn.addEventListener("click", function () {
+            currentPageParceiros = i;
+            renderParceirosView();
+            updateParceirosPageination();
+          });
+          pageNumbers.appendChild(pageBtn);
+        } else if (
+          i === currentPageParceiros - 3 ||
+          i === currentPageParceiros + 3
+        ) {
+          const ellipsis = document.createElement("span");
+          ellipsis.textContent = "...";
+          ellipsis.className = "pagination-ellipsis";
+          pageNumbers.appendChild(ellipsis);
+        }
+      }
+    }
+  }
+
+  function updateParceirosPageinationInfo() {
+    const totalRecords = filteredParceirosData.length;
+    const startIndex = (currentPageParceiros - 1) * itemsPerPageParceiros + 1;
+    const endIndex = Math.min(
+      currentPageParceiros * itemsPerPageParceiros,
+      totalRecords
+    );
+
+    document.getElementById("showingFromParceiros").textContent =
+      totalRecords > 0 ? startIndex : 0;
+    document.getElementById("showingToParceiros").textContent = endIndex;
+    document.getElementById("totalRecordsParceiros").textContent = totalRecords;
+  }
+
+  function setupParceiroModalEventListeners() {
+    const modal = document.getElementById("parceiroModal");
+    const closeBtn = document.getElementById("closeParceiroModal");
+    const cancelBtn = document.getElementById("cancelParceiroModal");
+    const saveBtn = document.getElementById("saveParceiroBtn");
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        closeParceiroModal();
+      });
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", function () {
+        closeParceiroModal();
+      });
+    }
+
+    if (saveBtn) {
+      saveBtn.addEventListener("click", function () {
+        saveParceiro();
+      });
+    }
+
+    // Close modal when clicking outside
+    if (modal) {
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          closeParceiroModal();
+        }
+      });
+    }
+  }
+
+  function openParceiroModal(parceiroId = null) {
+    const modal = document.getElementById("parceiroModal");
+    const modalTitle = document.getElementById("parceiroModalTitle");
+    const form = document.getElementById("parceiroForm");
+
+    if (parceiroId) {
+      // Edit mode
+      const parceiro = parceirosData.find(
+        (p) => (p.id || p.nome) === parceiroId
+      );
+      if (parceiro) {
+        modalTitle.textContent = "Editar Parceiro";
+        populateParceiroForm(parceiro);
+      }
+    } else {
+      // Add mode
+      modalTitle.textContent = "Novo Parceiro";
+      form.reset();
+      // Set default date to today
+      document.getElementById("parceiroDataAdesao").value = new Date()
+        .toISOString()
+        .split("T")[0];
+    }
+
+    modal.classList.add("active");
+  }
+
+  function closeParceiroModal() {
+    const modal = document.getElementById("parceiroModal");
+    modal.classList.remove("active");
+  }
+
+  function populateParceiroForm(parceiro) {
+    // Dados Pessoais
+    document.getElementById("parceiroNome").value = parceiro.nome || "";
+    document.getElementById("parceiroCPF").value = parceiro.cpf || "";
+    document.getElementById("parceiroEmail").value = parceiro.contato || "";
+    document.getElementById("parceiroTelefone").value = parceiro.telefone || "";
+    document.getElementById("parceiroDataNascimento").value =
+      parceiro.dataNascimento || "";
+    document.getElementById("parceiroGenero").value = parceiro.genero || "";
+    document.getElementById("parceiroEndereco").value = parceiro.endereco || "";
+
+    // Empresa
+    document.getElementById("empresaNome").value = parceiro.empresa || "";
+    document.getElementById("empresaCNPJ").value = parceiro.cnpj || "";
+    document.getElementById("empresaSegmento").value = parceiro.segmento || "";
+    document.getElementById("empresaPorte").value = parceiro.porte || "";
+    document.getElementById("empresaEndereco").value =
+      parceiro.empresaEndereco || "";
+    document.getElementById("empresaDescricao").value =
+      parceiro.descricao || "";
+
+    // Contrato
+    document.getElementById("parceiroPolo").value = parceiro.polo || "";
+    document.getElementById("parceiroTipo").value = parceiro.tipo || "";
+    document.getElementById("parceiroStatus").value =
+      parceiro.status || "Ativo";
+    document.getElementById("parceiroDataAdesao").value =
+      parceiro.dataAdesao || "";
+    document.getElementById("parceiroComissao").value = parceiro.comissao || "";
+    document.getElementById("parceiroMetaMensal").value =
+      parceiro.metaMensal || "";
+    document.getElementById("parceiroObservacoes").value =
+      parceiro.observacoes || "";
+  }
+
+  function saveParceiro() {
+    const parceiroData = {
+      // Dados Pessoais
+      nome: document.getElementById("parceiroNome").value,
+      cpf: document.getElementById("parceiroCPF").value,
+      contato: document.getElementById("parceiroEmail").value,
+      telefone: document.getElementById("parceiroTelefone").value,
+      dataNascimento: document.getElementById("parceiroDataNascimento").value,
+      genero: document.getElementById("parceiroGenero").value,
+      endereco: document.getElementById("parceiroEndereco").value,
+
+      // Empresa
+      empresa: document.getElementById("empresaNome").value,
+      cnpj: document.getElementById("empresaCNPJ").value,
+      segmento: document.getElementById("empresaSegmento").value,
+      porte: document.getElementById("empresaPorte").value,
+      empresaEndereco: document.getElementById("empresaEndereco").value,
+      descricao: document.getElementById("empresaDescricao").value,
+
+      // Contrato
+      polo: document.getElementById("parceiroPolo").value,
+      tipo: document.getElementById("parceiroTipo").value,
+      status: document.getElementById("parceiroStatus").value,
+      dataAdesao: document.getElementById("parceiroDataAdesao").value,
+      comissao:
+        parseFloat(document.getElementById("parceiroComissao").value) || 0,
+      metaMensal:
+        parseFloat(document.getElementById("parceiroMetaMensal").value) || 0,
+      observacoes: document.getElementById("parceiroObservacoes").value,
+    };
+
+    // Validate required fields
+    if (
+      !parceiroData.nome ||
+      !parceiroData.cpf ||
+      !parceiroData.contato ||
+      !parceiroData.telefone ||
+      !parceiroData.empresa ||
+      !parceiroData.polo ||
+      !parceiroData.tipo ||
+      !parceiroData.dataAdesao
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    // Add or update parceiro
+    const existingIndex = parceirosData.findIndex(
+      (p) => p.nome === parceiroData.nome
+    );
+    if (existingIndex >= 0) {
+      parceirosData[existingIndex] = {
+        ...parceirosData[existingIndex],
+        ...parceiroData,
+      };
+    } else {
+      parceirosData.push(parceiroData);
+    }
+
+    // Update filtered data and refresh view
+    filterParceiros();
+    updateParceirosStats();
+    closeParceiroModal();
+
+    // Show success message
+    showNotification("Parceiro salvo com sucesso!", "success");
+  }
+
+  function editParceiro(parceiroId) {
+    openParceiroModal(parceiroId);
+  }
+
+  function deleteParceiro(parceiroId) {
+    if (confirm("Tem certeza que deseja excluir este parceiro?")) {
+      parceirosData = parceirosData.filter(
+        (p) => (p.id || p.nome) !== parceiroId
+      );
+      filterParceiros();
+      updateParceirosStats();
+      showNotification("Parceiro excluído com sucesso!", "success");
+    }
+  }
+
+  function formatDate(date) {
+    return date.toLocaleDateString("pt-BR");
+  }
+
+  function showNotification(message, type = "info") {
+    // Simple notification - can be enhanced with a proper notification system
+    alert(message);
+  }
+</script>
